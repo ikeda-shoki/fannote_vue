@@ -20,6 +20,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  $accent-color: #e65b20;
+  $back-ground-color: #f7f4f2;
+  $font-color: #3e1300;
 </style>

@@ -12,7 +12,7 @@ import 'top.jpg';
 export default {
   data() {
     return {
-      title: "これがHome画面だ！"
+      
     }
   }
 }

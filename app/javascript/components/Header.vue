@@ -23,7 +23,7 @@ import 'logo.png';
 export default {
   data() {
     return {
-      message: "Headerです",
+      isHover: false,
       routerLinks: [
         {
           name: "Top",
