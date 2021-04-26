@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Top from "../views/Top.vue";
 import About from "../views/About.vue";
+import Use from "../views/Use.vue"
 
 Vue.use(Router);
 
@@ -15,6 +16,10 @@ const router = new Router({
     {
       path: "/about",
       component: About,
+    },
+    {
+      path: "/use",
+      component: Use,
     },
   ],
 });

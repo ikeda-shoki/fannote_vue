@@ -9,10 +9,10 @@ import Vue from 'vue'
 import VueRouter from "vue-router";
 import router from "../routes/router.js";
 import App from '../app.vue'
-import axios from "axios";
+// import axios from "axios";
 
 Vue.use(VueRouter);
-Vue.use(axios);
+// Vue.use(axios);
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

@@ -6,11 +6,27 @@
         <h1>FanNotes</h1>
       </div>
       <div class="header-right">
-        <div class="header-link" v-for="routerLink in routerLinks" :key="routerLink.id">
-          <router-link :to="routerLink.path">{{ routerLink.name }}</router-link>
+        <div
+          class="header-link"
+          v-for="routerLink in routerLinks"
+          :key="routerLink.id"
+          :class="{ hover: routerLink.hover }"
+          @mouseover="onAccent(routerLink)"
+          @mouseleave="outAccent(routerLink)"
+        >
+          <router-link :to="routerLink.path" active-class="link--active" exact>
+            {{ routerLink.name }}
+          </router-link>
         </div>
-        <div class="header-link" v-for="normalLink in normalLinks" :key="normalLink.id">
-          <a :href="normalLink.path">{{ normalLink.name }}</a>
+        <div 
+          class="header-link" 
+          v-for="normalLink in normalLinks" 
+          :key="normalLink.id" 
+          :class="{ hover: normalLink.hover }" 
+          @mouseover="onAccent(normalLink)"
+          @mouseleave="outAccent(normalLink)" 
+        >
+            <a :href="normalLink.path">{{ normalLink.name }}</a>
         </div>
       </div>
     </div>
@@ -23,31 +39,43 @@ import 'logo.png';
 export default {
   data() {
     return {
-      isHover: false,
       routerLinks: [
         {
           name: "Top",
-          path: "/"
+          path: "/",
+          hover: false,
         },
         {
           name: "About",
-          path: "/about"
+          path: "/about",
+          hover: false,
         },
         {
           name: "How to Use",
-          path: "Use"
+          path: "use",
+          hover: false,
         }
       ],
       normalLinks: [
         {
           name: "Log In",
           path: "",
+          hover: false,
         },
         {
           name: "Sign In",
           path: "",
+          hover: false,
         }
       ]
+    }
+  },
+  methods: {
+    onAccent(link) {
+      link.hover = true;
+    },
+    outAccent(link) {
+      link.hover = false;
     }
   }
 }
@@ -95,6 +123,25 @@ export default {
 
       .header-link {
         margin-left: 20px;
+        padding: 5px 13px;
+        transition: all .5s;
+        border-radius: 20px;
+
+        a {
+          transition: all .5s;
+        }
+      }
+    }
+
+    .link--active {
+      font-size: 18px;
+
+      &:after {
+        background-color: $accent-color;
+        border-radius: 5px;
+        content: "";
+        display: block;
+        height: 4px;
       }
     }
   }
