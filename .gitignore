@@ -6,7 +6,6 @@
 
 .DS_Store
 database_yml
-vendor/bundle
 # Ignore bundler config.
 /.bundle
 
