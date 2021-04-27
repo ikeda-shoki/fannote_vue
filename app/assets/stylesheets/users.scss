@@ -1,0 +1,171 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+$accent-color: #e65b20;
+$back-ground-color: #f7f4f2;
+$font-color: #3e1300;
+$font-white: #fffffe;
+
+// log-in sign-up
+#log-in,
+#sign-up {
+  width: 100%;
+  background-color: $back-ground-color;
+  text-align: center;
+
+  h1 {
+    font-size: 90px;
+    font-family: 'Akaya Telivigala', cursive, 'Nunito', sans-serif;
+    font-weight: bold;
+  }
+
+  h2 {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1em;
+    font-weight: bold;
+    font-size: 25px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      display: inline-block;
+      width: 60px;
+      height: 5px;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      background-color: $accent-color;
+      border-radius: 2px;
+    }
+  }
+
+  form {
+    margin-top: 30px;
+    width: 100%;
+  }
+
+  input[type="email"],
+       [type="password"],
+       [type="text"]{
+          width: 400px;
+          padding: 15px 20px;
+          border: none;
+          margin-bottom: 30px;
+        }
+
+  .devise-buttons {
+    margin: 50px auto 0;
+    width: 400px;
+    text-align: left;
+    display: flex;
+
+    .devise-link {
+      color: $accent-color;
+      display: block;
+      text-decoration: none;
+      padding: 10px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+
+      &:last-child {
+        margin-left: auto;
+      }
+
+      i {
+        font-size: 23px;
+        color: $accent-color;
+        margin: 0 20px;
+      }
+
+      &:hover {
+        font-weight: bold;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+#log-in {
+  position: relative;
+
+  .log-in-content {
+    margin-top: 15%;
+
+    .button {
+      margin-bottom: 30px;
+    }
+
+    .devise-buttons {
+      text-align: left;
+
+      .devise-link {
+        i {
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+
+  .test-user {
+    background-color: #FFFFFE;
+    padding: 20px 30px;
+    width: 300px;
+    border-radius: 20px;
+    box-shadow: 0 3px 5px rgba(0,0,0,.2);
+    position: absolute;
+    top: -100px;
+    right: 5%;
+
+    p {
+      margin: 0;
+    }
+
+    h3 {
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      margin: 5px 0;
+      padding-left: 10px;
+    }
+  }
+}
+
+#sign-up {
+  .sign-up-content {
+    margin-top: 10%;
+
+    .devise-buttons {
+      margin-bottom: 50px;
+    }
+  }
+}
+
+.button {
+  border: none;
+  text-align: center;
+  padding: 80px;
+	display: inline-block;
+	min-width: 230px;
+	font-size: 16px;
+	font-weight: 700;
+	text-decoration: none;
+	margin: 0;
+	padding: 15px 16px;
+	background: $accent-color;
+	color: #FFFFFE;
+	border-radius: 3px;
+	transition: 0.5s;
+  -webkit-transition: 0.5s;
+
+  &:hover {
+    background-color: $accent-color;
+    color: $back-ground-color;
+    opacity: 0.8;
+  }
+}

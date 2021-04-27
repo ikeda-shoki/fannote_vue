@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  get 'post_images/top'
+  devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   root to: 'post_images#top'
+  get '/about', to: 'post_images#about'
+  get '/use', to: 'post_images#use'
+
+  resources :post_images, only: [:index, :create, :update, :edit, :destroy]
 
   namespace :api do
   end
