@@ -5,15 +5,15 @@ jobs:
     # dockerのイメージを作成します。CircleCIは様々なDockerイメージを提供しています。
     docker:
       # Rubyのイメージを作成します。
-      - image: circleci/ruby:2.6.3-stretch-node
+      - image: circleci/ruby:2.6.5-node-browsers
         environment:
-          - BUNDLER_VERSION: 2.0.2
-          - RAILS_ENV: 'test'
+          - BUNDLER_VERSION: 2.1.4
+          - RAILS_ENV: "test"
       # Mysqlのイメージを作成します。
       - image: circleci/mysql:5.6.43
         environment:
-          - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-          - MYSQL_ROOT_HOST: '%'
+          - MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          - MYSQL_ROOT_HOST: "%"
     # working_directoryでstepsを実行するディレクトリを指定します。repoは、リポジトリのことです。
     working_directory: ~/repo
 
@@ -29,12 +29,12 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            gem install bundler -v 2.0.2
+            gem install bundler -v 2.1.4
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       # bundle installのデータをキャッシュします。
       - save_cache:
           paths:
-          - ./vendor/bundle
+            - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # database.ymlとdatabase.yml.ci（後述します）を入れ替える記述です。
