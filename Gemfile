@@ -43,12 +43,21 @@ group :development do
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
+  gem 'capybara'
+  gem 'rspec-rails'
+  gem "factory_bot_rails"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "devise", git: "https://github.com/heartcombo/devise"
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
+gem "omniauth-rails_csrf_protection"
+
+gem 'dotenv-rails'
+
+gem 'pry-byebug'
+gem 'faker'
+gem "bullet"

@@ -1,0 +1,50 @@
+<div id="log-in">
+  <div class="container">
+    <div class="log-in-content">
+      <h1>FanNotes</h1>
+      <h2>Log in</h2>
+
+      <%= form_with model: @user, url: user_session_path, local: true do |f| %>
+
+        <div class="field">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "\uf0e0  Email", class: "fa" %>
+        </div>
+
+        <div class="field">
+          <%= f.password_field :password, autocomplete: "current-password", placeholder: "\uf084  Password", class: "fa" %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Log In", class: "button" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="devise-buttons text-left">
+        <%= link_to new_registration_path(resource_name), class: "devise-link" do %>
+          <i class="fas fa-arrow-left"></i>Sign Up
+        <% end %>
+        <%= link_to '/', class: "devise-link" do %>
+          <i class="fas fa-arrow-right"></i>Top
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="test-user">
+    <h3>採用担当者様向け</h3>
+    <p>発注した依頼を確認していただく、依頼を完了して頂く際にはこちらのアカウントを使用してください</p>
+    <ul>
+      <li>メールアドレス：test@test.com</li>
+      <li>パスワード：000000</li>
+      <li>アカウント名：いけちゃん</li>
+    </ul>
+    <p>もう一方の依頼を確認して頂く際は、topページのゲストログインを使用して頂ければと思います。</p>
+    <p>大変お手数ですが、もしよろしければよろしくお願いします。</p>
+  </div>
+</div>

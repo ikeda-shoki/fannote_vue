@@ -1,0 +1,45 @@
+<div id="sign-up">
+  <div class="container">
+    <div class="sign-up-content">
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <h1>FanNotes</h1>
+      <h2>Sign up</h2>
+
+      <%= form_with model: @user, url: user_registration_path, local: true do |f| %>
+
+        <div class="field">
+          <%= f.text_field :user_name, autofocus: true, autocomplete: "user_name", placeholder: "\uf007  Name(本名)", class: "fa" %>
+        </div>
+
+        <div class="field">
+          <%= f.text_field :account_name, autocomplete: "account_name", placeholder: "\uf007  AccountName(アプリで使用する名前)", class: "fa" %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.email_field :email, autocomplete: "email", placeholder: "\uf0e0  Email", class: "fa" %>
+        </div>
+
+        <div class="field">
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "\uf084  Password(6文字以上)", class: "fa" %>
+        </div>
+
+        <div class="field">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "\uf084  Password確認用", class: "fa" %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Sign Up", class: "button" %>
+        </div>
+      <% end %>
+
+      <div class="devise-buttons text-right">
+        <%= link_to '/', class: "devise-link" do %>
+          <i class="fas fa-arrow-left"></i>Top
+        <% end %>
+        <%= link_to new_session_path(resource_name), class: "devise-link" do %>
+          Log In<i class="fas fa-arrow-right"></i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

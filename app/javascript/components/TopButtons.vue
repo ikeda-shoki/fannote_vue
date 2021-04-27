@@ -1,10 +1,10 @@
 <template>
   <div class="top-buttons">
     <Button>
-      <a href="" class="top-button"><span>Log In</span></a>
+      <a href="/users/sign_in" class="top-button"><span>Log In</span></a>
     </Button>
     <Button>
-      <a href="" class="top-button"><span>Sign Up</span></a>
+      <a href="/users/sign_up" class="top-button"><span>Sign Up</span></a>
     </Button>
     <Button>
       <a href="" class="top-button"><span>Guest Log In(ポートフォリオ用)</span></a>

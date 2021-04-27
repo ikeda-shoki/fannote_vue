@@ -52,19 +52,19 @@ export default {
         },
         {
           name: "How to Use",
-          path: "use",
+          path: "/use",
           hover: false,
         }
       ],
       normalLinks: [
         {
           name: "Log In",
-          path: "",
+          path: "/users/sign_in",
           hover: false,
         },
         {
-          name: "Sign In",
-          path: "",
+          name: "Sign Up",
+          path: "/users/sign_up",
           hover: false,
         }
       ]

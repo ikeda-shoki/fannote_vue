@@ -1,0 +1,169 @@
+#log-in,
+#sign-up {
+  width: 100%;
+  background-color: #f7f4f2;
+  text-align: center;
+}
+
+#log-in h1,
+#sign-up h1 {
+  font-size: 90px;
+  font-family: 'Akaya Telivigala', cursive, 'Nunito', sans-serif;
+  font-weight: bold;
+}
+
+#log-in h2,
+#sign-up h2 {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1em;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+#log-in h2:before,
+#sign-up h2:before {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  display: inline-block;
+  width: 60px;
+  height: 5px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  background-color: #e65b20;
+  border-radius: 2px;
+}
+
+#log-in form,
+#sign-up form {
+  margin-top: 30px;
+  width: 100%;
+}
+
+#log-in input[type="email"],
+#log-in [type="password"],
+#log-in [type="text"],
+#sign-up input[type="email"],
+#sign-up [type="password"],
+#sign-up [type="text"] {
+  width: 400px;
+  padding: 15px 20px;
+  border: none;
+  margin-bottom: 30px;
+}
+
+#log-in .devise-buttons,
+#sign-up .devise-buttons {
+  margin: 50px auto 0;
+  width: 400px;
+  text-align: left;
+  display: flex;
+}
+
+#log-in .devise-buttons .devise-link,
+#sign-up .devise-buttons .devise-link {
+  color: #e65b20;
+  display: block;
+  text-decoration: none;
+  padding: 10px;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+}
+
+#log-in .devise-buttons .devise-link:last-child,
+#sign-up .devise-buttons .devise-link:last-child {
+  margin-left: auto;
+}
+
+#log-in .devise-buttons .devise-link i,
+#sign-up .devise-buttons .devise-link i {
+  font-size: 23px;
+  color: #e65b20;
+  margin: 0 20px;
+}
+
+#log-in .devise-buttons .devise-link:hover,
+#sign-up .devise-buttons .devise-link:hover {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#log-in {
+  position: relative;
+}
+
+#log-in .log-in-content {
+  margin-top: 15%;
+}
+
+#log-in .log-in-content .button {
+  margin-bottom: 30px;
+}
+
+#log-in .log-in-content .devise-buttons {
+  text-align: left;
+}
+
+#log-in .log-in-content .devise-buttons .devise-link i {
+  margin-right: 20px;
+}
+
+#log-in .test-user {
+  background-color: #FFFFFE;
+  padding: 20px 30px;
+  width: 300px;
+  border-radius: 20px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: -100px;
+  right: 5%;
+}
+
+#log-in .test-user p {
+  margin: 0;
+}
+
+#log-in .test-user h3 {
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#log-in .test-user ul {
+  margin: 5px 0;
+  padding-left: 10px;
+}
+
+#sign-up .sign-up-content {
+  margin-top: 10%;
+}
+
+#sign-up .sign-up-content .devise-buttons {
+  margin-bottom: 50px;
+}
+
+.button {
+  border: none;
+  text-align: center;
+  padding: 80px;
+  display: inline-block;
+  min-width: 230px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  margin: 0;
+  padding: 15px 16px;
+  background: #e65b20;
+  color: #FFFFFE;
+  border-radius: 3px;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+}
+
+.button:hover {
+  background-color: #e65b20;
+  color: #f7f4f2;
+  opacity: 0.8;
+}
