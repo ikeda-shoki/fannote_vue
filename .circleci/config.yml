@@ -5,7 +5,7 @@ jobs:
     # dockerのイメージを作成します。CircleCIは様々なDockerイメージを提供しています。
     docker:
       # Rubyのイメージを作成します。
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:2.6.3-stretch-node
         environment:
           - BUNDLER_VERSION: 2.0.2
           - RAILS_ENV: 'test'
