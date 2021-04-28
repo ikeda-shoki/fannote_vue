@@ -6,9 +6,17 @@ Rails.application.routes.draw do
   get '/about', to: 'post_images#about'
   get '/use', to: 'post_images#use'
 
-  resources :post_images, only: [:index, :create, :update, :edit, :destroy]
+  resources :post_images, only: [:index, :create, :update, :edit, :destroy] do
+    collection do
+      get '/main', to: 'post_images#main'
+    end
+  end
 
-  namespace :api do
+  namespace :api, { format: 'json' } do
+    namespace :v1 do
+      resources :post_images, only: [:create]
+      get '/users/sign_in', to: 'users#sign_in?'
+    end
   end
 
 end

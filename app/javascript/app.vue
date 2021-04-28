@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Header :userLogIn="userLogIn"></Header>
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
@@ -9,6 +9,7 @@
 
 <script>
 import Header from './components/Header.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -16,8 +17,15 @@ export default {
   },
   data: function () {
     return {
-      message: "Hello Vue!"
+      userLogIn: false,
     }
+  },
+  mounted() {
+    axios.get('/api/v1/users/sign_in')
+      .then(response => {
+        this.userLogIn = response.data;
+        console.log(this.userLogIn)
+      });
   }
 }
 </script>
