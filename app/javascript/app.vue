@@ -24,7 +24,6 @@ export default {
     axios.get('/api/v1/users/sign_in')
       .then(response => {
         this.userLogIn = response.data;
-        console.log(this.userLogIn)
       });
   }
 }
@@ -42,6 +41,10 @@ export default {
     a {
       color: $font-white;
       font-weight: bold;
+    }
+
+    i {
+      color: $font-white;
     }
   }
 

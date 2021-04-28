@@ -14,7 +14,21 @@
           @mouseover="onAccent(logInUserLink)"
           @mouseleave="outAccent(logInUserLink)" 
         >
-            <a :href="logInUserLink.path" :data-method="logInUserLink.method">{{ logInUserLink.name }}</a>
+          <router-link :to="logInUserLink.path">
+            {{ logInUserLink.name }}
+            <i :class="logInUserLink.icon"></i>
+          </router-link>
+        </div>
+        <div 
+          class="header-link"
+          :class="{ hover: logOut.hover }"
+          @mouseover="onAccent(logOut)"
+          @mouseleave="outAccent(logOut)"
+        >
+          <a href="/users/sign_out" data-method="delete">
+            ログアウト
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
         </div>
       </div>
       <div class="header-right" v-else>
@@ -38,7 +52,7 @@
           @mouseover="onAccent(normalLink)"
           @mouseleave="outAccent(normalLink)" 
         >
-            <a :href="normalLink.path">{{ normalLink.name }}</a>
+          <a :href="normalLink.path">{{ normalLink.name }}</a>
         </div>
       </div>
     </div>
@@ -57,36 +71,37 @@ export default {
   },
   data() {
     return {
+      logOut: {
+        hover: false,
+      },
       logInUserLinks: [
         {
           name: "投稿する",
           path: "",
           hover: false,
           method: "get",
+          icon: "far fa-plus-square"
         },
         {
           name: "マイページ",
           path: "",
           hover: false,
           method: "get",
+          icon: "far fa-user"
         },
         {
           name: "通知",
           path: "/",
           hover: false,
           method: "get",
+          icon: "far fa-bell"
         },
         {
           name: "メニュー",
           path: "/",
           hover: false,
           method: "get",
-        },
-        {
-          name: "ログアウト",
-          path: "/users/sign_out",
-          hover: false,
-          method: "delete",
+          icon: "fas fa-caret-down"
         },
       ],
       routerLinks: [
@@ -172,6 +187,7 @@ export default {
       align-items: center;
 
       .header-link {
+        font-size: 13px;
         margin-left: 20px;
         padding: 5px 13px;
         transition: all .5s;

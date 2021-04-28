@@ -1,7 +1,8 @@
 <template>
   <div id="main">
-    <div class="conta">
+    <div class="container">
       <h1>Main</h1>
+      <h3>投稿一覧</h3>
     </div>
   </div>
 </template>
@@ -12,6 +13,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+  #main {
+    padding-top: 10%;
+  }
 </style>
