@@ -5,7 +5,19 @@
         <img src="~logo.png" />
         <h1>FanNotes</h1>
       </div>
-      <div class="header-right">
+      <div class="header-right" v-if="userLogIn">
+        <div 
+          class="header-link" 
+          v-for="logInUserLink in logInUserLinks" 
+          :key="logInUserLink.id" 
+          :class="{ hover: logInUserLink.hover }" 
+          @mouseover="onAccent(logInUserLink)"
+          @mouseleave="outAccent(logInUserLink)" 
+        >
+            <a :href="logInUserLink.path" :data-method="logInUserLink.method">{{ logInUserLink.name }}</a>
+        </div>
+      </div>
+      <div class="header-right" v-else>
         <div
           class="header-link"
           v-for="routerLink in routerLinks"
@@ -37,8 +49,46 @@
 import 'logo.png';
 
 export default {
+  props: {
+    userLogIn: {
+      type: Boolean,
+      required: true,
+    }
+  },
   data() {
     return {
+      logInUserLinks: [
+        {
+          name: "投稿する",
+          path: "",
+          hover: false,
+          method: "get",
+        },
+        {
+          name: "マイページ",
+          path: "",
+          hover: false,
+          method: "get",
+        },
+        {
+          name: "通知",
+          path: "/",
+          hover: false,
+          method: "get",
+        },
+        {
+          name: "メニュー",
+          path: "/",
+          hover: false,
+          method: "get",
+        },
+        {
+          name: "ログアウト",
+          path: "/users/sign_out",
+          hover: false,
+          method: "delete",
+        },
+      ],
       routerLinks: [
         {
           name: "Top",
@@ -77,7 +127,7 @@ export default {
     outAccent(link) {
       link.hover = false;
     }
-  }
+  },
 }
 </script>
 
