@@ -6,18 +6,26 @@
         <h1>FanNotes</h1>
       </div>
       <div class="header-right" v-if="userLogIn">
-        <div 
-          class="header-link" 
-          v-for="logInUserLink in logInUserLinks" 
-          :key="logInUserLink.id" 
-          :class="{ hover: logInUserLink.hover }" 
+        <div
+          class="header-link"
+          v-for="logInUserLink in logInUserLinks"
+          :key="logInUserLink.id"
+          :class="{ hover: logInUserLink.hover }"
           @mouseover="onAccent(logInUserLink)"
-          @mouseleave="outAccent(logInUserLink)" 
+          @mouseleave="outAccent(logInUserLink)"
         >
-          <router-link :to="logInUserLink.path">
-            {{ logInUserLink.name }}
-            <i :class="logInUserLink.icon"></i>
-          </router-link>
+          <div v-if="logInUserLink.name === 'マイページ'">
+            <router-link :to="logInUserLink.path">
+              {{ logInUserLink.name }}
+              <i :class="logInUserLink.icon"></i>
+            </router-link>
+          </div>
+          <div v-else @click="modalOpen(logInUserLink.name)">
+            <router-link :to="logInUserLink.path">
+              {{ logInUserLink.name }}
+              <i :class="logInUserLink.icon"></i>
+            </router-link>
+          </div>
         </div>
         <div 
           class="header-link"
@@ -56,11 +64,19 @@
         </div>
       </div>
     </div>
+    <transition name="fade">
+      <Modal
+        v-if="isModal ? true : false"
+        :isShow="isModal"
+        :modalType="modalType"
+        @modalClose="modalClose" ></Modal>
+    </transition>
   </header>
 </template>
 
 <script>
 import 'logo.png';
+import Modal from './Modal.vue'
 
 export default {
   props: {
@@ -74,34 +90,40 @@ export default {
       logOut: {
         hover: false,
       },
+      modalType: "",
+      isModal: false,
       logInUserLinks: [
         {
           name: "投稿する",
           path: "",
           hover: false,
           method: "get",
-          icon: "far fa-plus-square"
+          icon: "far fa-plus-square",
+          click: this.modalOpen
         },
         {
           name: "マイページ",
           path: "",
           hover: false,
           method: "get",
-          icon: "far fa-user"
+          icon: "far fa-user",
+          click: this.modalOpen
         },
         {
           name: "通知",
-          path: "/",
+          path: "",
           hover: false,
           method: "get",
-          icon: "far fa-bell"
+          icon: "far fa-bell",
+          click: this.modalOpen
         },
         {
           name: "メニュー",
-          path: "/",
+          path: "",
           hover: false,
           method: "get",
-          icon: "fas fa-caret-down"
+          icon: "fas fa-caret-down",
+          click: this.modalOpen
         },
       ],
       routerLinks: [
@@ -141,8 +163,18 @@ export default {
     },
     outAccent(link) {
       link.hover = false;
+    },
+    modalOpen(modalType) {
+      this.isModal = true;
+      this.modalType = modalType;
+    },
+    modalClose(value) {
+      this.isModal = value;
     }
   },
+  components: {
+    Modal,
+  }
 }
 </script>
 
