@@ -34,6 +34,7 @@ export default {
   $back-ground-color: #f7f4f2;
   $font-color: #3e1300;
   $font-white: #FFFFFE;
+  $danger-color: #E15253;
 
   .hover {
     background-color: $accent-color;
@@ -46,6 +47,16 @@ export default {
     i {
       color: $font-white;
     }
+  }
+
+  .require-icon {
+    padding: 5px 10px;
+    background-color: $danger-color;
+    color: $font-white;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left: 10px;
   }
 
   //transition

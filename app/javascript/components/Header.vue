@@ -65,11 +65,14 @@
       </div>
     </div>
     <transition name="fade">
-      <Modal
-        v-if="isModal ? true : false"
-        :isShow="isModal"
-        :modalType="modalType"
-        @modalClose="modalClose" ></Modal>
+      <keep-alive>
+        <Modal
+          v-if="isModal ? true : false"
+          :isShow="isModal"
+          :modalType="modalType"
+          @modalClose="modalClose" >
+        </Modal>
+      </keep-alive>
     </transition>
   </header>
 </template>

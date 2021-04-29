@@ -1,13 +1,17 @@
 <template>
   <div id="modal" @click.self="modalClose">
-    <div class="modal-content" v-if="modalType === '投稿する'">
-      <PostImageModal></PostImageModal>
+    <div class="modal-content" >
+      <div class="modal-main" v-if="modalType === '投稿する'">
+        <ModalHeader header="新規投稿"></ModalHeader>
+        <PostImageModal></PostImageModal>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import PostImageModal from './modal/PostImageModal.vue'
+import ModalHeader from './modal/ModalHeader.vue'
 
 export default {
   props: {
@@ -26,6 +30,7 @@ export default {
   },
   components: {
     PostImageModal,
+    ModalHeader,
   }
 };
 </script>
@@ -47,11 +52,10 @@ $font-white: #fffffe;
 
   .modal-content {
     background-color: $back-ground-color;
-    width: 70%;
-    padding: 30px 25px;
+    width: 60%;
     margin: 0 auto;
     border-radius: 20px;
-    margin-top: 200px;
+    margin-top: 50px;
     min-height: 200px;
   }
 }
