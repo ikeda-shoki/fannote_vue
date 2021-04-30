@@ -20,12 +20,13 @@ export default {
     background-color: $accent-color;
     border-radius: 20px 20px 0 0;
     text-align: center;
-    padding: 10px;
+    height: 6%;
 
     h1 {
       color: $back-ground-color;
-      font-size: 25px;
+      font-size: 23px;
       font-weight: bold;
+      line-height: 45px;
     }
   }
 </style>

@@ -1,9 +1,6 @@
 <template>
   <div id="textarea-form">
-    <dt class="form-name">
-      <label :for="id">{{ labelName }}</label>
-      <span v-show="required" class="require-icon">必須</span>
-    </dt>
+    <FormName :required="required" :labelName="labelName"></FormName>
     <dl class="form-textarea">
       <textarea
         :id="id"
@@ -21,6 +18,8 @@
 </template>
 
 <script>
+import FormName from "./FormName.vue"
+
 export default {
   props: {
     value: { type: String, required: true },
@@ -35,6 +34,9 @@ export default {
       this.$emit("input", e.target.value);
     },
   },
+  components: {
+    FormName,
+  }
 };
 </script>
 
@@ -45,19 +47,6 @@ export default {
   align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
-
-  .form-name {
-    width: 30%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-
-    label {
-      font-weight: bold;
-      font-size: 20px;
-    }
-  }
 
   .form-textarea {
     margin-left: auto;

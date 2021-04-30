@@ -53,10 +53,15 @@ $font-white: #fffffe;
   .modal-content {
     background-color: $back-ground-color;
     width: 60%;
+    height: 87%;
     margin: 0 auto;
     border-radius: 20px;
     margin-top: 50px;
     min-height: 200px;
+
+    .modal-main {
+      height: 100%;
+    }
   }
 }
 </style>

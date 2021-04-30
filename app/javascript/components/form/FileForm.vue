@@ -1,21 +1,34 @@
 <template>
   <div id="file-form">
-    <dt class="form-name">
-      <label :for="id">{{ labelName }}</label>
-      <span v-show="required" class="require-icon">必須</span>
-    </dt>
+    <FormName :id="id" :required="required" :labelName="labelName"></FormName>
     <dt class="form-file">
       <input :id="id" :name="name" type="file" ref="file" @change="upload" />
     </dt>
-    <img :src="image64">
+    <transition name="fade">
+      <div class="preview-image" v-if="image64">
+        <p>投稿する画像</p>
+        <img :src="image64" alt="投稿した画像" >
+        <div 
+          class="preview-delete-button"
+          @click="previewDelete"
+          @mouseover="onHover"
+          @mouseleave="offHover"
+        >
+          <i class="far fa-times-circle" :class="{'delete-hover': isHover }"></i>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import FormName from "./FormName.vue"
+
 export default {
   data() {
     return {
       image64: "",
+      isHover: false,
     };
   },
   props: {
@@ -34,7 +47,20 @@ export default {
       };
       reader.readAsDataURL(file);
     },
+    previewDelete() {
+      this.image64 = "";
+      this.$emit("imageDelete", "");
+    },
+    onHover() {
+      this.isHover = !this.isHover
+    },
+    offHover() {
+      this.isHover = !this.isHover
+    }
   },
+  components: {
+    FormName,
+  }
 };
 </script>
 
@@ -51,23 +77,45 @@ $danger-color: #e15253;
   flex-wrap: wrap;
   width: 100%;
 
-  .form-name {
-    width: 30%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-
-    label {
-      font-weight: bold;
-      font-size: 20px;
-    }
-  }
-
   .form-file {
     margin-left: auto;
     margin-bottom: 8px;
     width: 65%;
+  }
+
+  .preview-image {
+    width: 65%;
+    margin-top: 20px;
+    margin-left: auto;
+    position: relative;
+
+    p {
+      font-size: 14px;
+      opacity: 0.7;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .preview-delete-button {
+      position: absolute;
+      right: -13px;
+      top: 13px;
+
+      i {
+        font-size: 26px;
+        transition: all .8s;
+        -moz-transition: all .8s;
+      }
+    }
+  }
+
+  .delete-hover {
+    color: $danger-color;
   }
 }
 </style>

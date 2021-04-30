@@ -1,9 +1,6 @@
 <template>
   <div id="radio-button">
-    <dt class="form-name">
-      <label>{{ labelName }}</label>
-      <span v-show="required" class="require-icon">必須</span>
-    </dt>
+    <FormName :required="required" :labelName="labelName"></FormName>
     <dt class="form-radio-button">
       <template v-for="(option, index) in options">
         <label :key="index">
@@ -21,6 +18,8 @@
 </template>
 
 <script>
+import FormName from "./FormName.vue"
+
 export default {
   props: {
     value: { type: String, required: true },
@@ -34,6 +33,9 @@ export default {
       this.$emit("input", e.target.value);
     },
   },
+  components: {
+    FormName,
+  }
 };
 </script>
 
@@ -49,19 +51,6 @@ $danger-color: #E15253;
   align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
-
-  .form-name {
-    width: 30%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-
-    label {
-      font-weight: bold;
-      font-size: 20px;
-    }
-  }
 
   .form-radio-button {
     margin-left: auto;
@@ -81,13 +70,18 @@ $danger-color: #E15253;
           color: $back-ground-color;
           background-color: $accent-color;
 
+          &::before {
+            background-color: $back-ground-color;
+            border: none;
+          }
+
           &::after {
             content: "";
             display: block;
             border-radius: 50%;
             width: 10px;
             height: 10px;
-            background-color: #411f10;
+            background-color: $accent-color;
             position: absolute;
             left: 13px;
           }

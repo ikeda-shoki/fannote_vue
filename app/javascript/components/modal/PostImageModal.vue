@@ -1,8 +1,8 @@
 <template>
-  <div id="post-image-modal">
+  <form id="post-image-modal" v-on:submit.prevent="postPostImage">
     <div class="form-item">
       <TextForm
-        v-model="postImageTitle"
+        v-model="title"
         id="post-image-title"
         type="text"
         name="post-image-title"
@@ -14,7 +14,7 @@
     </div>
     <div class="form-item">
       <TextArea
-        v-model="postImageIntroduction"
+        v-model="imageIntroduction"
         id="post-image-introduction"
         type="text"
         name="post-image-introduction"
@@ -41,10 +41,14 @@
         :required="true"
         labelName="作品ファイル"
         @input="onFileChange"
+        @imageDelete="imageDelete"
       >
       </FileForm>
     </div>
-  </div>
+    <div class="form-item">
+      <FormButton buttonName="投稿する"></FormButton>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -52,6 +56,8 @@ import TextForm from "../form/TextForm.vue";
 import TextArea from "../form/TextArea.vue";
 import RadioButton from "../form/RadioButton.vue";
 import FileForm from "../form/FileForm.vue";
+import FormButton from "../form/FormButton.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -59,42 +65,67 @@ export default {
     TextArea,
     RadioButton,
     FileForm,
+    FormButton,
   },
   data() {
     return {
-      postImageTitle: "",
-      postImageIntroduction: "",
+      title: "",
+      imageIntroduction: "",
       postImageGenre: "",
-      postImage: "",
+      image: "",
       options: [
         {
           label: "イラスト",
-          value: "イラスト",
+          value: 0,
         },
         {
           label: "写真",
-          value: "写真",
+          value: 1,
         },
         {
           label: "ロゴ",
-          value: "ロゴ",
+          value: 2,
         },
       ],
     };
   },
   methods: {
     onFileChange(value) {
-      this.postImage = value;
+      this.image = value;
     },
+    imageDelete(value) {
+      this.image = value;
+      console.log(value);
+    },
+    postPostImage() {
+      axios({
+        url: "/api/v1/post_images",
+        data: {
+          title: this.title,
+          image_introduction: this.imageIntroduction,
+          image: this.image,
+          post_image_genre: this.post_image_genre,
+        },
+        method: "POST",
+      }).then(response => {
+        this.title = "",
+        this.imageIntroduction = "",
+        this.image = "",
+        this.postImagegenre = ""
+      }).catch(error => {
+        console.log(error, response)
+      })
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
 #post-image-modal {
-  width: 90%;
+  height: 94%;
   margin: 0 auto;
-  padding-top: 30px;
+  padding: 30px 40px;
+  overflow: scroll;
 
   .form-item {
     margin-bottom: 20px;
