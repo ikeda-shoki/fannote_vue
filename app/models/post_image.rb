@@ -6,7 +6,6 @@ class PostImage < ApplicationRecord
 
   validates :title, presence: true
   validates :post_image_genre, presence: true
-  validates :post_image, presence: true
 
   enum post_image_genre: { イラスト: 0, 写真: 1, ロゴ: 2 }
 

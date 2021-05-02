@@ -2,7 +2,7 @@
   <form id="post-image-modal" v-on:submit.prevent="postPostImage">
     <div class="form-item">
       <TextForm
-        v-model="title"
+        v-model="postImage.title"
         id="post-image-title"
         type="text"
         name="post-image-title"
@@ -14,7 +14,7 @@
     </div>
     <div class="form-item">
       <TextArea
-        v-model="imageIntroduction"
+        v-model="postImage.image_introduction"
         id="post-image-introduction"
         type="text"
         name="post-image-introduction"
@@ -26,7 +26,7 @@
     </div>
     <div class="form-item">
       <RadioButton
-        v-model="postImageGenre"
+        v-model="postImage.post_image_genre"
         name="post-image-genre"
         :options="options"
         :required="true"
@@ -69,51 +69,50 @@ export default {
   },
   data() {
     return {
-      title: "",
-      imageIntroduction: "",
-      postImageGenre: "",
-      image: "",
+      postImage: {
+        title: "",
+        image_introduction: "",
+        post_image_genre: "",
+        image: "",
+      },
       options: [
         {
           label: "イラスト",
-          value: 0,
+          value: "イラスト",
         },
         {
           label: "写真",
-          value: 1,
+          value: "写真",
         },
         {
           label: "ロゴ",
-          value: 2,
+          value: "ロゴ",
         },
       ],
     };
   },
   methods: {
     onFileChange(value) {
-      this.image = value;
+      this.postImage.image = value;
     },
     imageDelete(value) {
-      this.image = value;
-      console.log(value);
+      this.postImage.image = value;
     },
     postPostImage() {
       axios({
         url: "/api/v1/post_images",
         data: {
-          title: this.title,
-          image_introduction: this.imageIntroduction,
-          image: this.image,
-          post_image_genre: this.post_image_genre,
+          post_image: this.postImage
         },
         method: "POST",
       }).then(response => {
-        this.title = "",
-        this.imageIntroduction = "",
-        this.image = "",
-        this.postImagegenre = ""
+        this.postImage.title = "",
+        this.postImage.image_introduction = "",
+        this.postImage.image = "",
+        this.postImage.post_image_genre = "",
+        this.$emit('success')
       }).catch(error => {
-        console.log(error, response)
+        console.log(error, response);
       })
     }
   },

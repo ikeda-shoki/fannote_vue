@@ -60,6 +60,11 @@ export default {
   }
 
   //transition
+
+  .fade-move {
+    transition: transform 1s;
+  }
+
   .fade-enter {
     opacity: 0;
   }
@@ -70,6 +75,7 @@ export default {
 
   .fade-leave-active {
     transition: opacity 1s;
+    position: absolute;
   }
 
   .fade-leave-to {

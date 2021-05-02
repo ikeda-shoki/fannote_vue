@@ -9,22 +9,24 @@ class Api::V1::PostImagesController < ApplicationController
   end
 
   def main
-    post_images = PostImage.all
-    render json: post_images
+    @post_images = PostImage.all
   end
 
   def create
     post_image = PostImage.new(post_image_params)
+    post_image.user_id = current_user.id
     if post_image.save
-      post_image.parse_base64(params[:image])
+      data = params[:post_image].values
+      post_image.parse_base64(data[3])
       render json: post_image, status: :created
     else
       render json: post_image.errors, status: :unprocessable_entity
     end
   end
 
+
   private
     def post_image_params
-      params.permit(:title, :image_introduction, :image, :post_image_genre, :user_id).merge(user_id: current_user.id)
+      params.require(:post_image).permit(:title, :image_introduction, :image, :post_image_genre)
     end
 end

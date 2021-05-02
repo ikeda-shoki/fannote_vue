@@ -1,17 +1,19 @@
 <template>
-  <div id="modal" @click.self="modalClose">
-    <div class="modal-content" >
+  <div id="modal">
+    <div class="modal-content">
       <div class="modal-main" v-if="modalType === '投稿する'">
         <ModalHeader header="新規投稿"></ModalHeader>
-        <PostImageModal></PostImageModal>
+        <PostImageModal @success="modalClose"></PostImageModal>
       </div>
+      <CloseButton @click.native="modalClose"></CloseButton>
     </div>
   </div>
 </template>
 
 <script>
-import PostImageModal from './modal/PostImageModal.vue'
-import ModalHeader from './modal/ModalHeader.vue'
+import PostImageModal from "./modal/PostImageModal.vue";
+import ModalHeader from "./modal/ModalHeader.vue";
+import CloseButton from "./parts/CloseButton.vue";
 
 export default {
   props: {
@@ -20,18 +22,19 @@ export default {
       required: true,
     },
     modalType: {
-      type: String
-    }
+      type: String,
+    },
   },
   methods: {
-    modalClose(){
-      this.$emit("modalClose", !this.isShow)
-    }
+    modalClose() {
+      this.$emit("modalClose", !this.isShow);
+    },
   },
   components: {
     PostImageModal,
     ModalHeader,
-  }
+    CloseButton,
+  },
 };
 </script>
 
@@ -58,9 +61,17 @@ $font-white: #fffffe;
     border-radius: 20px;
     margin-top: 50px;
     min-height: 200px;
+    position: relative;
 
     .modal-main {
       height: 100%;
+    }
+
+    #close-button {
+      z-index: 900;
+      position: absolute;
+      top: -10px;
+      right: -15px;
     }
   }
 }

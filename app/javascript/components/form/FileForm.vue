@@ -8,14 +8,7 @@
       <div class="preview-image" v-if="image64">
         <p>投稿する画像</p>
         <img :src="image64" alt="投稿した画像" >
-        <div 
-          class="preview-delete-button"
-          @click="previewDelete"
-          @mouseover="onHover"
-          @mouseleave="offHover"
-        >
-          <i class="far fa-times-circle" :class="{'delete-hover': isHover }"></i>
-        </div>
+        <CloseButton @click.native="previewDelete"></CloseButton>
       </div>
     </transition>
   </div>
@@ -23,12 +16,12 @@
 
 <script>
 import FormName from "./FormName.vue"
+import CloseButton from "../parts/CloseButton.vue"
 
 export default {
   data() {
     return {
       image64: "",
-      isHover: false,
     };
   },
   props: {
@@ -49,17 +42,13 @@ export default {
     },
     previewDelete() {
       this.image64 = "";
+      this.$refs.file.value = null;
       this.$emit("imageDelete", "");
     },
-    onHover() {
-      this.isHover = !this.isHover
-    },
-    offHover() {
-      this.isHover = !this.isHover
-    }
   },
   components: {
     FormName,
+    CloseButton,
   }
 };
 </script>
@@ -95,27 +84,17 @@ $danger-color: #e15253;
       text-align: center;
       margin-bottom: 5px;
     }
-    
+
     img {
       width: 100%;
       height: auto;
     }
 
-    .preview-delete-button {
+    #close-button {
       position: absolute;
-      right: -13px;
-      top: 13px;
-
-      i {
-        font-size: 26px;
-        transition: all .8s;
-        -moz-transition: all .8s;
-      }
+      top: 15px;
+      right: -15px;
     }
-  }
-
-  .delete-hover {
-    color: $danger-color;
   }
 }
 </style>
