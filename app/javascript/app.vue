@@ -24,7 +24,6 @@ export default {
     axios.get('/api/v1/users/sign_in')
       .then(response => {
         this.userLogIn = response.data;
-        console.log(this.userLogIn)
       });
   }
 }
@@ -35,6 +34,7 @@ export default {
   $back-ground-color: #f7f4f2;
   $font-color: #3e1300;
   $font-white: #FFFFFE;
+  $danger-color: #E15253;
 
   .hover {
     background-color: $accent-color;
@@ -43,9 +43,28 @@ export default {
       color: $font-white;
       font-weight: bold;
     }
+
+    i {
+      color: $font-white;
+    }
+  }
+
+  .require-icon {
+    padding: 5px 10px;
+    background-color: $danger-color;
+    color: $font-white;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left: 10px;
   }
 
   //transition
+
+  .fade-move {
+    transition: transform 1s;
+  }
+
   .fade-enter {
     opacity: 0;
   }
@@ -56,6 +75,7 @@ export default {
 
   .fade-leave-active {
     transition: opacity 1s;
+    position: absolute;
   }
 
   .fade-leave-to {
