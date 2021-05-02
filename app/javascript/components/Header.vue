@@ -190,7 +190,6 @@ export default {
     left: 0;
     z-index: 1050;
     width: 100%;
-    opacity: 0.8;
     height: 80px;
     background-color: $back-ground-color;
 

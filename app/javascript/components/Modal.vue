@@ -51,7 +51,7 @@ $font-white: #fffffe;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(22, 22, 21, 0.7);
+  background-color: rgba(22, 22, 21, .7);
 
   .modal-content {
     background-color: $back-ground-color;

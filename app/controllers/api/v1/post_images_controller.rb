@@ -24,7 +24,6 @@ class Api::V1::PostImagesController < ApplicationController
     end
   end
 
-
   private
     def post_image_params
       params.require(:post_image).permit(:title, :image_introduction, :image, :post_image_genre)

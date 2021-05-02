@@ -120,6 +120,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$back-ground-color: #f7f4f2;
+
 #post-image-modal {
   height: 94%;
   margin: 0 auto;
