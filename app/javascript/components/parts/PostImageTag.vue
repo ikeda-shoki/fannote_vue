@@ -1,7 +1,7 @@
 <template>
   <div
     id="post-image-tag"
-    :class="{ illuse: tagName === 'イラスト', photo: tagName === '写真', logo: tagName === 'ロゴ'}"
+    :class="{ illust: tagName === 'イラスト', photo: tagName === '写真', logo: tagName === 'ロゴ'}"
     >
     <i class="fas fa-tag"></i>
     <span v-if="tagName === 'イラスト'">イラスト</span>
@@ -37,6 +37,7 @@ $back-ground-color: #f7f4f2;
       color: $back-ground-color;
     }
   }
+
   .illust {
     background-color: #e47863;
   }

@@ -3,6 +3,8 @@ class Api::V1::PostImagesController < ApplicationController
     @post_image = PostImage.find(params[:id])
     @user = @post_image.user
     @count = @user.post_images.count
+    @isFavorite = @post_image.favorited_by?(current_user)
+    @favorite_count = @post_image.favorites.count
   end
 
   def main

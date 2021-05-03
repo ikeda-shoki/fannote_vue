@@ -5,7 +5,7 @@
       <h1>{{ postImage.title }}</h1>
       <div class="post-image-detail-icons">
         <PostImageTag :tagName="postImage.post_image_genre"></PostImageTag>
-        <Favorite></Favorite>
+        <Favorite :isFavorite="checkFavorite" @chengeFavorite="chengeFavorite"></Favorite>
       </div>
     </div>
     <div class="post-image-detail-introduction">
@@ -20,7 +20,7 @@
       </span>
       <span class="post-image-detail-create-at"><i class="fas fa-pen"></i>{{ postImage.created_at }}</span>
       <span class="post-image-detail-uploat-at"><i class="far fa-arrow-alt-circle-up"></i>{{ postImage.updated_at}}</span>
-      <span><i class="far fa-heart"></i></span>
+      <span><i class="far fa-heart"></i>{{ favoriteCount }}</span>
     </div>
   </div>
 </template>
@@ -34,10 +34,17 @@ export default {
     postImage: { type: Object, required: true },
     userName: { type: String },
     accountName: { type: String },
+    checkFavorite: { required: true },
+    favoriteCount: { type: Number, required: true, default: 0 }
   },
   components: {
     PostImageTag,
     Favorite,
+  },
+  methods: {
+    chengeFavorite(value) {
+      this.$emit("chengeFavorite", value)
+    }
   }
 }
 </script>
@@ -62,6 +69,7 @@ $danger-color: #E15253;
     .post-image-detail-title {
       display: flex;
       align-items: center;
+      margin-bottom: 10px;
 
       h1 {
         font-size: 25px;

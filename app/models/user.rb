@@ -5,8 +5,28 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :post_images, dependent: :destroy
+  has_many :post_image_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :followed, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :following_user, through: :follower, source: :followed
+  has_many :followed_user, through: :followed, source: :follower
+  has_many :request, class_name: "Request", foreign_key: "requester_id", dependent: :destroy
+  has_many :requested, class_name: "Request", foreign_key: "requested_id", dependent: :destroy
 
   validates :account_name, uniqueness: true
   validates :user_name, presence: true
 
+  def follow(user_id)
+    follower.create(followed_id: user_id)
+  end
+
+  def unfollow(user_id)
+    follower.find_by(followed_id: user_id).destroy
+  end
+
+  # フォローしているかの確認
+  def following?(user)
+    following_user.include?(user)
+  end
 end

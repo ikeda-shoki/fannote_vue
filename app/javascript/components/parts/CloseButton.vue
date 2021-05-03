@@ -29,12 +29,9 @@ export default {
 
 <style lang="scss" scoped>
 $danger-color: #E15253;
-$back-ground-color: #f7f4f2;
 
 #close-button {
-  
   i {
-    background-color: $back-ground-color;
     font-size: 30px;
     transition: all .3s;
     -moz-transition: all .3s;

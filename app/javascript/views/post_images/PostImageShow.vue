@@ -4,7 +4,10 @@
       <PostImageDetail
         :postImage="postImage"
         :accountName="user.account_name"
-        :userName="user.user_name">
+        :userName="user.user_name"
+        :checkFavorite="postImage.checkFavorite"
+        :favoriteCount="postImage.favoriteCount"
+        @chengeFavorite="chengeFavorite">
       </PostImageDetail>
     </div>
   </div>
@@ -34,6 +37,16 @@ export default {
   },
   components: {
     PostImageDetail,
+  },
+  methods: {
+    chengeFavorite(value){
+      this.postImage.checkFavorite = value[0];
+      if(value[1] === "up") {
+        this.postImage.favoriteCount += 1;
+      } else if (value[1] === "down") {
+        this.postImage.favoriteCount -= 1;
+      }
+    }
   }
 };
 </script>

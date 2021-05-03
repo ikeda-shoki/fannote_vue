@@ -4,6 +4,8 @@ json.set! :post_image do
     image = @post_image.encode_base64(@post_image.post_image)
   end
   json.post_image(image)
+  json.checkFavorite(@isFavorite)
+  json.favoriteCount(@favorite_count)
 end
 
 json.set! :user do
