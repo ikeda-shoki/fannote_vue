@@ -1,17 +1,20 @@
 <template>
-  <div id="post-image" @mouseover="onImageDetail" @mouseleave="offImageDetail">
-    <img :src="image" alt="投稿画像" />
-    <div class='post-image-hover' :class="{ 'post-image-detail': isHover }">
-      <h3 v-if="accountName"><i class="fas fa-user"></i>{{ accountName }}</h3>
-      <h3 v-else><i class="fas fa-user"></i>{{ userName }}</h3>
-      <p>{{ title }}</p>
+  <router-link :to="'/post_images/' + id">
+    <div id="post-image" @mouseover="onImageDetail" @mouseleave="offImageDetail">
+      <img :src="image" alt="投稿画像" />
+      <div class='post-image-hover' :class="{ 'post-image-detail': isHover }">
+        <h3 v-if="accountName"><i class="fas fa-user"></i>{{ accountName }}</h3>
+        <h3 v-else><i class="fas fa-user"></i>{{ userName }}</h3>
+        <p>{{ title }}</p>
+      </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
 export default {
   props: {
+    id: { type: Number, required: true },
     image: { required: true },
     title: { required: true, type: String },
     userName: { type: String },
@@ -41,8 +44,8 @@ $font-white: #fffffe;
 $danger-color: #e15253;
 
 #post-image {
-  width: 230px;
-  height: 230px;
+  width: 160px;
+  height: 160px;
   border-radius: 20px;
   background-color: $font-white;
   margin-bottom: 30px;
@@ -51,8 +54,8 @@ $danger-color: #e15253;
   position: relative;
 
   img {
-    width: 200px;
-    height: 200px;
+    width: 130px;
+    height: 130px;
     border-radius: 20px;
     object-fit: cover;
     object-position: center center;
@@ -60,8 +63,8 @@ $danger-color: #e15253;
   }
 
   .post-image-hover {
-    width: 230px;
-    height: 230px;
+    width: 160px;
+    height: 160px;
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
     position: absolute;
@@ -82,17 +85,18 @@ $danger-color: #e15253;
 
     h3 {
       margin: 0 auto;
-      font-size: 20px;
-      width: 200px;
+      font-size: 15px;
+      width: 130px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       color: $font-white;
-      margin-top: 80px;
+      margin-top: 55px;
     }
     p {
       margin: 0 auto;
-      width: 200px;
+      font-size: 13px;
+      width: 130px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

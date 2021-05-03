@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import Title from '../components/parts/Title.vue'
-import TopButtons from '../components/TopButtons.vue'
+import Title from '../../components/parts/Title.vue'
+import TopButtons from '../../components/TopButtons.vue'
 
 export default {
   components: {

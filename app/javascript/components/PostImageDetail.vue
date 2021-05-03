@@ -1,0 +1,84 @@
+<template>
+  <div id="post-image-detail">
+    <img :src="postImage.post_image" alt="投稿画像">
+    <div class="post-image-detail-title">
+      <h1>{{ postImage.title }}</h1>
+      <div class="post-image-detail-icons">
+        <PostImageTag :tagName="postImage.post_image_genre"></PostImageTag>
+        <Favorite></Favorite>
+      </div>
+    </div>
+    <div class="post-image-detail-introduction">
+      <p>{{ postImage.post_image_introduction }}</p>
+    </div>
+    <div class="post-image-detail-etc">
+      <span class="post-image-detail-username" v-if="postImage.account_name">
+        <i class="far fa-user"></i>{{ userName }}
+      </span>
+      <span class="post-image-detail-username" v-else >
+        <i class="far fa-user"></i>{{ accountName }}
+      </span>
+      <span class="post-image-detail-create-at"><i class="fas fa-pen"></i>{{ postImage.created_at }}</span>
+      <span class="post-image-detail-uploat-at"><i class="far fa-arrow-alt-circle-up"></i>{{ postImage.updated_at}}</span>
+      <span><i class="far fa-heart"></i></span>
+    </div>
+  </div>
+</template>
+
+<script>
+import PostImageTag from '../components/parts/PostImageTag.vue'
+import Favorite from '../components/parts/Favorite.vue'
+
+export default {
+  props: {
+    postImage: { type: Object, required: true },
+    userName: { type: String },
+    accountName: { type: String },
+  },
+  components: {
+    PostImageTag,
+    Favorite,
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+$accent-color: #e65b20;
+$back-ground-color: #f7f4f2;
+$font-color: #3e1300;
+$font-white: #FFFFFE;
+$danger-color: #E15253;
+
+  #post-image-detail {
+    background-color: $font-white;
+    border-radius: 20px;
+    padding: 50px 30px 30px;
+    width: 65%;
+
+    img {
+      width: 100%;
+    }
+
+    .post-image-detail-title {
+      display: flex;
+      align-items: center;
+
+      h1 {
+        font-size: 25px;
+        font-weight: bold;
+        width: 70%;
+      }
+
+      .post-image-detail-icons {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+
+        #favorite {
+          margin-left: 10px;
+        }
+      }
+
+    }
+  }
+</style>

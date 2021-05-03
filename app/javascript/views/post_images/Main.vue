@@ -5,6 +5,7 @@
       <h3>投稿一覧</h3>
       <div class="post-image" v-for="postImage in postImages" :key="postImage.id">
         <PostImage
+          :id="postImage.id"
           :image="postImage.post_image" 
           :title="postImage.title" 
           :userName="postImage.user_name"
@@ -16,7 +17,7 @@
 
 <script>
 import axios from 'axios'
-import PostImage from '../components/parts/PostImage.vue'
+import PostImage from '../../components/parts/PostImage.vue'
 
 export default {
   data() {

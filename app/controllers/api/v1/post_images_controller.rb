@@ -1,11 +1,8 @@
 class Api::V1::PostImagesController < ApplicationController
   def show
-    post_image = PostImage.find(params[:id])
-    image = post_image.post_image
-    if image.present?
-      post_image['image'] = encode_base64(image)
-    end
-    render json: post_image
+    @post_image = PostImage.find(params[:id])
+    @user = @post_image.user
+    @count = @user.post_images.count
   end
 
   def main

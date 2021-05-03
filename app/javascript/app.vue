@@ -38,11 +38,8 @@ export default {
 
   .hover {
     background-color: $accent-color;
-
-    a {
-      color: $font-white;
-      font-weight: bold;
-    }
+    color: $font-white;
+    font-weight: bold;
 
     i {
       color: $font-white;
@@ -60,11 +57,6 @@ export default {
   }
 
   //transition
-
-  .fade-move {
-    transition: transform 1s;
-  }
-
   .fade-enter {
     opacity: 0;
   }
@@ -75,7 +67,6 @@ export default {
 
   .fade-leave-active {
     transition: opacity 1s;
-    position: absolute;
   }
 
   .fade-leave-to {
