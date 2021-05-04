@@ -5,6 +5,7 @@ class Api::V1::PostImagesController < ApplicationController
     @count = @user.post_images.count
     @isFavorite = @post_image.favorited_by?(current_user)
     @favorite_count = @post_image.favorites.count
+    @post_comments = @post_image.post_comments
   end
 
   def main

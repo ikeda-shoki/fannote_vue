@@ -42,6 +42,9 @@ export default {
   },
   components: {
     PostImage,
+  },
+  props: {
+    userLogIn: { type: Boolean }
   }
 }
 </script>
