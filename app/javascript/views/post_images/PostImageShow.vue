@@ -84,14 +84,13 @@ export default {
         method: "POST",
       }).then(response => {
         this.post_comment.comment = "";
-        this.post_comments.push(response.data);
-        console.log(response.data)
+        this.post_comments.unshift(response.data);
       }).catch(error => {
         console.log(error, response);
       })
     },
-    postCommentDelete(){
-
+    postCommentDelete(value){
+      this.post_comments = value;
     }
   }
 };
@@ -105,7 +104,7 @@ $font-white: #fffffe;
 $danger-color: #e15253;
 
 #post-image-show {
-  margin-top: 80px;
+  margin: 80px 0;
 
   .post-image-comment {
     width: 65%;

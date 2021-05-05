@@ -73,6 +73,27 @@ export default {
     opacity: 0;
   }
 
+  .fade-list-move {
+    transition: all .6s;
+  }
+
+  .fade-list-enter {
+    opacity: 0;
+  }
+
+  .fade-list-enter-active {
+    transition: all .6s;
+  }
+
+  .fade-list-leave-active {
+    transition: all .6s;
+    position: absolute;
+  }
+
+  .fade-list-leave-to {
+    opacity: 0;
+  }
+
   .slide-enter {
     transform: translate(-100px, 0);
     opacity: 0;
