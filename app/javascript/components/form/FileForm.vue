@@ -29,7 +29,7 @@ export default {
     name: { type: String, required: true },
     required: { type: Boolean, required: true },
     labelName: { type: String, required: true },
-    image: { type: String, default: "0" },
+    image: { type: String },
   },
   methods: {
     upload() {
@@ -47,7 +47,7 @@ export default {
       this.$emit("imageDelete", "");
     },
     postImage() {
-      if (this.image.length) {
+      if (this.image) {
         this.image64 = this.image;
       }
     },

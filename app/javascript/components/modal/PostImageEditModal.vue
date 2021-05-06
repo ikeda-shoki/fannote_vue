@@ -2,7 +2,7 @@
   <form id="post-image-edit-modal" @submit.prevent="editPostImage">
     <div class="form-item">
       <TextForm
-        :value="editData.title"
+        v-model="postImage.title"
         id="post-image-title-edit"
         type="text"
         name="post-image-title"
@@ -15,7 +15,7 @@
     </div>
     <div class="form-item">
       <TextArea
-        :value="editData.image_introduction"
+        v-model="postImage.image_introduction"
         id="post-image-introduction-edit"
         type="text"
         name="post-image-introduction"
@@ -27,7 +27,7 @@
     </div>
     <div class="form-item">
       <RadioButton
-        :value="editData.post_image_genre"
+        v-model="postImage.post_image_genre"
         name="post-image-genre"
         :options="options"
         :required="true"
@@ -43,6 +43,7 @@
         :image="editData.post_image"
         labelName="作品ファイル"
         @imageDelete="imageDelete"
+        @input="onFileChange"
       >
       </FileForm>
     </div>
@@ -84,6 +85,12 @@ export default {
           value: "ロゴ",
         },
       ],
+      postImage: {
+        title: this.editData.title,
+        image_introduction: this.editData.image_introduction,
+        image: this.editData.post_image,
+        post_image_genre: this.editData.post_image_genre,
+      },
     };
   },
   props: {
@@ -103,7 +110,7 @@ export default {
       axios({
         url: "/api/v1/post_images/" + this.$route.params.id,
         data: {
-          post_image: this.postImage,
+          post_image: this.editData,
         },
         method: "PATCH",
       })
