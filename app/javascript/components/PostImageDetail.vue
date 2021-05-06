@@ -6,7 +6,7 @@
       <div class="post-image-detail-icons">
         <PostImageTag :tagName="postImage.post_image_genre"></PostImageTag>
         <Favorite
-          :isFavorite="checkFavorite"
+          :isFavorite="postImage.checkFavorite"
           @chengeFavorite="chengeFavorite"
         ></Favorite>
       </div>
@@ -15,11 +15,11 @@
       <p>{{ postImage.image_introduction }}</p>
     </div>
     <div class="post-image-detail-etc">
-      <span class="post-image-detail-username" v-if="postImage.account_name">
-        <i class="far fa-user"></i>{{ userName }}
+      <span class="post-image-detail-username" v-if="user.account_name">
+        <i class="far fa-user"></i>{{ user.account_name }}
       </span>
       <span class="post-image-detail-username" v-else>
-        <i class="far fa-user"></i>{{ accountName }}
+        <i class="far fa-user"></i>{{ user.user_name }}
       </span>
       <span class="post-image-detail-create-at"
         ><i class="fas fa-pen"></i>{{ postImage.created_at }}</span
@@ -29,31 +29,59 @@
         >{{ postImage.updated_at }}</span
       >
       <span class="post-image-detail-favorite"
-        ><i class="far fa-heart"></i>{{ favoriteCount }}</span
+        ><i class="far fa-heart"></i>{{ postImage.favoriteCount }}</span
       >
     </div>
+    <div class="post_image_edit_button" v-if="user.current_user">
+      <Button>
+        <a href="/" class="top-button" @click.prevent="modalOpen">
+          <span>編集する</span>
+        </a>
+      </Button>
+    </div>
+    <transition name="fade">
+      <Modal
+        v-if="isModal ? true : false"
+        :isShow="isModal"
+        :editData="postImage"
+        modalType="編集する"
+        @modalClose="modalClose"
+      ></Modal>
+    </transition>
   </div>
 </template>
 
 <script>
 import PostImageTag from "../components/parts/PostImageTag.vue";
 import Favorite from "../components/parts/Favorite.vue";
+import Button from "../components/parts/Button.vue";
+import Modal from "./Modal.vue";
 
 export default {
   props: {
     postImage: { type: Object, required: true },
-    userName: { type: String },
-    accountName: { type: String },
-    checkFavorite: { required: true },
-    favoriteCount: { type: Number, required: true, default: 0 },
+    user: { type: Object, required: true },
   },
   components: {
     PostImageTag,
     Favorite,
+    Button,
+    Modal,
+  },
+  data() {
+    return {
+      isModal: false,
+    };
   },
   methods: {
     chengeFavorite(value) {
       this.$emit("chengeFavorite", value);
+    },
+    modalOpen() {
+      this.isModal = true;
+    },
+    modalClose(value) {
+      this.isModal = value;
     },
   },
 };
@@ -70,7 +98,6 @@ $danger-color: #e15253;
   background-color: $font-white;
   border-radius: 20px;
   padding: 50px 30px 30px;
-  width: 65%;
 
   img {
     width: 100%;
@@ -110,6 +137,11 @@ $danger-color: #e15253;
     i {
       margin-right: 5px;
     }
+  }
+
+  .post_image_edit_button {
+    margin-top: 40px;
+    text-align: center;
   }
 }
 </style>

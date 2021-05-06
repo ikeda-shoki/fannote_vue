@@ -7,6 +7,7 @@
         :type="type"
         :name="name"
         :value="value"
+        ref="textarea"
         @input="updateValue"
       >
       </textarea>

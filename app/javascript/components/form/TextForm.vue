@@ -7,6 +7,7 @@
         :type="type"
         :name="name"
         :value="value"
+        ref="text"
         @input="updateValue">
     </dl>
     <p class="input-sub-text">
@@ -32,6 +33,9 @@ export default {
   methods: {
     updateValue(e) {
       this.$emit("input", e.target.value);
+    },
+    editValue() {
+      return this.$refs.text.value
     }
   },
   components: {

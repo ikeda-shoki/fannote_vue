@@ -7,7 +7,9 @@
           <input
             type="radio"
             :name="name"
+            :checked="value"
             :value="option.value"
+            ref="radio-button"
             @change="updateValue"
           />
           <span>{{ option.label }}</span>

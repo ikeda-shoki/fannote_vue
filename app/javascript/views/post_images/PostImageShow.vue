@@ -1,25 +1,27 @@
 <template>
   <div id="post-image-show">
     <div class="container">
-      <PostImageDetail
-        :postImage="postImage"
-        :accountName="user.account_name"
-        :userName="user.user_name"
-        :checkFavorite="postImage.checkFavorite"
-        :favoriteCount="postImage.favoriteCount"
-        @chengeFavorite="chengeFavorite">
-      </PostImageDetail>
-      <form class="post-image-comment" v-on:submit.prevent="postImageComment">
-        <CommentForm
-          v-model="post_comment.comment"
-          id="post-image-comment"
-          type="text"
-          name="post-image-comment"
-          placeholder="コメントを入力できます"
-          ></CommentForm>
-        <FormButton buttonName="送信"></FormButton>
-      </form>
-      <PostImageComments :postComments="post_comments" :userLogIn="userLogIn" @postCommentDelete="postCommentDelete"></PostImageComments>
+      <div class="post-image-show-left">
+        <PostImageDetail
+          :postImage="postImage"
+          :user="user"
+          @chengeFavorite="chengeFavorite">
+        </PostImageDetail>
+        <form class="post-image-comment" v-on:submit.prevent="postImageComment">
+          <CommentForm
+            v-model="post_comment.comment"
+            id="post-image-comment"
+            type="text"
+            name="post-image-comment"
+            placeholder="コメントを入力できます"
+            ></CommentForm>
+          <FormButton buttonName="送信"></FormButton>
+        </form>
+        <PostImageComments :postComments="post_comments" :userLogIn="userLogIn" @postCommentDelete="postCommentDelete"></PostImageComments>
+      </div>
+      <div class="post-image-show-right">
+        <PostImageShowUser :user="user"></PostImageShowUser>
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +32,7 @@ import PostImageDetail from '../../components/PostImageDetail.vue'
 import CommentForm from '../../components/form/CommetForm.vue'
 import FormButton from '../../components/form/FormButton.vue'
 import PostImageComments from '../../components/PostImageComments.vue'
+import PostImageShowUser from '../../components/PostImageShowUser.vue'
 
 export default {
   data() {
@@ -53,6 +56,7 @@ export default {
     CommentForm,
     FormButton,
     PostImageComments,
+    PostImageShowUser,
   },
   methods: {
     chengeFavorite(value){
@@ -106,8 +110,11 @@ $danger-color: #e15253;
 #post-image-show {
   margin: 80px 0;
 
+  .container {
+    display: flex;
+  }
+  
   .post-image-comment {
-    width: 65%;
     margin: 50px 0;
     background-color: $font-white;
     border-radius: 20px;
@@ -123,12 +130,21 @@ $danger-color: #e15253;
     #form-button {
       width: 20%;
       text-align: right;
-      
+
       /deep/ .button {
         min-width: auto;
         padding: 8px 25px;
       }
     }
+  }
+
+  .post-image-show-left {
+    width: 65%;
+  }
+
+  .post-image-show-right {
+    width: 30%;
+    margin-left: auto;
   }
 }
 </style>

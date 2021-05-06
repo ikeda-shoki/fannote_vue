@@ -79,7 +79,6 @@ $danger-color: #e15253;
 #post-image-comments {
   background-color: $font-white;
   border-radius: 20px;
-  width: 65%;
   padding: 30px;
 
   .post-image-comment {
