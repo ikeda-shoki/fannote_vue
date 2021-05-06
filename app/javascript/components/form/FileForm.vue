@@ -7,7 +7,7 @@
     <transition name="fade">
       <div class="preview-image" v-if="image64">
         <p>投稿する画像</p>
-        <img :src="image64" alt="投稿した画像" >
+        <img :src="image64" alt="投稿した画像" />
         <CloseButton @click.native="previewDelete"></CloseButton>
       </div>
     </transition>
@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import FormName from "./FormName.vue"
-import CloseButton from "../parts/CloseButton.vue"
+import FormName from "./FormName.vue";
+import CloseButton from "../parts/CloseButton.vue";
 
 export default {
   data() {
@@ -29,6 +29,7 @@ export default {
     name: { type: String, required: true },
     required: { type: Boolean, required: true },
     labelName: { type: String, required: true },
+    image: { type: String, default: "0" },
   },
   methods: {
     upload() {
@@ -36,7 +37,7 @@ export default {
       let reader = new FileReader();
       reader.onload = () => {
         this.image64 = event.target.result;
-        this.$emit('input', this.image64);
+        this.$emit("input", this.image64);
       };
       reader.readAsDataURL(file);
     },
@@ -45,11 +46,19 @@ export default {
       this.$refs.file.value = null;
       this.$emit("imageDelete", "");
     },
+    postImage() {
+      if (this.image.length) {
+        this.image64 = this.image;
+      }
+    },
   },
   components: {
     FormName,
     CloseButton,
-  }
+  },
+  created() {
+    this.postImage();
+  },
 };
 </script>
 

@@ -15,7 +15,7 @@
 
 <script>
 import 'top.jpg';
-import TopButtons from '../components/TopButtons'
+import TopButtons from '../../components/TopButtons'
 
 export default {
   components: {

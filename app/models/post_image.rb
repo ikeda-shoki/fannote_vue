@@ -3,6 +3,8 @@ class PostImage < ApplicationRecord
   attr_accessor :image
 
   belongs_to :user
+  has_many :post_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   validates :title, presence: true
   validates :post_image_genre, presence: true
@@ -26,6 +28,10 @@ class PostImage < ApplicationRecord
     image = Base64.encode64(image_file.download)
     blob = ActiveStorage::Blob.find(image_file[:id])
     "data:#{blob[:content_type]};base64,#{image}"
+  end
+
+  def favorited_by?(user)
+    favorites.where(user_id: user.id).exists?
   end
 
   private

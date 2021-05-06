@@ -5,6 +5,13 @@
         <ModalHeader header="新規投稿"></ModalHeader>
         <PostImageModal @success="modalClose"></PostImageModal>
       </div>
+      <div class="modal-main" v-if="modalType === '編集する'">
+        <ModalHeader header="編集画面"></ModalHeader>
+        <PostImageEditModal
+          :editData="editData"
+          @success="modalClose"
+        ></PostImageEditModal>
+      </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
   </div>
@@ -14,6 +21,7 @@
 import PostImageModal from "./modal/PostImageModal.vue";
 import ModalHeader from "./modal/ModalHeader.vue";
 import CloseButton from "./parts/CloseButton.vue";
+import PostImageEditModal from "./modal/PostImageEditModal.vue";
 
 export default {
   props: {
@@ -24,14 +32,18 @@ export default {
     modalType: {
       type: String,
     },
+    editData: {
+      type: Object,
+    },
   },
   methods: {
     modalClose() {
-      this.$emit("modalClose", !this.isShow);
+      this.$emit("modalClose", false);
     },
   },
   components: {
     PostImageModal,
+    PostImageEditModal,
     ModalHeader,
     CloseButton,
   },

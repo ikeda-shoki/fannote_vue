@@ -1,11 +1,14 @@
 class Api::V1::PostImagesController < ApplicationController
+  before_action :authenticate_user!, only: [:show, :main, :create, :update]
+
   def show
-    post_image = PostImage.find(params[:id])
-    image = post_image.post_image
-    if image.present?
-      post_image['image'] = encode_base64(image)
-    end
-    render json: post_image
+    @post_image = PostImage.find(params[:id])
+    @user = @post_image.user
+    @count = @user.post_images.count
+    @isFavorite = @post_image.favorited_by?(current_user)
+    @favorite_count = @post_image.favorites.count
+    @post_comments = @post_image.post_comments.order(id: "DESC")
+    @current_user = @user === current_user
   end
 
   def main
@@ -24,6 +27,15 @@ class Api::V1::PostImagesController < ApplicationController
     end
   end
 
+  def update
+    # post_image.rbでbefore_updateを使用して＃を1から追加する
+    @post_image = PostImage.find(params[:id])
+    if @post_image.update(post_image_params)
+      render json: @post_image, status: :updated
+    else
+      render json: post_image.errors, status: :unprocessable_entity
+    end
+  end
 
   private
     def post_image_params

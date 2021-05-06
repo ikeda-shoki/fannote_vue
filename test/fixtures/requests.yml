@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  requester: one
+  requested: one
+  request_introduction: MyText
+  file_format: 1
+  use: MyText
+  deadline: 2021-05-03
+  amount: 1
+  request_status: 1
+
+two:
+  requester: two
+  requested: two
+  request_introduction: MyText
+  file_format: 1
+  use: MyText
+  deadline: 2021-05-03
+  amount: 1
+  request_status: 1

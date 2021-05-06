@@ -4,7 +4,12 @@
       <h1>Main</h1>
       <h3>投稿一覧</h3>
       <div class="post-image" v-for="postImage in postImages" :key="postImage.id">
-        <img :src="postImage.post_image">
+        <PostImage
+          :id="postImage.id"
+          :image="postImage.post_image" 
+          :title="postImage.title" 
+          :userName="postImage.user_name"
+          :accountName="postImage.account_name"></PostImage>
       </div>
     </div>
   </div>
@@ -12,6 +17,7 @@
 
 <script>
 import axios from 'axios'
+import PostImage from '../../components/parts/PostImage.vue'
 
 export default {
   data() {
@@ -20,7 +26,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.postImages)
     this.getPostImages();
   },
   methods: {
@@ -34,6 +39,12 @@ export default {
           console.log(error, response);
         })
     }
+  },
+  components: {
+    PostImage,
+  },
+  props: {
+    userLogIn: { type: Boolean }
   }
 }
 </script>

@@ -1,21 +1,22 @@
 <template>
-  <form id="post-image-modal" v-on:submit.prevent="postPostImage">
+  <form id="post-image-edit-modal" @submit.prevent="editPostImage">
     <div class="form-item">
       <TextForm
-        v-model="postImage.title"
-        id="post-image-title"
+        :value="editData.title"
+        id="post-image-title-edit"
         type="text"
         name="post-image-title"
         :required="true"
         labelName="タイトル"
+        ref= "title"
       >
         例)鋼の錬金術師 エドワードエルリック
       </TextForm>
     </div>
     <div class="form-item">
       <TextArea
-        v-model="postImage.image_introduction"
-        id="post-image-introduction"
+        :value="editData.image_introduction"
+        id="post-image-introduction-edit"
         type="text"
         name="post-image-introduction"
         :required="false"
@@ -26,7 +27,7 @@
     </div>
     <div class="form-item">
       <RadioButton
-        v-model="postImage.post_image_genre"
+        :value="editData.post_image_genre"
         name="post-image-genre"
         :options="options"
         :required="true"
@@ -36,17 +37,17 @@
     </div>
     <div class="form-item">
       <FileForm
-        id="post-image"
+        id="post-image-edit"
         name="post-image"
         :required="true"
+        :image="editData.post_image"
         labelName="作品ファイル"
-        @input="onFileChange"
         @imageDelete="imageDelete"
       >
       </FileForm>
     </div>
     <div class="form-item">
-      <FormButton buttonName="投稿する"></FormButton>
+      <FormButton buttonName="更新する"></FormButton>
     </div>
   </form>
 </template>
@@ -69,12 +70,6 @@ export default {
   },
   data() {
     return {
-      postImage: {
-        title: "",
-        image_introduction: "",
-        post_image_genre: "",
-        image: "",
-      },
       options: [
         {
           label: "イラスト",
@@ -91,30 +86,34 @@ export default {
       ],
     };
   },
+  props: {
+    editData: {
+      type: Object,
+      required: true,
+    },
+  },
   methods: {
     onFileChange(value) {
-      this.postImage.image = value;
+      this.editData.post_image = value;
     },
     imageDelete(value) {
-      this.postImage.image = value;
+      this.editData.post_image = value;
     },
-    postPostImage() {
+    editPostImage() {
       axios({
-        url: "/api/v1/post_images",
+        url: "/api/v1/post_images/" + this.$route.params.id,
         data: {
-          post_image: this.postImage
+          post_image: this.postImage,
         },
-        method: "POST",
-      }).then(response => {
-        this.postImage.title = "",
-        this.postImage.image_introduction = "",
-        this.postImage.image = "",
-        this.postImage.post_image_genre = "",
-        this.$emit('success')
-      }).catch(error => {
-        console.log(error, response);
+        method: "PATCH",
       })
-    }
+        .then((response) => {
+          this.$emit("success");
+        })
+        .catch((error) => {
+          console.log(error, response);
+        });
+    },
   },
 };
 </script>
@@ -122,7 +121,7 @@ export default {
 <style lang="scss" scoped>
 $back-ground-color: #f7f4f2;
 
-#post-image-modal {
+#post-image-edit-modal {
   height: 94%;
   margin: 0 auto;
   padding: 30px 40px;
