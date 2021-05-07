@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import Title from "../components/parts/Title.vue";
-import TopButtons from "../components/TopButtons.vue";
+import Title from "../../components/parts/Title.vue";
+import TopButtons from "../../components/TopButtons.vue";
 import "top-message-1.png";
 import "top-message-2.png";
 import "top-message-3.png";

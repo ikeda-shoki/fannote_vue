@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Header :userLogIn="userLogIn"></Header>
     <transition name="fade" mode="out-in">
-      <router-view></router-view>
+      <router-view :userLogIn="userLogIn"></router-view>
     </transition>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -16,8 +17,14 @@ export default {
   },
   data: function () {
     return {
-      message: "Hello Vue!"
+      userLogIn: false,
     }
+  },
+  mounted() {
+    axios.get('/api/v1/users/sign_in')
+      .then(response => {
+        this.userLogIn = response.data;
+      });
   }
 }
 </script>
@@ -27,14 +34,26 @@ export default {
   $back-ground-color: #f7f4f2;
   $font-color: #3e1300;
   $font-white: #FFFFFE;
+  $danger-color: #E15253;
 
   .hover {
     background-color: $accent-color;
+    color: $font-white;
+    font-weight: bold;
 
-    a {
+    i {
       color: $font-white;
-      font-weight: bold;
     }
+  }
+
+  .require-icon {
+    padding: 5px 10px;
+    background-color: $danger-color;
+    color: $font-white;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left: 10px;
   }
 
   //transition
@@ -51,6 +70,27 @@ export default {
   }
 
   .fade-leave-to {
+    opacity: 0;
+  }
+
+  .fade-list-move {
+    transition: all .6s;
+  }
+
+  .fade-list-enter {
+    opacity: 0;
+  }
+
+  .fade-list-enter-active {
+    transition: all .6s;
+  }
+
+  .fade-list-leave-active {
+    transition: all .6s;
+    position: absolute;
+  }
+
+  .fade-list-leave-to {
     opacity: 0;
   }
 

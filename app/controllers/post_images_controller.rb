@@ -1,4 +1,6 @@
 class PostImagesController < ApplicationController
+  before_action :authenticate_user!, only: [:main, :show]
+
   def top
   end
 
@@ -6,5 +8,11 @@ class PostImagesController < ApplicationController
   end
 
   def use
+  end
+
+  def main
+  end
+
+  def show
   end
 end

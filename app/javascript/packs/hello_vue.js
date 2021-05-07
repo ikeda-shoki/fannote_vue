@@ -7,12 +7,11 @@
 
 import Vue from 'vue'
 import VueRouter from "vue-router";
+import axios from "axios";
 import router from "../routes/router.js";
 import App from '../app.vue'
-// import axios from "axios";
 
 Vue.use(VueRouter);
-// Vue.use(axios);
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
@@ -20,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render: h => h(App)
   }).$mount()
   document.body.appendChild(app.$el)
+  const token = document.getElementsByName("csrf-token")[0].getAttribute("content");
+  axios.defaults.headers.common["X-CSRF-Token"] = token;
 })
 
 
