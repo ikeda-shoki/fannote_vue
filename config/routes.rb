@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, only: [:show] do
+
+  end
+
   namespace :api, { format: 'json' } do
     namespace :v1 do
       resources :post_images, only: [:show, :create, :update] do
@@ -21,7 +25,11 @@ Rails.application.routes.draw do
           get :main
         end
       end
-      get '/users/sign_in', to: 'users#sign_in?'
+      resources :users, only: [:show] do
+        collection do
+          get :sign_in
+        end
+      end
     end
   end
 
