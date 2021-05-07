@@ -89,6 +89,7 @@ export default {
           value: "ロゴ",
         },
       ],
+      id: "",
     };
   },
   methods: {
@@ -110,7 +111,8 @@ export default {
         this.postImage.image_introduction = "",
         this.postImage.image = "",
         this.postImage.post_image_genre = "",
-        this.$emit('success')
+        this.id = response.data.id
+        this.$emit('success', this.id)
       }).catch(error => {
         console.log(error, response);
       })

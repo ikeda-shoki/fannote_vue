@@ -41,7 +41,7 @@
         id="post-image-edit"
         name="post-image"
         :required="true"
-        :image="editData.post_image"
+        :image="postImage.image"
         labelName="作品ファイル"
         @imageDelete="imageDelete"
         @input="onFileChange"
@@ -102,16 +102,16 @@ export default {
   },
   methods: {
     onFileChange(value) {
-      this.editData.post_image = value;
+      this.postImage.image = value;
     },
     imageDelete(value) {
-      this.editData.post_image = value;
+      this.postImage.image = value;
     },
     editPostImage() {
       axios({
         url: "/api/v1/post_images/" + this.$route.params.id,
         data: {
-          post_image: this.editData,
+          post_image: this.postImage,
         },
         method: "PATCH",
       })

@@ -77,6 +77,7 @@
         :isShow="isModal"
         :modalType="modalType"
         @modalClose="modalClose"
+        @screenTransition="screenTransition"
       >
       </Modal>
     </transition>
@@ -180,6 +181,10 @@ export default {
     modalClose(value) {
       this.isModal = value;
     },
+    async screenTransition(value) {
+      await this.modalClose()
+      this.$router.push('/post_images/' + value)
+    }
   },
   components: {
     Modal,

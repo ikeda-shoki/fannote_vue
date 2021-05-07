@@ -82,6 +82,7 @@ export default {
     },
     modalClose(value) {
       this.isModal = value;
+      this.$emit("update");
     },
   },
 };

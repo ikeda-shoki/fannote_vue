@@ -37,8 +37,9 @@ export default {
     },
   },
   methods: {
-    modalClose() {
+    modalClose(value) {
       this.$emit("modalClose", false);
+      this.$emit("screenTransition", value);
     },
   },
   components: {

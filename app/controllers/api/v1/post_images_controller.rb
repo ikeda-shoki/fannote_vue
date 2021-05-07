@@ -19,8 +19,7 @@ class Api::V1::PostImagesController < ApplicationController
     post_image = PostImage.new(post_image_params)
     post_image.user_id = current_user.id
     if post_image.save
-      data = params[:post_image].values
-      post_image.parse_base64(data[3])
+      post_image.parse_base64(params[:post_image][:image])
       render json: post_image, status: :created
     else
       render json: post_image.errors, status: :unprocessable_entity
@@ -29,9 +28,10 @@ class Api::V1::PostImagesController < ApplicationController
 
   def update
     # post_image.rbでbefore_updateを使用して＃を1から追加する
-    @post_image = PostImage.find(params[:id])
-    if @post_image.update(post_image_params)
-      render json: @post_image, status: :updated
+    post_image = PostImage.find(params[:id])
+    if post_image.update(post_image_params)
+      post_image.parse_base64(params[:post_image][:image])
+      render json: post_image, status: :ok
     else
       render json: post_image.errors, status: :unprocessable_entity
     end
