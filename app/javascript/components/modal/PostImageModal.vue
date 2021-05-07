@@ -26,11 +26,11 @@
     </div>
     <div class="form-item">
       <RadioButton
-        v-model="postImage.post_image_genre"
         name="post-image-genre"
         :options="options"
         :required="true"
         labelName="ジャンル"
+        @input="postImage.post_image_genre = $event"
       >
       </RadioButton>
     </div>
