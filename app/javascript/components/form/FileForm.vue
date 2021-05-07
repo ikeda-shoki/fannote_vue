@@ -2,7 +2,9 @@
   <div id="file-form">
     <FormName :id="id" :required="required" :labelName="labelName"></FormName>
     <dt class="form-file">
-      <input :id="id" :name="name" type="file" ref="file" @change="upload" />
+      <label :for="id" class="button">
+        <input :id="id" :name="name" type="file" ref="file" @change="upload" />ファイルを選択
+      </label>
     </dt>
     <transition name="fade">
       <div class="preview-image" v-if="image64">
@@ -29,7 +31,7 @@ export default {
     name: { type: String, required: true },
     required: { type: Boolean, required: true },
     labelName: { type: String, required: true },
-    image: { type: String, default: "0" },
+    image: { type: String },
   },
   methods: {
     upload() {
@@ -47,7 +49,7 @@ export default {
       this.$emit("imageDelete", "");
     },
     postImage() {
-      if (this.image.length) {
+      if (this.image) {
         this.image64 = this.image;
       }
     },
@@ -71,7 +73,7 @@ $danger-color: #e15253;
 #file-form {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   width: 100%;
 
@@ -79,6 +81,16 @@ $danger-color: #e15253;
     margin-left: auto;
     margin-bottom: 8px;
     width: 65%;
+
+    .button {
+      min-width: auto;
+      font-size: 13px;
+      padding: 10px 20px;
+
+      input {
+        display: none;
+      }
+    }
   }
 
   .preview-image {

@@ -7,8 +7,8 @@
           <input
             type="radio"
             :name="name"
-            :checked="value"
             :value="option.value"
+            :checked="option.value === checkedValue"
             ref="radio-button"
             @change="updateValue"
           />
@@ -24,11 +24,11 @@ import FormName from "./FormName.vue"
 
 export default {
   props: {
-    value: { type: String, required: true },
     options: { type: Array, required: true },
     name: { type: String, required: true },
     required: { type: Boolean, required: true },
     labelName: { type: String, required: true },
+    checkedValue: { type: String },
   },
   methods: {
     updateValue(e) {
@@ -37,7 +37,7 @@ export default {
   },
   components: {
     FormName,
-  }
+  },
 };
 </script>
 

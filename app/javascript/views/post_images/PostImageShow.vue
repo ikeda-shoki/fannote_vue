@@ -5,7 +5,8 @@
         <PostImageDetail
           :postImage="postImage"
           :user="user"
-          @chengeFavorite="chengeFavorite">
+          @chengeFavorite="chengeFavorite"
+          @update="getInfo">
         </PostImageDetail>
         <form class="post-image-comment" v-on:submit.prevent="postImageComment">
           <CommentForm

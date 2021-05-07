@@ -23,7 +23,7 @@ import FormName from "./FormName.vue"
 
 export default {
   props: {
-    value: { type: String, required: true },
+    value: { type: String, required: true, default: "" },
     id: { type: String, required: true },
     type: { type: String, required: true },
     name: { type: String, required: true },
@@ -34,9 +34,6 @@ export default {
     updateValue(e) {
       this.$emit("input", e.target.value);
     },
-    editValue() {
-      return this.$refs.text.value
-    }
   },
   components: {
     FormName,
