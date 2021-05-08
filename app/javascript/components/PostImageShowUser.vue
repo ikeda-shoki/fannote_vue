@@ -1,7 +1,7 @@
 <template>
   <div id="post-image-show-user">
     <div class="post-image-show-user-top">
-      <img src="" alt="" />
+      <CircleImage :image="user.profile_image"></CircleImage>
       <h3 v-if="user.account_name">
         {{ user.account_name }}
       </h3>
@@ -12,8 +12,12 @@
     </div>
 
     <div class="post-image-show-user-middle">
-      <button class="button">フォローする</button>
-      <button class="button">プロフィールへ</button>
+      <!-- <router-link> -->
+      <button class="button" v-if="!user.current_user">フォローする</button>
+      <!-- </router-link> -->
+      <router-link :to="'/users/' + user.id">
+        <button class="button">プロフィールへ</button>
+      </router-link>
     </div>
 
     <div class="post-image-show-user-bottom">
@@ -35,13 +39,16 @@
 
 <script>
 import UserItems from "./parts/UserItems.vue";
+import CircleImage from "./parts/CircleImage.vue";
 
 export default {
   props: {
     user: { type: Object, required: true },
+    currentUser: { type: Object },
   },
   components: {
     UserItems,
+    CircleImage,
   },
 };
 </script>
@@ -62,6 +69,13 @@ $danger-color: #e15253;
   .post-image-show-user-top {
     padding-bottom: 30px;
     border-bottom: 3px dashed;
+
+    #circle-image {
+      /deep/ img {
+        width: 180px;
+        height: 180px;
+      }
+    }
 
     h3 {
       margin: 10px 0 30px;
@@ -90,6 +104,8 @@ $danger-color: #e15253;
       align-items: center;
       justify-content: space-around;
       flex-wrap: wrap;
+      height: 220px;
+      overflow: scroll;
 
       .post-image-show-profile-image {
         img {
@@ -100,7 +116,6 @@ $danger-color: #e15253;
         }
       }
     }
-
   }
 }
 </style>

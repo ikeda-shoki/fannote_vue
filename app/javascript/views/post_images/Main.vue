@@ -6,8 +6,8 @@
       <div class="post-image" v-for="postImage in postImages" :key="postImage.id">
         <PostImage
           :id="postImage.id"
-          :image="postImage.post_image" 
-          :title="postImage.title" 
+          :image="postImage.post_image"
+          :title="postImage.title"
           :userName="postImage.user_name"
           :accountName="postImage.account_name"></PostImage>
       </div>

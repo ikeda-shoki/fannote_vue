@@ -5,7 +5,10 @@
       :currentUser="currentUser.curretUser"
     ></Header>
     <transition name="fade" mode="out-in">
-      <router-view :userLogIn="currentUser.signIn"></router-view>
+      <router-view
+        :userLogIn="currentUser.signIn"
+        :currentUser="currentUser.curretUser"
+      ></router-view>
     </transition>
   </div>
 </template>

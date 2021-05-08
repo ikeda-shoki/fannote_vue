@@ -26,7 +26,7 @@
         ></PostImageComments>
       </div>
       <div class="post-image-show-right">
-        <PostImageShowUser :user="user"></PostImageShowUser>
+        <PostImageShowUser :user="user" :currentUser="currentUser"></PostImageShowUser>
       </div>
     </div>
   </div>
@@ -53,6 +53,7 @@ export default {
   },
   props: {
     userLogIn: { type: Boolean },
+    currentUser: { type: Object },
   },
   mounted() {
     this.getInfo();
@@ -105,6 +106,9 @@ export default {
       this.post_comments = value;
     },
   },
+  watch: {
+    $route: 'getInfo'
+  }
 };
 </script>
 
