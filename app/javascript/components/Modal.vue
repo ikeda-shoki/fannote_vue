@@ -3,14 +3,21 @@
     <div class="modal-content">
       <div class="modal-main" v-if="modalType === '投稿する'">
         <ModalHeader header="新規投稿"></ModalHeader>
-        <PostImageModal @success="modalClose"></PostImageModal>
+        <PostImageModal @success="successPostImage"></PostImageModal>
       </div>
       <div class="modal-main" v-if="modalType === '編集する'">
-        <ModalHeader header="編集画面"></ModalHeader>
+        <ModalHeader header="投稿 編集画面"></ModalHeader>
         <PostImageEditModal
           :editData="editData"
-          @success="modalClose"
+          @success="successPostImage"
         ></PostImageEditModal>
+      </div>
+      <div class="modal-main" v-if="modalType === 'ユーザーを編集する'">
+        <ModalHeader header="ユーザー 編集画面"></ModalHeader>
+        <UserEditModal
+          :editData="editData"
+          @success="successUser"
+        ></UserEditModal>
       </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
@@ -22,6 +29,7 @@ import PostImageModal from "./modal/PostImageModal.vue";
 import ModalHeader from "./modal/ModalHeader.vue";
 import CloseButton from "./parts/CloseButton.vue";
 import PostImageEditModal from "./modal/PostImageEditModal.vue";
+import UserEditModal from "./modal/UserEditModal.vue";
 
 export default {
   props: {
@@ -37,16 +45,24 @@ export default {
     },
   },
   methods: {
-    modalClose(value) {
+    modalClose() {
+      this.$emit("modalClose", false);
+    },
+    successPostImage(value) {
       this.$emit("modalClose", false);
       this.$emit("screenTransition", value);
     },
+    successUser() {
+      this.$emit("modalClose", false);
+      this.$emit("successUser");
+    }
   },
   components: {
     PostImageModal,
     PostImageEditModal,
     ModalHeader,
     CloseButton,
+    UserEditModal,
   },
 };
 </script>

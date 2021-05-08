@@ -8,8 +8,10 @@
     </dt>
     <transition name="fade">
       <div class="preview-image" v-if="image64">
-        <p>投稿する画像</p>
-        <img :src="image64" alt="投稿した画像" />
+        <slot>
+          <p>投稿する画像</p>
+          <img :src="image64" alt="投稿した画像" />
+        </slot>
         <CloseButton @click.native="previewDelete"></CloseButton>
       </div>
     </transition>

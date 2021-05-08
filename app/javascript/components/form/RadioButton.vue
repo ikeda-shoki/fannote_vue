@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import FormName from "./FormName.vue"
+import FormName from "./FormName.vue";
 
 export default {
   props: {
@@ -28,7 +28,7 @@ export default {
     name: { type: String, required: true },
     required: { type: Boolean, required: true },
     labelName: { type: String, required: true },
-    checkedValue: { type: String },
+    checkedValue: {},
   },
   methods: {
     updateValue(e) {
@@ -45,7 +45,7 @@ export default {
 $accent-color: #e65b20;
 $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
-$danger-color: #E15253;
+$danger-color: #e15253;
 
 #radio-button {
   display: flex;
@@ -67,7 +67,7 @@ $danger-color: #E15253;
       input {
         display: none;
 
-        &:checked+span {
+        &:checked + span {
           border-radius: 5px;
           color: $back-ground-color;
           background-color: $accent-color;

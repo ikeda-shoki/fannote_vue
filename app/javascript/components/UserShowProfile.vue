@@ -1,5 +1,7 @@
 <template>
   <div id="user-show-profile">
+    <CircleImage :image="user.profile_image"></CircleImage>
+
     <Title v-if="user.account_name" :title="user.account_name"></Title>
     <Title v-else :title="user.user_name"></Title>
 
@@ -9,7 +11,11 @@
 
     <UserItems :user="user"></UserItems>
 
-    <div class="user-show-profile-edit-button" v-if="user.current_user_sign_in" @click="modalOpen">
+    <div
+      class="user-show-profile-edit-button"
+      v-if="user.current_user_sign_in"
+      @click="modalOpen"
+    >
       <p class="button">編集する</p>
     </div>
 
@@ -34,19 +40,21 @@
         v-if="isModal ? true : false"
         :isShow="isModal"
         :editData="user"
-        modalType=""
+        modalType="ユーザーを編集する"
         @modalClose="modalClose"
+        @successUser="successUser"
       ></Modal>
     </transition>
   </div>
-
 </template>
 
 <script>
 import Title from "./parts/Title.vue";
 import UserItems from "./parts/UserItems.vue";
 import Button from "./parts/Button.vue";
-import Modal from "./Modal.vue"
+import Modal from "./Modal.vue";
+import CircleImage from "./parts/CircleImage.vue";
+
 
 export default {
   components: {
@@ -54,6 +62,7 @@ export default {
     UserItems,
     Button,
     Modal,
+    CircleImage,
   },
   props: {
     user: { type: Object, required: true },
@@ -61,15 +70,19 @@ export default {
   data() {
     return {
       isModal: false,
-    }
+    };
   },
   methods: {
     modalOpen() {
       this.isModal = true;
     },
-    modalClose() {
-
+    modalClose(value) {
+      this.isModal = value;
     },
+    successUser() {
+      this.$emit("userUpdate");
+      console.log("0000");
+    }
   },
 };
 </script>
@@ -84,8 +97,17 @@ $danger-color: #e15253;
 #user-show-profile {
   background-color: $font-white;
   border-radius: 20px;
-  padding: 70px 30px 30px;
+  padding: 90px 30px 30px;
   text-align: center;
+  margin-top: 130px;
+  position: relative;
+
+  #circle-image {
+    position: absolute;
+    top: -75px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   #title {
     font-size: 23px;

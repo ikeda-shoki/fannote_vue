@@ -25,7 +25,7 @@ Rails.application.routes.draw do
           get :main
         end
       end
-      resources :users, only: [:show] do
+      resources :users, only: [:show, :update] do
         collection do
           get :sign_in
         end
