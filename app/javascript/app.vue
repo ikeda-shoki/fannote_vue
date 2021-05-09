@@ -1,14 +1,8 @@
 <template>
   <div id="app">
-    <Header
-      :userLogIn="currentUser.signIn"
-      :currentUser="currentUser.curretUser"
-    ></Header>
+    <Header :userLogIn="signIn" :currentUser="currentUser"></Header>
     <transition name="fade" mode="out-in">
-      <router-view
-        :userLogIn="currentUser.signIn"
-        :currentUser="currentUser.curretUser"
-      ></router-view>
+      <router-view :userLogIn="signIn" :currentUser="currentUser" :key="this.$router.id"></router-view>
     </transition>
   </div>
 </template>
@@ -24,11 +18,13 @@ export default {
   data: function() {
     return {
       currentUser: {},
+      signIn: "",
     };
   },
   mounted() {
     axios.get("/api/v1/users/sign_in").then((response) => {
-      this.currentUser = response.data;
+      this.currentUser = response.data.current_user;
+      this.signIn = response.data.sign_in;
     });
   },
 };

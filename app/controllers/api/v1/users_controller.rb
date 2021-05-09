@@ -3,9 +3,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :ensure_current_user, only: [:edit, :update, :destroy]
 
   def sign_in
-    sign_in = user_signed_in?
-    user = current_user
-    render json: { signIn: sign_in, curretUser: user }
+    @user = current_user
   end
 
   def show

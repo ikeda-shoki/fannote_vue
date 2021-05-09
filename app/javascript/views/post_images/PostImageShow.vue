@@ -72,11 +72,11 @@ export default {
   },
   methods: {
     chengeFavorite(value) {
-      this.postImage.checkFavorite = value[0];
+      this.postImage.check_favorite = value[0];
       if (value[1] === "up") {
-        this.postImage.favoriteCount += 1;
+        this.postImage.favorite_count += 1;
       } else if (value[1] === "down") {
-        this.postImage.favoriteCount -= 1;
+        this.postImage.favorite_count -= 1;
       }
     },
     getInfo() {
@@ -111,12 +111,12 @@ export default {
       this.post_comments = value;
     },
     followUp(value) {
-      this.user.followed_count += 1;
-      this.user.follow_user = true;
+      this.user.followed_count = value;
+      this.user.follower = true;
     },
     followDown(value) {
-      this.user.followed_count -= 1;
-      this.user.follow_user = false;
+      this.user.followed_count = value;
+      this.user.follower = false;
     }
   },
   watch: {

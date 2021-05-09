@@ -19,7 +19,9 @@
       </div>
       <div class="user-item">
         <h6>フォロワー</h6>
-        <span>{{ user.followed_count }}</span>
+        <transition name="fade-list" type="out-in">
+          <span :key="user.followed_count">{{ user.followed_count }}</span>
+        </transition>
       </div>
     </div>
   </div>
@@ -28,29 +30,29 @@
 <script>
 export default {
   props: {
-    user: { required: true }
+    user: { required: true },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  #user-items {
-    .user-item-content {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-around;
+#user-items {
+  .user-item-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
 
-      .user-item {
-        width: 30%;
+    .user-item {
+      width: 30%;
 
-        h6 {
-          font-size: 11px;
-        }
-        span {
-          font-size: 18px;
-        }
+      h6 {
+        font-size: 11px;
+      }
+      span {
+        font-size: 18px;
       }
     }
   }
+}
 </style>

@@ -1,18 +1,20 @@
 <template>
   <div id="follow-button">
     <div>
-      <button class="button" v-if="!user.follow_user" @click="follow">
-        フォローする
-      </button>
-      <button class="button" v-if="user.follow_user" @click="unfollow">
-        フォローを外す
-      </button>
+      <transition-group name="fade-list" type="out-in">
+        <button class="button" v-if="!user.follower" @click="follow" key="follow">
+          フォローする
+        </button>
+        <button class="button" v-if="user.follower" @click="unfollow" key="unfollow">
+          フォローを外す
+        </button>
+      </transition-group>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 
 export default {
   props: {
@@ -24,25 +26,27 @@ export default {
       axios({
         url: "/api/v1/follow/" + this.$route.params.id,
         method: "POST",
-      }).then(response => {
-        console.log(response.data);
-        this.$emit("follow", value);
-      }).catch(error => {
-        console.log(error, response);
       })
+        .then((response) => {
+          this.$emit("follow", response.data);
+        })
+        .catch((error) => {
+          console.log(error, response);
+        });
     },
     unfollow() {
       axios({
         url: "/api/v1/follow/" + this.$route.params.id,
         method: "DELETE",
-      }).then(response => {
-        console.log(response.data);
-        this.$emit("follow", value);
-      }).catch(error => {
-        console.log(error, response);
       })
-    }
-  }
+        .then((response) => {
+          this.$emit("unfollow", response.data);
+        })
+        .catch((error) => {
+          console.log(error, response);
+        });
+    },
+  },
 };
 </script>
 

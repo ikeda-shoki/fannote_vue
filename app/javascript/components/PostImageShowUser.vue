@@ -13,6 +13,7 @@
 
     <div class="post-image-show-user-middle">
       <FollowButton
+        v-if="!user.current_user_same_as"
         :user="user"
         :currentUser="currentUser"
         @follow="follow"
@@ -102,6 +103,10 @@ $danger-color: #e15253;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    #follow-button {
+      margin-right: 10px;
+    }
 
     .button {
       min-width: auto;

@@ -7,13 +7,21 @@ class Api::V1::RelationshipsController < ApplicationController
   end
 
   def follow
-    current_user.follow(params[:id])
-    render json: @user.following_user.count, status: :ok
-    # @user.create_notification_follow(current_user, @user)
+    if !current_user.following?(@user)
+      current_user.follow(params[:id])
+      # @user.create_notification_follow(current_user, @user)
+      render json: @user.followed_user.count, status: :ok
+    else
+      redirect_to main_post_images_path
+    end
   end
 
   def unfollow
-    current_user.unfollow(params[:id])
-    render json: @user.following_user.count, status: :ok
+    if current_user.following?(@user)
+      current_user.unfollow(params[:id])
+      render json: @user.followed_user.count, status: :ok
+    else
+      redirect_to main_post_images_path
+    end
   end
 end
