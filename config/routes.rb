@@ -29,7 +29,13 @@ Rails.application.routes.draw do
         collection do
           get :sign_in
         end
+        member do
+          get :followed
+          get :following
+        end
       end
+      post 'follow/:id', to: 'relationships#follow', as: 'follow'
+      delete 'follow/:id', to: 'relationships#unfollow', as: 'unfollow'
     end
   end
 

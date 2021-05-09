@@ -4,12 +4,7 @@ class Api::V1::PostImagesController < ApplicationController
   def show
     @post_image = PostImage.find(params[:id])
     @user = @post_image.user
-    @count = @user.post_images.count
-    @isFavorite = @post_image.favorited_by?(current_user)
-    @favorite_count = @post_image.favorites.count
     @post_comments = @post_image.post_comments.order(id: "DESC")
-    @follow_user = current_user.following?(@user)
-    @current_user = @user === current_user
   end
 
   def main

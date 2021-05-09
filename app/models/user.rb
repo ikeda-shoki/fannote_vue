@@ -33,7 +33,7 @@ class User < ApplicationRecord
     following_user.include?(user)
   end
 
-  def current_user_sign_in?(current_user)
+  def current_user_same_as?(current_user)
     self == current_user
   end
 

@@ -6,7 +6,7 @@
       <div class="post-image-detail-icons">
         <PostImageTag :tagName="postImage.post_image_genre"></PostImageTag>
         <Favorite
-          :isFavorite="postImage.checkFavorite"
+          :isFavorite="postImage.check_favorite"
           @chengeFavorite="chengeFavorite"
         ></Favorite>
       </div>
@@ -29,7 +29,7 @@
         >{{ postImage.updated_at }}</span
       >
       <span class="post-image-detail-favorite"
-        ><i class="far fa-heart"></i>{{ postImage.favoriteCount }}</span
+        ><i class="far fa-heart"></i>{{ postImage.favorite_count }}</span
       >
     </div>
     <div class="post_image_edit_button" v-if="user.current_user">

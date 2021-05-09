@@ -13,7 +13,7 @@
 
     <div
       class="user-show-profile-edit-button"
-      v-if="user.current_user_sign_in"
+      v-if="user.current_user_same_as"
       @click="modalOpen"
     >
       <p class="button">編集する</p>
@@ -81,7 +81,6 @@ export default {
     },
     successUser() {
       this.$emit("userUpdate");
-      console.log("0000");
     }
   },
 };

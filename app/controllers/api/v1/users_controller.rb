@@ -10,8 +10,6 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @current_user_sign_in = @user.current_user_sign_in?(current_user)
-    @count = @user.post_images.count
     @post_images = @user.post_images
     favorites = Favorite.favorite_post_image(@user.id)
     @my_favorite_images = PostImage.preload(:user).find(favorites.reverse)

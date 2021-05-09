@@ -26,7 +26,12 @@
         ></PostImageComments>
       </div>
       <div class="post-image-show-right">
-        <PostImageShowUser :user="user" :currentUser="currentUser"></PostImageShowUser>
+        <PostImageShowUser
+          :user="user"
+          :currentUser="currentUser"
+          @follow="followUp"
+          @unfollow="followDown"
+        ></PostImageShowUser>
       </div>
     </div>
   </div>
@@ -105,10 +110,18 @@ export default {
     postCommentDelete(value) {
       this.post_comments = value;
     },
+    followUp(value) {
+      this.user.followed_count += 1;
+      this.user.follow_user = true;
+    },
+    followDown(value) {
+      this.user.followed_count -= 1;
+      this.user.follow_user = false;
+    }
   },
   watch: {
-    $route: 'getInfo'
-  }
+    $route: "getInfo",
+  },
 };
 </script>
 

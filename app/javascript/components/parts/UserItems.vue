@@ -15,11 +15,11 @@
       </div>
       <div class="user-item">
         <h6>フォロー</h6>
-        <span>0</span>
+        <span>{{ user.follower_count }}</span>
       </div>
       <div class="user-item">
         <h6>フォロワー</h6>
-        <span>0</span>
+        <span>{{ user.followed_count }}</span>
       </div>
     </div>
   </div>

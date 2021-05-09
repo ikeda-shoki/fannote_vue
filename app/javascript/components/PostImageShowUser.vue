@@ -12,9 +12,12 @@
     </div>
 
     <div class="post-image-show-user-middle">
-      <!-- <router-link> -->
-      <button class="button" v-if="!user.current_user">フォローする</button>
-      <!-- </router-link> -->
+      <FollowButton
+        :user="user"
+        :currentUser="currentUser"
+        @follow="follow"
+        @unfollow="unfollow"
+      ></FollowButton>
       <router-link :to="'/users/' + user.id">
         <button class="button">プロフィールへ</button>
       </router-link>
@@ -40,6 +43,7 @@
 <script>
 import UserItems from "./parts/UserItems.vue";
 import CircleImage from "./parts/CircleImage.vue";
+import FollowButton from "./parts/FollowButton.vue";
 
 export default {
   props: {
@@ -49,7 +53,16 @@ export default {
   components: {
     UserItems,
     CircleImage,
+    FollowButton,
   },
+  methods: {
+    follow(value) {
+      this.$emit("follow", value);
+    },
+    unfollow(value) {
+      this.$emit("unfollow", value);
+    }
+  }
 };
 </script>
 
@@ -88,7 +101,7 @@ $danger-color: #e15253;
     border-bottom: 3px dashed;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
 
     .button {
       min-width: auto;
