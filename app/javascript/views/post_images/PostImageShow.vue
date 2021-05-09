@@ -102,6 +102,7 @@ export default {
         .then((response) => {
           this.post_comment.comment = "";
           this.post_comments.unshift(response.data);
+          this.getInfo();
         })
         .catch((error) => {
           console.log(error, response);
