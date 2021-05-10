@@ -5,6 +5,7 @@ import About from "../views/post_images/About.vue";
 import Use from "../views/post_images/Use.vue";
 import Main from "../views/post_images/Main.vue";
 import PostImageShow from "../views/post_images/PostImageShow.vue";
+import UserShow from "../views/users/UserShow.vue";
 
 Vue.use(Router);
 
@@ -29,6 +30,10 @@ const router = new Router({
     {
       path: "/post_images/:id",
       component: PostImageShow,
+    },
+    {
+      path: "/users/:id",
+      component: UserShow,
     },
   ],
 });

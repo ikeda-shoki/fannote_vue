@@ -49,7 +49,10 @@
       </FileForm>
     </div>
     <div class="form-item">
-      <FormButton buttonName="更新する"></FormButton>
+      <div class="post-image-edit-modal-buttons">
+        <FormButton buttonName="更新する"></FormButton>
+        <button class="button" @click="postImageDelete">投稿を削除する</button>
+      </div>
     </div>
   </form>
 </template>
@@ -122,12 +125,25 @@ export default {
           console.log(error, response);
         });
     },
+    postImageDelete() {
+      axios({
+        url: "/api/v1/post_images/" + this.$route.params.id,
+        method: "DELETE",
+      })
+        .then(response => {
+          this.$emit('postImageDeleteSuccess', this.editData.user.id);
+        })
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+$accent-color: #e65b20;
 $back-ground-color: #f7f4f2;
+$font-color: #3e1300;
+$font-white: #fffffe;
+$danger-color: #e15253;
 
 #post-image-edit-modal {
   height: 94%;
@@ -137,6 +153,16 @@ $back-ground-color: #f7f4f2;
 
   .form-item {
     margin-bottom: 20px;
+
+    .post-image-edit-modal-buttons {
+      display: flex;
+      justify-content: center;
+
+      .button {
+        margin-left: 20px;
+        background-color: $danger-color;
+      }
+    }
   }
 }
 </style>

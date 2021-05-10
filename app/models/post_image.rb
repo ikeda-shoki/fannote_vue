@@ -34,6 +34,10 @@ class PostImage < ApplicationRecord
     favorites.where(user_id: user.id).exists?
   end
 
+  def self.following_img(following_user)
+    where(user_id: following_user.pluck(:id)).reverse_order
+  end
+
   private
 
   def create_extension(image)

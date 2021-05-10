@@ -1,10 +1,12 @@
 <template>
   <header>
     <div class="container">
-      <div class="header-left">
-        <img src="~logo.png" />
-        <h1>FanNotes</h1>
-      </div>
+      <router-link :to="'/post_images/main'">
+        <div class="header-left">
+          <img src="~logo.png" />
+          <h1>FanNotes</h1>
+        </div>
+      </router-link>
       <div class="header-right" v-if="userLogIn">
         <div
           class="header-link"
@@ -15,8 +17,9 @@
         >
           <div v-if="logInUserLink.name === 'マイページ'">
             <router-link
-              :to="logInUserLink.path"
-              :class="{ hover: logInUserLink.hover }">
+              :to="'/users/' + currentUser.id"
+              :class="{ hover: logInUserLink.hover }"
+            >
               {{ logInUserLink.name }}
               <i :class="logInUserLink.icon"></i>
             </router-link>
@@ -24,7 +27,8 @@
           <div v-else @click="modalOpen(logInUserLink.name)">
             <router-link
               :to="logInUserLink.path"
-              :class="{ hover: logInUserLink.hover }">
+              :class="{ hover: logInUserLink.hover }"
+            >
               {{ logInUserLink.name }}
               <i :class="logInUserLink.icon"></i>
             </router-link>
@@ -35,7 +39,11 @@
           @mouseover="onAccent(logOut)"
           @mouseleave="outAccent(logOut)"
         >
-          <a href="/users/sign_out" :class="{ hover: logOut.hover }" data-method="delete">
+          <a
+            href="/users/sign_out"
+            :class="{ hover: logOut.hover }"
+            data-method="delete"
+          >
             ログアウト
             <i class="fas fa-sign-out-alt"></i>
           </a>
@@ -93,6 +101,10 @@ export default {
     userLogIn: {
       type: Boolean,
       required: true,
+      default: false,
+    },
+    currentUser: {
+      type: Object,
     },
   },
   data() {
@@ -182,9 +194,9 @@ export default {
       this.isModal = value;
     },
     async screenTransition(value) {
-      await this.modalClose()
-      this.$router.push('/post_images/' + value)
-    }
+      await this.modalClose();
+      this.$router.push("/post_images/" + value);
+    },
   },
   components: {
     Modal,

@@ -1,7 +1,7 @@
 <template>
   <div id="post-image-show-user">
     <div class="post-image-show-user-top">
-      <img src="" alt="" />
+      <CircleImage :image="user.profile_image"></CircleImage>
       <h3 v-if="user.account_name">
         {{ user.account_name }}
       </h3>
@@ -12,8 +12,16 @@
     </div>
 
     <div class="post-image-show-user-middle">
-      <button class="button">フォローする</button>
-      <button class="button">プロフィールへ</button>
+      <FollowButton
+        v-if="!user.current_user_same_as"
+        :user="user"
+        :currentUser="currentUser"
+        @follow="follow"
+        @unfollow="unfollow"
+      ></FollowButton>
+      <router-link :to="'/users/' + user.id">
+        <button class="button">プロフィールへ</button>
+      </router-link>
     </div>
 
     <div class="post-image-show-user-bottom">
@@ -35,14 +43,27 @@
 
 <script>
 import UserItems from "./parts/UserItems.vue";
+import CircleImage from "./parts/CircleImage.vue";
+import FollowButton from "./parts/FollowButton.vue";
 
 export default {
   props: {
     user: { type: Object, required: true },
+    currentUser: { type: Object },
   },
   components: {
     UserItems,
+    CircleImage,
+    FollowButton,
   },
+  methods: {
+    follow(value) {
+      this.$emit("follow", value);
+    },
+    unfollow(value) {
+      this.$emit("unfollow", value);
+    }
+  }
 };
 </script>
 
@@ -63,6 +84,13 @@ $danger-color: #e15253;
     padding-bottom: 30px;
     border-bottom: 3px dashed;
 
+    #circle-image {
+      /deep/ img {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
     h3 {
       margin: 10px 0 30px;
     }
@@ -74,7 +102,11 @@ $danger-color: #e15253;
     border-bottom: 3px dashed;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+
+    #follow-button {
+      margin-right: 10px;
+    }
 
     .button {
       min-width: auto;
@@ -90,6 +122,8 @@ $danger-color: #e15253;
       align-items: center;
       justify-content: space-around;
       flex-wrap: wrap;
+      height: 220px;
+      overflow: scroll;
 
       .post-image-show-profile-image {
         img {
@@ -100,7 +134,6 @@ $danger-color: #e15253;
         }
       }
     }
-
   }
 }
 </style>

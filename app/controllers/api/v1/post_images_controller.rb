@@ -4,11 +4,7 @@ class Api::V1::PostImagesController < ApplicationController
   def show
     @post_image = PostImage.find(params[:id])
     @user = @post_image.user
-    @count = @user.post_images.count
-    @isFavorite = @post_image.favorited_by?(current_user)
-    @favorite_count = @post_image.favorites.count
     @post_comments = @post_image.post_comments.order(id: "DESC")
-    @current_user = @user === current_user
   end
 
   def main
@@ -32,6 +28,15 @@ class Api::V1::PostImagesController < ApplicationController
     if post_image.update(post_image_params)
       post_image.parse_base64(params[:post_image][:image])
       render json: post_image, status: :ok
+    else
+      render json: post_image.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    post_image = PostImage.find(params[:id])
+    if post_image.destroy
+      render json: post_image, staus: :delete
     else
       render json: post_image.errors, status: :unprocessable_entity
     end

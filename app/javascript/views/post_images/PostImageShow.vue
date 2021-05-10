@@ -6,7 +6,8 @@
           :postImage="postImage"
           :user="user"
           @chengeFavorite="chengeFavorite"
-          @update="getInfo">
+          @update="getInfo"
+        >
         </PostImageDetail>
         <form class="post-image-comment" v-on:submit.prevent="postImageComment">
           <CommentForm
@@ -15,13 +16,22 @@
             type="text"
             name="post-image-comment"
             placeholder="コメントを入力できます"
-            ></CommentForm>
+          ></CommentForm>
           <FormButton buttonName="送信"></FormButton>
         </form>
-        <PostImageComments :postComments="post_comments" :userLogIn="userLogIn" @postCommentDelete="postCommentDelete"></PostImageComments>
+        <PostImageComments
+          :postComments="post_comments"
+          :userLogIn="userLogIn"
+          @postCommentDelete="postCommentDelete"
+        ></PostImageComments>
       </div>
       <div class="post-image-show-right">
-        <PostImageShowUser :user="user"></PostImageShowUser>
+        <PostImageShowUser
+          :user="user"
+          :currentUser="currentUser"
+          @follow="followUp"
+          @unfollow="followDown"
+        ></PostImageShowUser>
       </div>
     </div>
   </div>
@@ -29,11 +39,11 @@
 
 <script>
 import axios from "axios";
-import PostImageDetail from '../../components/PostImageDetail.vue'
-import CommentForm from '../../components/form/CommetForm.vue'
-import FormButton from '../../components/form/FormButton.vue'
-import PostImageComments from '../../components/PostImageComments.vue'
-import PostImageShowUser from '../../components/PostImageShowUser.vue'
+import PostImageDetail from "../../components/PostImageDetail.vue";
+import CommentForm from "../../components/form/CommetForm.vue";
+import FormButton from "../../components/form/FormButton.vue";
+import PostImageComments from "../../components/PostImageComments.vue";
+import PostImageShowUser from "../../components/PostImageShowUser.vue";
 
 export default {
   data() {
@@ -47,7 +57,8 @@ export default {
     };
   },
   props: {
-    userLogIn: { type: Boolean }
+    userLogIn: { type: Boolean },
+    currentUser: { type: Object },
   },
   mounted() {
     this.getInfo();
@@ -60,15 +71,15 @@ export default {
     PostImageShowUser,
   },
   methods: {
-    chengeFavorite(value){
-      this.postImage.checkFavorite = value[0];
-      if(value[1] === "up") {
-        this.postImage.favoriteCount += 1;
+    chengeFavorite(value) {
+      this.postImage.check_favorite = value[0];
+      if (value[1] === "up") {
+        this.postImage.favorite_count += 1;
       } else if (value[1] === "down") {
-        this.postImage.favoriteCount -= 1;
+        this.postImage.favorite_count -= 1;
       }
     },
-    getInfo(){
+    getInfo() {
       axios.get("/api/v1/post_images/" + this.$route.params.id).then(
         (response) => {
           this.postImage = response.data.post_image;
@@ -84,20 +95,34 @@ export default {
       axios({
         url: "/api/v1/post_images/" + this.$route.params.id + "/post_comments",
         data: {
-          post_comment: this.post_comment
+          post_comment: this.post_comment,
         },
         method: "POST",
-      }).then(response => {
-        this.post_comment.comment = "";
-        this.post_comments.unshift(response.data);
-      }).catch(error => {
-        console.log(error, response);
       })
+        .then((response) => {
+          this.post_comment.comment = "";
+          this.post_comments.unshift(response.data);
+          this.getInfo();
+        })
+        .catch((error) => {
+          console.log(error, response);
+        });
     },
-    postCommentDelete(value){
+    postCommentDelete(value) {
       this.post_comments = value;
+    },
+    followUp(value) {
+      this.user.followed_count = value;
+      this.user.follower = true;
+    },
+    followDown(value) {
+      this.user.followed_count = value;
+      this.user.follower = false;
     }
-  }
+  },
+  watch: {
+    $route: "getInfo",
+  },
 };
 </script>
 
@@ -114,7 +139,7 @@ $danger-color: #e15253;
   .container {
     display: flex;
   }
-  
+
   .post-image-comment {
     margin: 50px 0;
     background-color: $font-white;

@@ -49,6 +49,7 @@ $font-white: #fffffe;
     a {
       span {
         color: $font-white;
+        font-weight: bold;
       }
     }
 

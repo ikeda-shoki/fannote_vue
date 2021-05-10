@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/post_images/' + id">
+  <router-link :to="'/post_images/' + id" class="post-image">
     <div id="post-image" @mouseover="onImageDetail" @mouseleave="offImageDetail">
       <img :src="image" alt="投稿画像" />
       <div class='post-image-hover' :class="{ 'post-image-detail': isHover }">

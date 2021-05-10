@@ -12,7 +12,7 @@
         :key="postComment.id"
       >
         <div class="post-image-comment-image">
-          <img src="" alt="" />
+          <CircleImage :image="postComment.user.profile_image"></CircleImage>
           <p v-if="postComment.user.account_name">
             {{ postComment.user.account_name }}
           </p>
@@ -32,6 +32,7 @@
 <script>
 import Comment from "../components/parts/Comment.vue";
 import CloseButton from "../components/parts/CloseButton.vue";
+import CircleImage from "./parts/CircleImage.vue"
 import axios from "axios";
 
 export default {
@@ -42,6 +43,7 @@ export default {
   components: {
     Comment,
     CloseButton,
+    CircleImage,
   },
   methods: {
     commentDelete(post_comment_id, index) {
@@ -86,13 +88,29 @@ $danger-color: #e15253;
     align-items: center;
     justify-content: space-between;
 
+    #circle-image {
+      /deep/ img {
+        width: 50px;
+        height: 50px;
+        border: solid 2px $accent-color;
+        padding: 0;
+      }
+    }
+
     .post-image-comment-image {
+      position: relative;
+
       p {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
 	      -webkit-text-overflow: ellipsis;
         font-size: 10px;
+        text-align: center;
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
       }
     }
   }
