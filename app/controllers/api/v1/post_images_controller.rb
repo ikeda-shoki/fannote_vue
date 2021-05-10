@@ -33,6 +33,15 @@ class Api::V1::PostImagesController < ApplicationController
     end
   end
 
+  def destroy
+    post_image = PostImage.find(params[:id])
+    if post_image.destroy
+      render json: post_image, staus: :delete
+    else
+      render json: post_image.errors, status: :unprocessable_entity
+    end
+  end
+
   private
     def post_image_params
       params.require(:post_image).permit(:title, :image_introduction, :image, :post_image_genre)

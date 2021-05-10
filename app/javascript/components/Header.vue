@@ -1,10 +1,12 @@
 <template>
   <header>
     <div class="container">
-      <div class="header-left">
-        <img src="~logo.png" />
-        <h1>FanNotes</h1>
-      </div>
+      <router-link :to="'/post_images/main'">
+        <div class="header-left">
+          <img src="~logo.png" />
+          <h1>FanNotes</h1>
+        </div>
+      </router-link>
       <div class="header-right" v-if="userLogIn">
         <div
           class="header-link"

@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   namespace :api, { format: 'json' } do
     namespace :v1 do
-      resources :post_images, only: [:show, :create, :update] do
+      resources :post_images, only: [:show, :create, :update, :destroy] do
         resource :favorites, only: [:create, :destroy]
         resources :post_comments, only: [:create, :destroy]
         collection do

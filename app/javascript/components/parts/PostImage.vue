@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/post_images/' + id">
+  <router-link :to="'/post_images/' + id" class="post-image">
     <div id="post-image" @mouseover="onImageDetail" @mouseleave="offImageDetail">
       <img :src="image" alt="投稿画像" />
       <div class='post-image-hover' :class="{ 'post-image-detail': isHover }">
@@ -48,7 +48,7 @@ $danger-color: #e15253;
   height: 160px;
   border-radius: 20px;
   background-color: $font-white;
-  margin: 0 10px 30px 10px;
+  margin-bottom: 30px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   text-align: center;
   position: relative;

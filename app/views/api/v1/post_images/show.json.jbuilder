@@ -1,5 +1,8 @@
 json.set! :post_image do
   json.partial! "api/v1/post_images/post_image", post_image: @post_image
+  json.set! :user do
+    json.partial! "api/v1/users/user", user: @user
+  end
 end
 
 json.set! :user do

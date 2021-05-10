@@ -10,6 +10,7 @@
         <PostImageEditModal
           :editData="editData"
           @success="successPostImage"
+          @postImageDeleteSuccess="postImageDeleteSuccess"
         ></PostImageEditModal>
       </div>
       <div class="modal-main" v-if="modalType === 'ユーザーを編集する'">
@@ -55,6 +56,9 @@ export default {
     successUser() {
       this.$emit("modalClose", false);
       this.$emit("successUser");
+    },
+    postImageDeleteSuccess(value) {
+      this.$router.push("/users/" + value);
     }
   },
   components: {

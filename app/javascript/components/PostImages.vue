@@ -18,7 +18,6 @@ import PostImage from "./parts/PostImage.vue";
 
 export default {
   props: {
-    user: { type: Object, required: true, default: {} },
     postImages: { type: Array, required: true, default: [] },
   },
   components: {
@@ -30,5 +29,32 @@ export default {
 <style lang="scss" scoped>
 #post-images {
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  /deep/ .post-image {
+    width: calc(25% - 10px * 3 / 4);
+    margin-left: 10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:nth-child(5n){
+      margin-left: 0;
+    }
+
+    #post-image {
+      width: 100%;
+
+      img {
+        width: 90%;
+      }
+
+      .post-image-hover {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>

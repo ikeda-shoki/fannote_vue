@@ -8,9 +8,10 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @post_images = @user.post_images
+    @post_images = @user.post_images.order(id: "DESC")
     favorites = Favorite.favorite_post_image(@user.id)
-    @my_favorite_images = PostImage.preload(:user).find(favorites.reverse)
+    @favorite_images = PostImage.preload(:user).find(favorites.reverse)
+    @follower_images = PostImage.preload(:user).following_img(@user.following_user)
   end
 
   def update

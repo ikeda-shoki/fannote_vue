@@ -5,7 +5,15 @@
       <div class="user-show-post-images">
         <Title title="投稿一覧"></Title>
         <div class="user-show-post-images-index">
-          <PostImages :user="user" :postImages="postImages"></PostImages>
+          <PostImages :postImages="postImages"></PostImages>
+        </div>
+        <Title title="お気に入りした投稿一覧"></Title>
+        <div class="user-show-post-images-favorite">
+          <PostImages :postImages="favoriteImages"></PostImages>
+        </div>
+        <Title title="フォローユーザーの投稿一覧"></Title>
+        <div class="user-show-post-images-follower">
+          <PostImages :postImages="followerImages"></PostImages>
         </div>
       </div>
     </div>
@@ -23,6 +31,8 @@ export default {
     return {
       user: {},
       postImages: [],
+      favoriteImages: [],
+      followerImages: [],
     };
   },
   methods: {
@@ -31,6 +41,8 @@ export default {
         (response) => {
           this.user = response.data.user;
           this.postImages = response.data.post_images;
+          this.favoriteImages = response.data.favorite_images;
+          this.followerImages = response.data.follower_images;
         },
         (error) => {
           console.log(error, response);
@@ -62,6 +74,7 @@ export default {
 
   #user-show-profile {
     width: 35%;
+    height: 100%;
   }
 
   .user-show-post-images {
@@ -69,13 +82,25 @@ export default {
     margin-left: auto;
     text-align: center;
 
+    #post-images {
+      margin-bottom: 30px;
+    }
+
     /deep/ h2 {
       font-size: 30px;
       font-weight: bold;
     }
 
     &-index {
-      margin-top: 40px;
+      margin-top: 30px;
+    }
+
+    &-favorite {
+      margin-top: 30px;
+    }
+
+    &-follower {
+      margin-top: 30px;
     }
   }
 }
