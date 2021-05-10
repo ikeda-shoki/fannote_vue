@@ -6,8 +6,9 @@ class PostImage < ApplicationRecord
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
-  validates :title, presence: true
-  validates :post_image_genre, presence: true
+  validates :title, presence: { message: "タイトルを入力してください。" }
+  validates :post_image_genre, presence: { message: "ジャンルを選択してください。" }
+  validates :post_image, presence: { message: "画像を選択してください。" }
 
   enum post_image_genre: { イラスト: 0, 写真: 1, ロゴ: 2 }
 
@@ -20,8 +21,8 @@ class PostImage < ApplicationRecord
       File.open("#{Rails.root}/tmp/#{filename}", 'wb') do |f|
         f.write(decoded_data)
       end
+      attach_image(filename)
     end
-    attach_image(filename)
   end
 
   def encode_base64(image_file)

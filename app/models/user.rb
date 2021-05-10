@@ -17,8 +17,8 @@ class User < ApplicationRecord
   has_many :request, class_name: "Request", foreign_key: "requester_id", dependent: :destroy
   has_many :requested, class_name: "Request", foreign_key: "requested_id", dependent: :destroy
 
-  validates :account_name, uniqueness: true
-  validates :user_name, presence: true
+  validates :account_name, uniqueness: { message: "入力されたアカウントネームは使用されています。" }
+  validates :user_name, presence: { message: "名前を入力してください。" }
 
   def follow(user_id)
     follower.create(followed_id: user_id)
