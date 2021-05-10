@@ -48,7 +48,7 @@ $danger-color: #e15253;
   height: 160px;
   border-radius: 20px;
   background-color: $font-white;
-  margin-bottom: 30px;
+  margin: 0 10px 30px 10px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   text-align: center;
   position: relative;

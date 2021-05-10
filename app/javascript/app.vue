@@ -2,7 +2,7 @@
   <div id="app">
     <Header :userLogIn="signIn" :currentUser="currentUser"></Header>
     <transition name="fade" mode="out-in">
-      <router-view :userLogIn="signIn" :currentUser="currentUser" :key="this.$router.id"></router-view>
+      <router-view :userLogIn="signIn" :currentUser="currentUser" :key="$route.params.id"></router-view>
     </transition>
   </div>
 </template>

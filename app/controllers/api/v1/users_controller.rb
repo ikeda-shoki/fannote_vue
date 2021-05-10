@@ -16,8 +16,13 @@ class Api::V1::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.update(user_params)
-      user.parse_base64(params[:user][:image])
-      render json: user, status: :ok
+      if (params[:user][:image]).present?
+        user.parse_base64(params[:user][:image])
+        render json: user, status: :ok
+      else
+        user.profile_image.purge
+        render json: user, status: :ok
+      end
     else
       render json: user.errors, status: :unprocessable_entity
     end

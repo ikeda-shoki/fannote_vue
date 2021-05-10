@@ -8,8 +8,8 @@
           :id="postImage.id"
           :image="postImage.post_image"
           :title="postImage.title"
-          :userName="postImage.user_name"
-          :accountName="postImage.account_name"></PostImage>
+          :userName="postImage.user.user_name"
+          :accountName="postImage.user.account_name"></PostImage>
       </div>
     </div>
   </div>
@@ -32,9 +32,7 @@ export default {
     getPostImages() {
       axios.get('/api/v1/post_images/main')
         .then(response => {
-          for(let i = 0; i < response.data.post_images.length; i++) {
-            this.postImages.push(response.data.post_images[i]);
-          }
+          this.postImages = response.data.post_images
         }, error => {
           console.log(error, response);
         })

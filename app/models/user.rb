@@ -46,8 +46,8 @@ class User < ApplicationRecord
       File.open("#{Rails.root}/tmp/#{filename}", 'wb') do |f|
         f.write(decoded_data)
       end
+      attach_image(filename)
     end
-    attach_image(filename)
   end
 
   def encode_base64(image_file)
