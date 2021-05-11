@@ -20,6 +20,15 @@
           @success="successUser"
         ></UserEditModal>
       </div>
+      <div class="modal-main" v-if="modalType === 'リクエストを依頼する'">
+        <template v-if="editData.account_name">
+          <ModalHeader :header="editData.account_name + 'へ作品を依頼する'"></ModalHeader>
+        </template>
+        <template v-else>
+          <ModalHeader :header="editData.user_name + 'へ作品を依頼する'"></ModalHeader>
+        </template>
+        <RequestModal></RequestModal>
+      </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
   </div>
@@ -31,6 +40,7 @@ import ModalHeader from "./modal/ModalHeader.vue";
 import CloseButton from "./parts/CloseButton.vue";
 import PostImageEditModal from "./modal/PostImageEditModal.vue";
 import UserEditModal from "./modal/UserEditModal.vue";
+import RequestModal from "./modal/RequestModal.vue";
 
 export default {
   props: {
@@ -67,6 +77,7 @@ export default {
     ModalHeader,
     CloseButton,
     UserEditModal,
+    RequestModal,
   },
 };
 </script>
