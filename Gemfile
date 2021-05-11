@@ -63,3 +63,5 @@ gem 'pry-byebug'
 gem 'faker'
 gem "bullet"
 gem 'rails-i18n'
+
+gem 'activestorage-validator'

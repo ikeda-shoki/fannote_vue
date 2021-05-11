@@ -23,7 +23,7 @@ import FormName from "./FormName.vue"
 
 export default {
   props: {
-    value: { type: String, required: true, default: "" },
+    value: { required: true },
     id: { type: String, required: true },
     type: { type: String, required: true },
     name: { type: String, required: true },

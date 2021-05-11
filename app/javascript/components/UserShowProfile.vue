@@ -14,23 +14,25 @@
     <div
       class="user-show-profile-edit-button"
       v-if="user.current_user_same_as"
-      @click="modalOpen"
+      @click="modalOpenUserEdit"
     >
       <p class="button">編集する</p>
     </div>
 
-    <template v-if="user.is_reception">
-      <Button>
-        <a href="/" class="top-button" @click.prevent="modalOpen">
-          <span>作品を依頼する</span>
-        </a>
-      </Button>
-    </template>
-    <template v-else>
-      <p>依頼不可</p>
-    </template>
+    <div class="user-show-request_button" v-if="!user.current_user_same_as">
+      <template v-if="user.is_reception">
+        <Button>
+          <a href="" class="top-button" @click.prevent="modalOpenRequest">
+            <span>作品を依頼する</span>
+          </a>
+        </Button>
+      </template>
+      <template v-else>
+        <p>依頼不可</p>
+      </template>
+    </div>
 
-    <div class="user-show-profile-request-buttons">
+    <div class="user-show-profile-request-buttons" v-if="user.current_user_same_as">
       <button class="button">依頼された内容</button>
       <button class="button">依頼した内容</button>
     </div>
@@ -40,7 +42,7 @@
         v-if="isModal ? true : false"
         :isShow="isModal"
         :editData="user"
-        modalType="ユーザーを編集する"
+        :modalType="modalType"
         @modalClose="modalClose"
         @successUser="successUser"
       ></Modal>
@@ -70,11 +72,17 @@ export default {
   data() {
     return {
       isModal: false,
+      modalType: ""
     };
   },
   methods: {
-    modalOpen() {
+    modalOpenUserEdit() {
       this.isModal = true;
+      this.modalType = "ユーザーを編集する"
+    },
+    modalOpenRequest() {
+      this.isModal = true;
+      this.modalType = "リクエストを依頼する"
     },
     modalClose(value) {
       this.isModal = value;

@@ -1,68 +1,83 @@
 <template>
   <form id="post-image-edit-modal" @submit.prevent="editPostImage">
-    <div class="form-item">
-      <TextForm
-        v-model="postImage.title"
-        id="post-image-title-edit"
-        type="text"
-        name="post-image-title"
-        :required="true"
-        labelName="タイトル"
-        ref= "title"
-      >
-        例)鋼の錬金術師 エドワードエルリック
-      </TextForm>
-    </div>
-    <div class="form-item">
-      <TextArea
-        v-model="postImage.image_introduction"
-        id="post-image-introduction-edit"
-        type="text"
-        name="post-image-introduction"
-        :required="false"
-        labelName="作品詳細"
-      >
-        例)#ハガレン #漫画 鋼の錬金術師の主人公
-      </TextArea>
-    </div>
-    <div class="form-item">
-      <RadioButton
-        name="post-image-genre"
-        :options="options"
-        :required="true"
-        :checkedValue="postImage.post_image_genre"
-        labelName="ジャンル"
-        @input="postImage.post_image_genre = $event"
-      >
-      </RadioButton>
-    </div>
-    <div class="form-item">
-      <FileForm
-        id="post-image-edit"
-        name="post-image"
-        :required="true"
-        :image="postImage.image"
-        labelName="作品ファイル"
-        @imageDelete="imageDelete"
-        @input="onFileChange"
-      >
-      </FileForm>
-    </div>
-    <div class="form-item">
-      <div class="post-image-edit-modal-buttons">
-        <FormButton buttonName="更新する"></FormButton>
-        <button class="button" @click="postImageDelete">投稿を削除する</button>
+    <transition-group name="fade-list">
+      <p v-if="errors" class="error" key="error">入力内容を確認してください</p>
+      <div class="form-item" key="form-text">
+        <TextForm
+          v-model="postImage.title"
+          id="post-image-title-edit"
+          type="text"
+          name="post-image-title"
+          :required="true"
+          labelName="タイトル"
+          ref= "title"
+        >
+          例)鋼の錬金術師 エドワードエルリック
+        </TextForm>
+        <ErrorMessage
+          v-if="errorMessage.title"
+          :message="errorMessage.title"
+        ></ErrorMessage>
       </div>
-    </div>
+      <div class="form-item" key="form-textarea">
+        <TextArea
+          v-model="postImage.image_introduction"
+          id="post-image-introduction-edit"
+          type="text"
+          name="post-image-introduction"
+          :required="false"
+          labelName="作品詳細"
+        >
+          例)#ハガレン #漫画 鋼の錬金術師の主人公
+        </TextArea>
+      </div>
+      <div class="form-item" key="form-radio-button">
+        <RadioButton
+          name="post-image-genre"
+          :options="options"
+          :required="true"
+          :checkedValue="postImage.post_image_genre"
+          labelName="ジャンル"
+          @input="postImage.post_image_genre = $event"
+        >
+        </RadioButton>
+        <ErrorMessage
+          v-if="errorMessage.post_image_genre"
+          :message="errorMessage.post_image_genre"
+        ></ErrorMessage>
+      </div>
+      <div class="form-item" key="form-file">
+        <FileForm
+          id="post-image-edit"
+          name="post-image"
+          :required="true"
+          :image="postImage.image"
+          labelName="作品ファイル"
+          @imageDelete="imageDelete"
+          @input="onFileChange"
+        >
+          <img :src="editData.post_image" alt="投稿した画像" />
+          <p>※投稿する画像は編集することは出来ません</p>
+        </FileForm>
+      </div>
+      <div class="form-item" key="form-button">
+        <div class="post-image-edit-modal-buttons">
+          <FormButton buttonName="更新する"></FormButton>
+          <button class="button" @click="postImageDelete">投稿を削除する</button>
+        </div>
+      </div>
+    </transition-group>
   </form>
 </template>
 
 <script>
+import FormName from "../form/FormName.vue"
 import TextForm from "../form/TextForm.vue";
 import TextArea from "../form/TextArea.vue";
 import RadioButton from "../form/RadioButton.vue";
 import FileForm from "../form/FileForm.vue";
 import FormButton from "../form/FormButton.vue";
+import ErrorMessage from "../form/ErrorMessage.vue";
 import axios from "axios";
 
 export default {
@@ -72,6 +87,7 @@ export default {
     RadioButton,
     FileForm,
     FormButton,
+    ErrorMessage,
   },
   data() {
     return {
@@ -95,6 +111,8 @@ export default {
         image: this.editData.post_image,
         post_image_genre: this.editData.post_image_genre,
       },
+      errors: false,
+      errorMessage: {},
     };
   },
   props: {
@@ -110,6 +128,13 @@ export default {
     imageDelete(value) {
       this.postImage.image = value;
     },
+    scrollTop() {
+      var modalTop = document.getElementById('post-image-edit-modal');
+      modalTop.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    },
     editPostImage() {
       axios({
         url: "/api/v1/post_images/" + this.$route.params.id,
@@ -122,7 +147,11 @@ export default {
           this.$emit("success");
         })
         .catch((error) => {
-          console.log(error, response);
+          this.errorMessage = error.response.data;
+          this.errors = true;
+          setTimeout(() => {
+            this.scrollTop();
+          }, 500)
         });
     },
     postImageDelete() {
@@ -163,6 +192,40 @@ $danger-color: #e15253;
         background-color: $danger-color;
       }
     }
+  }
+
+  #file-form {
+    /deep/ .form-file {
+      display: none;
+    }
+
+    /deep/ #close-button {
+      display: none;
+    }
+
+    p {
+      font-size: 14px;
+      opacity: 0.7;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  #error-message {
+    width: 65%;
+    margin: 20px 0 30px auto;
+  }
+
+  .error {
+    font-weight: bold;
+    font-size: 20px;
+    color: $danger-color;
+    margin-bottom: 40px;
   }
 }
 </style>
