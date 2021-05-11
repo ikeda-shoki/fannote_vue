@@ -56,11 +56,9 @@
           @imageDelete="imageDelete"
           @input="onFileChange"
         >
+          <img :src="editData.post_image" alt="投稿した画像" />
+          <p>※投稿する画像は編集することは出来ません</p>
         </FileForm>
-        <ErrorMessage
-          v-if="errorMessage.post_image"
-          :message="errorMessage.post_image"
-        ></ErrorMessage>
       </div>
       <div class="form-item" key="form-button">
         <div class="post-image-edit-modal-buttons">
@@ -73,6 +71,7 @@
 </template>
 
 <script>
+import FormName from "../form/FormName.vue"
 import TextForm from "../form/TextForm.vue";
 import TextArea from "../form/TextArea.vue";
 import RadioButton from "../form/RadioButton.vue";
@@ -129,6 +128,13 @@ export default {
     imageDelete(value) {
       this.postImage.image = value;
     },
+    scrollTop() {
+      var modalTop = document.getElementById('post-image-edit-modal');
+      modalTop.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    },
     editPostImage() {
       axios({
         url: "/api/v1/post_images/" + this.$route.params.id,
@@ -143,6 +149,9 @@ export default {
         .catch((error) => {
           this.errorMessage = error.response.data;
           this.errors = true;
+          setTimeout(() => {
+            this.scrollTop();
+          }, 500)
         });
     },
     postImageDelete() {
@@ -182,6 +191,28 @@ $danger-color: #e15253;
         margin-left: 20px;
         background-color: $danger-color;
       }
+    }
+  }
+
+  #file-form {
+    /deep/ .form-file {
+      display: none;
+    }
+
+    /deep/ #close-button {
+      display: none;
+    }
+
+    p {
+      font-size: 14px;
+      opacity: 0.7;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
     }
   }
 

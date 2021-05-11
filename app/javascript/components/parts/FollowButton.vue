@@ -24,7 +24,7 @@ export default {
   methods: {
     follow() {
       axios({
-        url: "/api/v1/follow/" + this.$route.params.id,
+        url: "/api/v1/follow/" + this.user.id,
         method: "POST",
       })
         .then((response) => {
@@ -36,7 +36,7 @@ export default {
     },
     unfollow() {
       axios({
-        url: "/api/v1/follow/" + this.$route.params.id,
+        url: "/api/v1/follow/" + this.user.id,
         method: "DELETE",
       })
         .then((response) => {

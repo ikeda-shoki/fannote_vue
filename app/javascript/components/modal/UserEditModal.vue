@@ -137,6 +137,13 @@ export default {
     imageDelete(value) {
       this.user.image = value;
     },
+    scrollTop() {
+      var modalTop = document.getElementById('user-edit-modal');
+      modalTop.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    },
     editUser() {
       axios({
         url: "/api/v1/users/" + this.$route.params.id,
@@ -151,6 +158,9 @@ export default {
         .catch((error) => {
           this.errorMessage = error.response.data;
           this.errors = true;
+          setTimeout(() => {
+            this.scrollTop();
+          }, 500)
         });
     }
   }

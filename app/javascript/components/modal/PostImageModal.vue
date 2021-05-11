@@ -118,6 +118,13 @@ export default {
     imageDelete(value) {
       this.postImage.image = value;
     },
+    scrollTop() {
+      var modalTop = document.getElementById('post-image-modal');
+      modalTop.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    },
     postPostImage() {
       axios({
         url: "/api/v1/post_images",
@@ -137,6 +144,9 @@ export default {
         .catch((error) => {
           this.errorMessage = error.response.data;
           this.errors = true;
+          setTimeout(() => {
+            this.scrollTop();
+          }, 500)
         });
     },
   },
