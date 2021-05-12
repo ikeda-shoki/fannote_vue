@@ -1,20 +1,17 @@
 <template>
   <div id="user-show">
-    <div class="container">
-      <UserShowProfile :user="user" @userUpdate="getInfo"></UserShowProfile>
-      <div class="user-show-post-images">
-        <Title title="投稿一覧"></Title>
-        <div class="user-show-post-images-index">
-          <PostImages :postImages="postImages"></PostImages>
-        </div>
-        <Title title="お気に入りした投稿一覧"></Title>
-        <div class="user-show-post-images-favorite">
-          <PostImages :postImages="favoriteImages"></PostImages>
-        </div>
-        <Title title="フォローユーザーの投稿一覧"></Title>
-        <div class="user-show-post-images-follower">
-          <PostImages :postImages="followerImages"></PostImages>
-        </div>
+    <div class="user-show-post-images">
+      <Title title="投稿一覧"></Title>
+      <div class="user-show-post-images-index">
+        <PostImages :postImages="postImages"></PostImages>
+      </div>
+      <Title title="お気に入りした投稿一覧"></Title>
+      <div class="user-show-post-images-favorite">
+        <PostImages :postImages="favoriteImages"></PostImages>
+      </div>
+      <Title title="フォローユーザーの投稿一覧"></Title>
+      <div class="user-show-post-images-follower">
+        <PostImages :postImages="followerImages"></PostImages>
       </div>
     </div>
   </div>
@@ -29,17 +26,18 @@ import Title from "../../components/parts/Title.vue";
 export default {
   data() {
     return {
-      user: {},
       postImages: [],
       favoriteImages: [],
       followerImages: [],
     };
   },
+  props: {
+    user: { type: Object, required: true }
+  },
   methods: {
     getInfo() {
       axios.get("/api/v1/users/" + this.$route.params.id).then(
         (response) => {
-          this.user = response.data.user;
           this.postImages = response.data.post_images;
           this.favoriteImages = response.data.favorite_images;
           this.followerImages = response.data.follower_images;
@@ -54,34 +52,15 @@ export default {
     this.getInfo();
   },
   components: {
-    UserShowProfile,
     PostImages,
     Title,
-  },
-  watch: {
-    $route: "getInfo",
   },
 };
 </script>
 
 <style lang="scss" scoped>
 #user-show {
-  margin-top: 80px;
-
-  .container {
-    display: flex;
-  }
-
-  #user-show-profile {
-    width: 35%;
-    height: 100%;
-  }
-
   .user-show-post-images {
-    width: 60%;
-    margin-left: auto;
-    text-align: center;
-
     #post-images {
       margin-bottom: 30px;
     }

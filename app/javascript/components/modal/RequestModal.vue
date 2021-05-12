@@ -56,7 +56,7 @@
         >
           例)SNSのアイコン用、自作のHP用の素材etc...
         </TextArea>
-        <ErrorMessage v-if="request.use" :message="request.use"></ErrorMessage>
+        <ErrorMessage v-if="errorMessage.use" :message="errorMessage.use"></ErrorMessage>
       </div>
       <div class="form-item" key="form-amount">
         <TextForm
@@ -123,14 +123,11 @@ export default {
       errors: false,
       errorMessage: {},
       request: {
-        requester_id: "",
-        requested_id: "",
         request_introduction: "",
         file_format: "",
         use: "",
         deadline: "",
         amount: 1,
-        request_status: "",
         image: "",
       },
       options: [
@@ -152,8 +149,42 @@ export default {
     imageDelete(value) {
       this.request.image = value;
     },
+    scrollTop() {
+      var modalTop = document.getElementById('request-modal');
+      modalTop.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    },
+    createRequest() {
+      axios({
+        url: "/api/v1/users/" + this.user.id + "/requests",
+        data: {
+          request: this.request,
+        },
+        method: "POST",
+      })
+        .then((response) => {
+          (this.request.request_introduction = ""),
+          (this.request.file_format = ""),
+          (this.request.image = ""),
+          (this.request.use = ""),
+          (this.request.amount = ""),
+          (this.request.deadline = ""),
+          this.$emit("success");
+        })
+        .catch((error) => {
+          this.errorMessage = error.response.data;
+          this.errors = true;
+          setTimeout(() => {
+            this.scrollTop();
+          }, 500)
+        });
+    },
   },
-  props: {},
+  props: {
+    user: { type: Object, required: true }
+  }
 };
 </script>
 

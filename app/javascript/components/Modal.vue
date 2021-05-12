@@ -27,7 +27,7 @@
         <template v-else>
           <ModalHeader :header="editData.user_name + 'へ作品を依頼する'"></ModalHeader>
         </template>
-        <RequestModal></RequestModal>
+        <RequestModal :user="editData" @success="successRequest"></RequestModal>
       </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
@@ -69,6 +69,9 @@ export default {
     },
     postImageDeleteSuccess(value) {
       this.$router.push("/users/" + value);
+    },
+    successRequest() {
+      this.$emit("screenTransition");
     }
   },
   components: {
