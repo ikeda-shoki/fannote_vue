@@ -45,7 +45,7 @@
         <template v-else>
           <ModalHeader :header="editData.requested_user.user_name + 'への依頼を編集する'"></ModalHeader>
         </template>
-        
+        <RequestEditModal></RequestEditModal>
       </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
@@ -60,6 +60,7 @@ import PostImageEditModal from "./modal/PostImageEditModal.vue";
 import UserEditModal from "./modal/UserEditModal.vue";
 import RequestModal from "./modal/RequestModal.vue";
 import RequestDetailModal from "./modal/RequestDetailModal.vue"
+import RequestEditModal from "./modal/RequestEditModal.vue"
 
 export default {
   props: {
@@ -104,6 +105,7 @@ export default {
     UserEditModal,
     RequestModal,
     RequestDetailModal,
+    RequestEditModal,
   },
 };
 </script>

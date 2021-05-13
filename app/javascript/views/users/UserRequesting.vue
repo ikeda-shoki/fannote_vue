@@ -12,9 +12,9 @@
         v-if="isModal ? true : false"
         :isShow="isModal"
         :editData="request"
-        modalType="リクエスト詳細"
+        :modalType="modalType"
         @modalClose="modalClose"
-        @requestModalChenge="modalType = 'リクエストを編集する'"
+        @requestModalChenge="modalType = 'リクエストを編集'"
       ></Modal>
     </transition>
   </div>
@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       isModal: false,
+      modalType: "",
       requests: [],
       request: {},
     }
@@ -56,6 +57,7 @@ export default {
     modalOpen(value) {
       this.isModal = true;
       this.request = value;
+      this.modalType = "リクエスト詳細"
     },
     modalClose() {
       this.isModal = false;
