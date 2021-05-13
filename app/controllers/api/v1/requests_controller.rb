@@ -17,7 +17,7 @@ class Api::V1::RequestsController < ApplicationController
 
   # 自分の依頼一覧画面
   def requesting
-    @requests = current_user.request.preload(:requested)
+    @requests = @user.request.preload(:requested)
   end
 
   # 自分に来ている依頼
@@ -124,7 +124,7 @@ class Api::V1::RequestsController < ApplicationController
   end
 
   def ensure_request_current_user
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find(params[:id])
     unless @user === current_user
       redirect_to main_post_images_path, alert: '注文一覧ページへは本人以外接続することはできません'
     end

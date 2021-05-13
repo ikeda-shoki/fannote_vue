@@ -29,6 +29,24 @@
         </template>
         <RequestModal :user="editData" @success="successRequest"></RequestModal>
       </div>
+      <div class="modal-main" v-if="modalType === 'リクエスト詳細'">
+        <template v-if="editData.requested_user.account_name">
+          <ModalHeader :header="editData.requested_user.account_name + 'への依頼'"></ModalHeader>
+        </template>
+        <template v-else>
+          <ModalHeader :header="editData.requested_user.user_name + 'への依頼'"></ModalHeader>
+        </template>
+        <RequestDetailModal :request="editData" @modalChenge="requestModalChenge"></RequestDetailModal>
+      </div>
+      <div class="modal-main" v-if="modalType === 'リクエストを編集'">
+        <template v-if="editData.requested_user.account_name">
+          <ModalHeader :header="editData.requested_user.account_name + 'への依頼を編集する'"></ModalHeader>
+        </template>
+        <template v-else>
+          <ModalHeader :header="editData.requested_user.user_name + 'への依頼を編集する'"></ModalHeader>
+        </template>
+        
+      </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
   </div>
@@ -41,6 +59,7 @@ import CloseButton from "./parts/CloseButton.vue";
 import PostImageEditModal from "./modal/PostImageEditModal.vue";
 import UserEditModal from "./modal/UserEditModal.vue";
 import RequestModal from "./modal/RequestModal.vue";
+import RequestDetailModal from "./modal/RequestDetailModal.vue"
 
 export default {
   props: {
@@ -72,6 +91,9 @@ export default {
     },
     successRequest() {
       this.$emit("screenTransition");
+    },
+    requestModalChenge() {
+      this.$emit("requestModalChenge");
     }
   },
   components: {
@@ -81,6 +103,7 @@ export default {
     CloseButton,
     UserEditModal,
     RequestModal,
+    RequestDetailModal,
   },
 };
 </script>
