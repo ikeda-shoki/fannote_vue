@@ -14,7 +14,7 @@
         <p>依頼日</p>
         <h5>{{ request.created_at }}</h5>
         <p>納期</p>
-        <h5>{{ request.deadline }}</h5>
+        <h5>{{ request.vue_deadline }}</h5>
       </div>
     </div>
     <div class="request-item-status">

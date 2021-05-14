@@ -7,7 +7,7 @@
         </div>
         <div class="request-detail-modal-right">
           <template v-if="requestContent.title === '参考画像'">
-            <img :src="requestContent.content" alt="参考画像" v-if="requestContent.reference_image">
+            <img :src="requestContent.content" alt="参考画像" v-if="requestContent.content">
             <img src="~no_image.jpg" alt="NoImage" v-else />
           </template>
           <template v-else-if="requestContent.title === '受付状況'">
@@ -18,7 +18,7 @@
       </div>
       <div class="request-detail-modal-buttons">
         <button class="button" @click="modalChenge">依頼を変更する</button>
-        <button class="button">依頼を削除する</button>
+        <button class="button" @click="requestDelete">依頼を削除する</button>
       </div>
     </div>
   </div>
@@ -26,7 +26,8 @@
 
 <script>
 import "no_image.jpg";
-import RequestStatus from "../parts/RequestStatus.vue"
+import axios from "axios";
+import RequestStatus from "../parts/RequestStatus.vue";
 
 export default {
   props: {
@@ -40,7 +41,7 @@ export default {
         { title: "ファイル形式", content: this.request.file_format },
         { title: "用途", content: this.request.use },
         { title: "枚数", content: this.request.amount + '枚' },
-        { title: "納期", content: this.request.deadline },
+        { title: "納期", content: this.request.vue_deadline },
         { title: "受付状況", content: this.request.request_status },
       ]
     }
@@ -51,6 +52,18 @@ export default {
   methods: {
     modalChenge() {
       this.$emit("modalChenge");
+    },
+    requestDelete() {
+      axios({
+        url: "/api/v1/users/" + this.$route.params.id + "/requests/" + this.request.id,
+        method: "DELETE",
+      })
+        .then((response) => {
+          this.$emit("success");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 }

@@ -36,16 +36,16 @@
         <template v-else>
           <ModalHeader :header="editData.requested_user.user_name + 'への依頼'"></ModalHeader>
         </template>
-        <RequestDetailModal :request="editData" @modalChenge="requestModalChenge"></RequestDetailModal>
+        <RequestDetailModal :request="editData" @modalChenge="requestModalChenge" @success="requestDelete"></RequestDetailModal>
       </div>
       <div class="modal-main" v-if="modalType === 'リクエストを編集'">
         <template v-if="editData.requested_user.account_name">
-          <ModalHeader :header="editData.requested_user.account_name + 'への依頼を編集する'"></ModalHeader>
+          <ModalHeader :header="editData.requested_user.account_name + 'への依頼を変更する'"></ModalHeader>
         </template>
         <template v-else>
-          <ModalHeader :header="editData.requested_user.user_name + 'への依頼を編集する'"></ModalHeader>
+          <ModalHeader :header="editData.requested_user.user_name + 'への依頼を変更する'"></ModalHeader>
         </template>
-        <RequestEditModal></RequestEditModal>
+        <RequestEditModal :editData="editData" @success="successRequestUpdate"></RequestEditModal>
       </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
@@ -74,6 +74,7 @@ export default {
     editData: {
       type: Object,
     },
+    index: { type: Number }
   },
   methods: {
     modalClose() {
@@ -95,6 +96,12 @@ export default {
     },
     requestModalChenge() {
       this.$emit("requestModalChenge");
+    },
+    successRequestUpdate(value) {
+      this.$emit("successRequestUpdate", value);
+    },
+    requestDelete() {
+      this.$emit("requestDelete", this.index);
     }
   },
   components: {

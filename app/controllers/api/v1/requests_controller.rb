@@ -5,14 +5,13 @@ class Api::V1::RequestsController < ApplicationController
     :requested_show,
     :request_done,
     :request_complete,
-    :edit,
     :update,
     :update_request_status,
     :update_request_complete_image,
     :destroy,
   ]
   before_action :ensure_request_current_user, only: [:requesting, :requested]
-  before_action :ensure_request_requester, only: [:edit, :update, :destroy, :request_complete]
+  before_action :ensure_request_requester, only: [:update, :destroy, :request_complete]
   before_action :ensure_request_requested, only: [:update_request_status, :update_request_complete_image, :request_done]
 
   # 自分の依頼一覧画面
@@ -23,14 +22,6 @@ class Api::V1::RequestsController < ApplicationController
   # 自分に来ている依頼
   def requested
     @requests =current_user.requested.preload(:requester)
-  end
-
-  # 自分の依頼詳細画面
-  def requesting_show
-  end
-
-  # 自分に来ている依頼詳細画面
-  def requested_show
   end
 
   # 依頼終了画面
@@ -44,7 +35,7 @@ class Api::V1::RequestsController < ApplicationController
   def create
     user = User.find(params[:user_id])
     request = Request.new(request_params)
-    if (params[:image]).present?
+    if (params[:request][:image]).present?
       request.parse_base64(params[:request][:image])
     end
     request.requested_id = user.id
@@ -56,14 +47,34 @@ class Api::V1::RequestsController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def update
-    if @request.update(request_params)
-      redirect_to user_requesting_show_path(user_id: @request.requested.id, id: @request), notice: "依頼ステータスを変更しました"
+    if @request.reference_image.attached?
+      # 画像が登録されている場合
+      if @request.update(request_params)
+        if (params[:request][:image]).present?
+          @request.parse_base64(params[:request][:image])
+          image = @request.encode_base64(@request.reference_image)
+          render json: { request: @request, reference_image: image }, status: :ok
+        else
+          @request.reference_image.purge
+          render json: @request, status: :ok
+        end
+      else
+        render json: @request.errors, status: :unprocessable_entity
+      end
     else
-      render 'edit'
+      # 画像が登録されていない場合
+      if @request.update(request_params)
+        if (params[:request][:image]).present?
+          @request.parse_base64(params[:request][:image])
+          image = @request.encode_base64(@request.reference_image)
+          render json: { request: @request, reference_image: image }, status: :ok
+        else
+          render json: @request, status: :ok
+        end
+      else
+        render json: @request.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -92,8 +103,11 @@ class Api::V1::RequestsController < ApplicationController
   end
 
   def destroy
-    @request.destroy
-    redirect_to user_requesting_path(current_user), alert: "依頼が削除されました"
+    if @request.destroy
+      head :no_content
+    else
+      render json: @request.errors, status: :unprocessable_entity
+    end
   end
 
   private

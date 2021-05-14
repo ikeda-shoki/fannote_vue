@@ -4,8 +4,8 @@
       <Title title="依頼中の内容一覧"></Title>
       <span>全{{ requests.length }}件</span>
     </div>
-    <div class="user-requesting-items" v-for="request in requests" :key="request.id">
-      <RequestItem :user="request.requested_user" :request="request" @click.native="modalOpen(request)"></RequestItem>
+    <div class="user-requesting-items" v-for="(request, index) in requests" :key="request.id">
+      <RequestItem :user="request.requested_user" :request="request" @click.native="modalOpen(request, index)"></RequestItem>
     </div>
     <transition name="fade">
       <Modal
@@ -13,8 +13,11 @@
         :isShow="isModal"
         :editData="request"
         :modalType="modalType"
+        :index="index"
         @modalClose="modalClose"
         @requestModalChenge="modalType = 'リクエストを編集'"
+        @successRequestUpdate="successRequestUpdate"
+        @requestDelete="requestDelete"
       ></Modal>
     </transition>
   </div>
@@ -33,6 +36,7 @@ export default {
       modalType: "",
       requests: [],
       request: {},
+      index: 0,
     }
   },
   components: {
@@ -54,14 +58,29 @@ export default {
         }
       );
     },
-    modalOpen(value) {
+    modalOpen(value, index) {
       this.isModal = true;
       this.request = value;
+      this.index = index;
       this.modalType = "リクエスト詳細"
     },
     modalClose() {
       this.isModal = false;
       this.request = {};
+    },
+    successRequestUpdate(value) {
+      this.request.request_introduction = value.request.request_introduction
+      this.request.use = value.request.use
+      this.request.file_format = value.request.file_format
+      this.request.deadline = value.request.deadline
+      this.request.amount = value.request.amount
+      this.request.reference_image = value.reference_image
+      this.modalType = "リクエスト詳細"
+    },
+    requestDelete(index) {
+      this.modalClose();
+      this.requests.splice(index, 1);
+      this.index = 0;
     }
   },
   created() {

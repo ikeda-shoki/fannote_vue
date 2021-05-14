@@ -9,10 +9,10 @@ class Request < ApplicationRecord
   enum file_format: { jpeg: 1, png: 2 }
   enum request_status: { 未受付: 0, 受付不可: 1, 製作中: 2, 製作完了: 3 }
 
-  validates :request_introduction, presence: true
-  validates :file_format, presence: true
-  validates :use, presence: true
-  validates :deadline, presence: true
+  validates :request_introduction, presence: { message: "依頼内容は必ず入力してください"}
+  validates :file_format, presence: { message: "ファイル形式は必ず選択してください"}
+  validates :use, presence: { message: "用途は必ず入力してください"}
+  validates :deadline, presence: { message: "締め切りは必ず入力してください"}
   validates :amount, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 99 }, presence: true
   validates :request_status, presence: true
   # validates :request_images_complete_images, presence: true, on: :update_complete_image
@@ -21,7 +21,7 @@ class Request < ApplicationRecord
   def deadline_limit
     if deadline.present?
       if deadline < Time.now || deadline < Time.current.since(2.days)
-        errors.add(:deadline, 'は、最短で本日から3日後で設定してください')
+        errors.add(:deadline, '締切日は、最短で本日から3日後で設定してください')
       end
     end
   end
@@ -65,7 +65,7 @@ class Request < ApplicationRecord
   end
 
   def attach_image(filename)
-    post_image.attach(io: File.open("#{Rails.root}/tmp/#{filename}"), filename: filename)
+    reference_image.attach(io: File.open("#{Rails.root}/tmp/#{filename}"), filename: filename)
     FileUtils.rm("#{Rails.root}/tmp/#{filename}")
   end
 end
