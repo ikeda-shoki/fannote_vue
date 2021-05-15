@@ -1,14 +1,14 @@
 <template>
   <div id="request-item">
     <div class="request-item-image">
-      <CircleImage :image="request.requested_user.profile_image"></CircleImage>
+      <CircleImage :image="user.profile_image"></CircleImage>
     </div>
     <div class="request-item-info">
       <div class="request-item-info-user-name">
-        <h3 v-if="request.requested_user.account_name">
-          <i class="fas fa-user"></i>{{ request.requested_user.account_name }}
+        <h3 v-if="user.account_name">
+          <i class="fas fa-user"></i>{{ user.account_name }}
         </h3>
-        <h3 v-else><i class="fas fa-user"></i>{{ request.requested_user.user_name }}</h3>
+        <h3 v-else><i class="fas fa-user"></i>{{ user.user_name }}</h3>
       </div>
       <div class="request-item-info-date">
         <p>依頼日</p>

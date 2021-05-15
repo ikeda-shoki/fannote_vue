@@ -21,7 +21,7 @@ class Api::V1::RequestsController < ApplicationController
 
   # 自分に来ている依頼
   def requested
-    @requests =current_user.requested.preload(:requester)
+    @requests = @user.requested.preload(:requester)
   end
 
   # 依頼終了画面
@@ -81,10 +81,10 @@ class Api::V1::RequestsController < ApplicationController
   # request_show画面でのrequest_statusのみの更新
   def update_request_status
     if @request.update(request_update_params)
-      @request.create_notification_request_status(current_user)
-      redirect_to user_requested_path(current_user), notice: "製作ステータスを更新しました"
+      # @request.create_notification_request_status(current_user)
+      render json: @request, status: :ok
     else
-      render 'requested_show'
+      render json: @request.errors, status: :unprocessable_entity
     end
   end
 

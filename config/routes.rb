@@ -36,6 +36,7 @@ Rails.application.routes.draw do
           get :main
         end
       end
+
       resources :users, only: [:show, :update] do
         collection do
           get :sign_in
@@ -50,11 +51,13 @@ Rails.application.routes.draw do
           member do
             get :requesting_show
             get :requesting_show
+            patch :update_request_status
             get :request_done
             get :request_complete
           end
         end
       end
+
       post 'follow/:id', to: 'relationships#follow', as: 'follow'
       delete 'follow/:id', to: 'relationships#unfollow', as: 'unfollow'
     end

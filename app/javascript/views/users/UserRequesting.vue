@@ -1,25 +1,49 @@
 <template>
   <div id="user-requesting">
-    <div class="user-requesting-title">
-      <Title title="依頼中の内容一覧"></Title>
-      <span>全{{ requests.length }}件</span>
-    </div>
-    <div class="user-requesting-items" v-for="(request, index) in requests" :key="request.id">
-      <RequestItem :user="request.requested_user" :request="request" @click.native="modalOpen(request, index)"></RequestItem>
-    </div>
-    <transition name="fade">
-      <Modal
-        v-if="isModal ? true : false"
-        :isShow="isModal"
-        :editData="request"
-        :modalType="modalType"
-        :index="index"
-        @modalClose="modalClose"
-        @requestModalChenge="modalType = 'リクエストを編集'"
-        @successRequestUpdate="successRequestUpdate"
-        @requestDelete="requestDelete"
-      ></Modal>
-    </transition>
+    <template v-if="$route.name === 'requesting'">
+      <div class="user-requesting-title">
+        <Title title="依頼中の内容一覧"></Title>
+        <span>全{{ requests.length }}件</span>
+      </div>
+      <div class="user-requesting-items" v-for="(request, index) in requests" :key="request.id">
+        <RequestItem :user="request.requested_user" :request="request" @click.native="modalOpen(request, index)"></RequestItem>
+      </div>
+      <transition name="fade">
+        <Modal
+          v-if="isModal ? true : false"
+          :isShow="isModal"
+          :editData="request"
+          :modalType="modalType"
+          :index="index"
+          @modalClose="modalClose"
+          @requestModalChenge="modalType = 'リクエストを編集'"
+          @successRequestUpdate="successRequestUpdate"
+          @requestDelete="requestDelete"
+        ></Modal>
+      </transition>
+    </template>
+
+    <template v-if="$route.name === 'requested'">
+      <div class="user-requesting-title">
+        <Title title="依頼された内容一覧"></Title>
+        <span>全{{ requests.length }}件</span>
+      </div>
+      <div class="user-requesting-items" v-for="(request, index) in requests" :key="request.id">
+        <RequestItem :user="request.requesting_user" :request="request" @click.native="modalOpen(request, index)"></RequestItem>
+      </div>
+      <transition name="fade">
+        <Modal
+          v-if="isModal ? true : false"
+          :isShow="isModal"
+          :editData="request"
+          :modalType="modalType"
+          :index="index"
+          @modalClose="modalClose"
+          @requestStatusUpdate="requestStatusUpdate"
+        ></Modal>
+      </transition>
+    </template>
+
   </div>
 </template>
 
@@ -48,10 +72,21 @@ export default {
     user: { type: Object, required: true },
   },
   methods: {
-    getInfo() {
+    getInfoRequesting() {
       axios.get("/api/v1/users/" + this.$route.params.id + "/requesting").then(
         (response) => {
           this.requests = response.data.requests;
+        },
+        (error) => {
+          console.log(error, response);
+        }
+      );
+    },
+    getInfoRequested() {
+      axios.get("/api/v1/users/" + this.$route.params.id + "/requested").then(
+        (response) => {
+          this.requests = response.data.requests;
+          console.log(response.data)
         },
         (error) => {
           console.log(error, response);
@@ -81,10 +116,19 @@ export default {
       this.modalClose();
       this.requests.splice(index, 1);
       this.index = 0;
-    }
+    },
+    requestStatusUpdate() {
+      this.modalClose();
+      this.getInfoRequested();
+    },
   },
-  created() {
-    this.getInfo();
+  mounted() {
+    if(this.$route.name === "requesting"){
+      this.getInfoRequesting();
+    }
+    else if(this.$route.name === "requested"){
+      this.getInfoRequested();
+    }
   },
 };
 </script>

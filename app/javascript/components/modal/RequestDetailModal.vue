@@ -16,10 +16,50 @@
           <h5 v-else>{{ requestContent.content }}</h5>
         </div>
       </div>
-      <div class="request-detail-modal-buttons">
-        <button class="button" @click="modalChenge">依頼を変更する</button>
-        <button class="button" @click="requestDelete">依頼を削除する</button>
-      </div>
+
+      <template v-if="$route.name === 'requesting'">
+        <div class="request-detail-modal-buttons">
+          <button class="button" @click="modalChenge">依頼を変更する</button>
+          <button class="button" @click="requestDelete">依頼を削除する</button>
+        </div>
+      </template>
+
+      <template v-if="$route.name === 'requested'">
+        <template v-if="request.request_status === '未受付'">
+          <div class="request-detail-modal-radiobutton">
+            <RadioButton
+              name="request-status-edit"
+              :options="options"
+              :required="false"
+              :checkedValue="requestStatus"
+              labelName="製作ステータス"
+              @input="requestStatus = $event"
+            >
+            </RadioButton>
+            <ErrorMessage
+              v-if="errorMessage.request_status"
+              :message="errorMessage.request_status"
+            ></ErrorMessage>
+          </div>
+          <div class="request-detail-modal-submitbutton">
+            <FormButton buttonName="登録する" @click.native="requestStatusUpdate"></FormButton>
+          </div>
+        </template>
+        <template v-if="request.request_status === '受付中'">
+          <div class="request-detail-modal-file">
+            <FileForm
+              id="request-images"
+              name="request-images"
+              :required="true"
+              :image="request_images"
+              labelName="完成したイラスト"
+              @imageDelete="imageDelete"
+              @input="onFileChange"
+            >
+            </FileForm>
+          </div>
+        </template>
+      </template>
     </div>
   </div>
 </template>
@@ -28,6 +68,9 @@
 import "no_image.jpg";
 import axios from "axios";
 import RequestStatus from "../parts/RequestStatus.vue";
+import RadioButton from "../form/RadioButton.vue";
+import FormButton from "../form/FormButton.vue";
+import FileForm from "../form/FileForm.vue";
 
 export default {
   props: {
@@ -43,11 +86,28 @@ export default {
         { title: "枚数", content: this.request.amount + '枚' },
         { title: "納期", content: this.request.vue_deadline },
         { title: "受付状況", content: this.request.request_status },
-      ]
+      ],
+      requestStatus: this.request.request_status,
+      request_images: [],
+      options: [
+        {
+          label: "製作する",
+          value: "製作中",
+        },
+        {
+          label: "製作しない",
+          value: "受付不可",
+        },
+      ],
+      errors: false,
+      errorMessage: {},
     }
   },
   components: {
     RequestStatus,
+    RadioButton,
+    FormButton,
+    FileForm,
   },
   methods: {
     modalChenge() {
@@ -59,7 +119,22 @@ export default {
         method: "DELETE",
       })
         .then((response) => {
-          this.$emit("success");
+          this.$emit("successDelete");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    requestStatusUpdate(){
+      axios({
+        url: "/api/v1/users/" + this.$route.params.id + "/requests/" + this.request.id + "/update_request_status",
+        data: {
+          request_status: this.requestStatus
+        },
+        method: "PATCH",
+      })
+        .then((response) => {
+          this.$emit("successRequestStatusUpdate");
         })
         .catch((error) => {
           console.log(error);
@@ -115,6 +190,10 @@ $danger-color: #e15253;
       font-size: 25px;
       font-weight: bold;
     }
+  }
+
+  .request-detail-modal-radiobutton {
+    margin: 60px 0 10px 0;
   }
 }
 </style>

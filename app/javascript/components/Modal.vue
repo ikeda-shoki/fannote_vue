@@ -22,30 +22,66 @@
       </div>
       <div class="modal-main" v-if="modalType === 'リクエストを依頼する'">
         <template v-if="editData.account_name">
-          <ModalHeader :header="editData.account_name + 'へ作品を依頼する'"></ModalHeader>
+          <ModalHeader
+            :header="editData.account_name + 'へ作品を依頼する'"
+          ></ModalHeader>
         </template>
         <template v-else>
-          <ModalHeader :header="editData.user_name + 'へ作品を依頼する'"></ModalHeader>
+          <ModalHeader
+            :header="editData.user_name + 'へ作品を依頼する'"
+          ></ModalHeader>
         </template>
         <RequestModal :user="editData" @success="successRequest"></RequestModal>
       </div>
       <div class="modal-main" v-if="modalType === 'リクエスト詳細'">
-        <template v-if="editData.requested_user.account_name">
-          <ModalHeader :header="editData.requested_user.account_name + 'への依頼'"></ModalHeader>
+        <template v-if="editData.requested_user">
+          <template v-if="editData.requested_user.account_name">
+            <ModalHeader
+              :header="editData.requested_user.account_name + 'への依頼'"
+            ></ModalHeader>
+          </template>
+          <template v-else>
+            <ModalHeader
+              :header="editData.requested_user.user_name + 'への依頼'"
+            ></ModalHeader>
+          </template>
         </template>
-        <template v-else>
-          <ModalHeader :header="editData.requested_user.user_name + 'への依頼'"></ModalHeader>
+        <template v-if="editData.requesting_user">
+          <template v-if="editData.requesting_user.account_name">
+            <ModalHeader
+              :header="editData.requesting_user.account_name + 'からの依頼'"
+            ></ModalHeader>
+          </template>
+          <template v-else>
+            <ModalHeader
+              :header="editData.requesting_user.user_name + 'からの依頼'"
+            ></ModalHeader>
+          </template>
         </template>
-        <RequestDetailModal :request="editData" @modalChenge="requestModalChenge" @success="requestDelete"></RequestDetailModal>
+        <RequestDetailModal
+          :request="editData"
+          @modalChenge="requestModalChenge"
+          @successDelete="requestDelete"
+          @successRequestStatusUpdate="requestStatusUpdate"
+        ></RequestDetailModal>
       </div>
       <div class="modal-main" v-if="modalType === 'リクエストを編集'">
         <template v-if="editData.requested_user.account_name">
-          <ModalHeader :header="editData.requested_user.account_name + 'への依頼を変更する'"></ModalHeader>
+          <ModalHeader
+            :header="
+              editData.requested_user.account_name + 'への依頼を変更する'
+            "
+          ></ModalHeader>
         </template>
         <template v-else>
-          <ModalHeader :header="editData.requested_user.user_name + 'への依頼を変更する'"></ModalHeader>
+          <ModalHeader
+            :header="editData.requested_user.user_name + 'への依頼を変更する'"
+          ></ModalHeader>
         </template>
-        <RequestEditModal :editData="editData" @success="successRequestUpdate"></RequestEditModal>
+        <RequestEditModal
+          :editData="editData"
+          @success="successRequestUpdate"
+        ></RequestEditModal>
       </div>
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
@@ -59,8 +95,8 @@ import CloseButton from "./parts/CloseButton.vue";
 import PostImageEditModal from "./modal/PostImageEditModal.vue";
 import UserEditModal from "./modal/UserEditModal.vue";
 import RequestModal from "./modal/RequestModal.vue";
-import RequestDetailModal from "./modal/RequestDetailModal.vue"
-import RequestEditModal from "./modal/RequestEditModal.vue"
+import RequestDetailModal from "./modal/RequestDetailModal.vue";
+import RequestEditModal from "./modal/RequestEditModal.vue";
 
 export default {
   props: {
@@ -74,7 +110,7 @@ export default {
     editData: {
       type: Object,
     },
-    index: { type: Number }
+    index: { type: Number },
   },
   methods: {
     modalClose() {
@@ -102,6 +138,9 @@ export default {
     },
     requestDelete() {
       this.$emit("requestDelete", this.index);
+    },
+    requestStatusUpdate() {
+      this.$emit("requestStatusUpdate");
     }
   },
   components: {

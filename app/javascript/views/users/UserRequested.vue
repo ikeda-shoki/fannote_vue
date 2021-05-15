@@ -2,7 +2,7 @@
   <div id="user-requested">
     <div class="user-requested-title">
       <Title title="依頼された内容一覧"></Title>
-      <span>{{}}件</span>
+      <span>全{{ requests.length }}件</span>
     </div>
   </div>
 </template>

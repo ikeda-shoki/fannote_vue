@@ -40,7 +40,7 @@ const router = new Router({
       children: [
         { path: "/users/:id", component: UserShow },
         { path: "/users/:id/requesting", component: UserRequesting, name: "requesting" },
-        { path: "/users/:id/requested", component: UserRequested, name: "requested" },
+        { path: "/users/:id/requested", component: UserRequesting, name: "requested" },
       ]
     },
   ],
