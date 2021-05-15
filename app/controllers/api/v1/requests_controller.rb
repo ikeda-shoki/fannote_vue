@@ -57,7 +57,7 @@ class Api::V1::RequestsController < ApplicationController
           render json: { request: @request, reference_image: image }, status: :ok
         else
           @request.reference_image.purge
-          render json: @request, status: :ok
+          render json: { request: @request, reference_image: "" }, status: :ok
         end
       else
         render json: @request.errors, status: :unprocessable_entity
@@ -70,7 +70,7 @@ class Api::V1::RequestsController < ApplicationController
           image = @request.encode_base64(@request.reference_image)
           render json: { request: @request, reference_image: image }, status: :ok
         else
-          render json: @request, status: :ok
+          render json: { request: @request, reference_image: "" }, status: :ok
         end
       else
         render json: @request.errors, status: :unprocessable_entity

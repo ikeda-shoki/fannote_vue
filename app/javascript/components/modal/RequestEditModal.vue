@@ -28,6 +28,8 @@
           @imageDelete="imageDelete"
           @input="onFileChange"
         >
+          <p>参考画像</p>
+          <img :src="request.image" alt="参考画像">
         </FileForm>
       </div>
       <div class="form-item" key="form-radio-button">
@@ -213,6 +215,20 @@ $danger-color: #e15253;
     font-size: 20px;
     color: $danger-color;
     margin-bottom: 40px;
+  }
+
+  #file-form {
+    p {
+      font-size: 14px;
+      opacity: 0.7;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 }
 </style>
