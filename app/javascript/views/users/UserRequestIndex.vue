@@ -5,8 +5,17 @@
         <Title title="依頼中の内容一覧"></Title>
         <span>全{{ requests.length }}件</span>
       </div>
-      <div class="user-requesting-items" v-for="(request, index) in requests" :key="request.id">
-        <RequestItem :user="request.requested_user" :request="request" @click.native="modalOpen(request, index)"></RequestItem>
+      <div
+        class="user-requesting-items"
+        v-for="(request, index) in requests"
+        :key="request.id"
+      >
+        <RequestItem
+          :user="request.requested_user"
+          :request="request"
+          v-if="request.requested_user"
+          @click.native="modalOpen(request, index)"
+        ></RequestItem>
       </div>
       <transition name="fade">
         <Modal
@@ -28,8 +37,17 @@
         <Title title="依頼された内容一覧"></Title>
         <span>全{{ requests.length }}件</span>
       </div>
-      <div class="user-requesting-items" v-for="(request, index) in requests" :key="request.id">
-        <RequestItem :user="request.requesting_user" :request="request" @click.native="modalOpen(request, index)"></RequestItem>
+      <div
+        class="user-requesting-items"
+        v-for="(request, index) in requests"
+        :key="request.id"
+      >
+        <RequestItem
+          :user="request.requesting_user"
+          :request="request"
+          v-if="request.requesting_user"
+          @click.native="modalOpen(request, index)"
+        ></RequestItem>
       </div>
       <transition name="fade">
         <Modal
@@ -43,15 +61,14 @@
         ></Modal>
       </transition>
     </template>
-
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import Title from "../../components/parts/Title.vue";
-import RequestItem from "../../components/parts/RequestItem.vue"
-import Modal from "../../components/Modal.vue"
+import RequestItem from "../../components/parts/RequestItem.vue";
+import Modal from "../../components/Modal.vue";
 
 export default {
   data() {
@@ -61,7 +78,7 @@ export default {
       requests: [],
       request: {},
       index: 0,
-    }
+    };
   },
   components: {
     Title,
@@ -86,7 +103,6 @@ export default {
       axios.get("/api/v1/users/" + this.$route.params.id + "/requested").then(
         (response) => {
           this.requests = response.data.requests;
-          console.log(response.data)
         },
         (error) => {
           console.log(error, response);
@@ -97,20 +113,20 @@ export default {
       this.isModal = true;
       this.request = value;
       this.index = index;
-      this.modalType = "リクエスト詳細"
+      this.modalType = "リクエスト詳細";
     },
     modalClose() {
       this.isModal = false;
       this.request = {};
     },
     successRequestUpdate(value) {
-      this.request.request_introduction = value.request.request_introduction
-      this.request.use = value.request.use
-      this.request.file_format = value.request.file_format
-      this.request.deadline = value.request.deadline
-      this.request.amount = value.request.amount
-      this.request.reference_image = value.reference_image
-      this.modalType = "リクエスト詳細"
+      this.request.request_introduction = value.request.request_introduction;
+      this.request.use = value.request.use;
+      this.request.file_format = value.request.file_format;
+      this.request.deadline = value.request.deadline;
+      this.request.amount = value.request.amount;
+      this.request.reference_image = value.reference_image;
+      this.modalType = "リクエスト詳細";
     },
     requestDelete(index) {
       this.modalClose();
@@ -123,12 +139,22 @@ export default {
     },
   },
   mounted() {
-    if(this.$route.name === "requesting"){
+    if (this.$route.name === "requesting") {
       this.getInfoRequesting();
     }
-    else if(this.$route.name === "requested"){
+    if (this.$route.name === "requested") {
       this.getInfoRequested();
     }
+  },
+  watch: {
+    $route: function(to, from) {
+      if (to.name === "requesting") {
+        this.getInfoRequesting();
+      }
+      if (to.name === "requested") {
+        this.getInfoRequested();
+      }
+    },
   },
 };
 </script>
