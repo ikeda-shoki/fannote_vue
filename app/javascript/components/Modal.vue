@@ -63,6 +63,7 @@
           @modalChenge="requestModalChenge"
           @successDelete="requestDelete"
           @successRequestStatusUpdate="requestStatusUpdate"
+          @successRequestImageUpdate="requestImageUpdate"
         ></RequestDetailModal>
       </div>
       <div class="modal-main" v-if="modalType === 'リクエストを編集'">
@@ -141,6 +142,9 @@ export default {
     },
     requestStatusUpdate() {
       this.$emit("requestStatusUpdate");
+    },
+    requestImageUpdate() {
+      this.$emit("requestImageUpdate");
     }
   },
   components: {

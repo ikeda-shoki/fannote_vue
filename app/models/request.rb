@@ -15,7 +15,8 @@ class Request < ApplicationRecord
   validates :deadline, presence: { message: "締め切りは必ず入力してください"}
   validates :amount, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 99 }, presence: true
   validates :request_status, presence: true
-  # validates :request_images_complete_images, presence: true, on: :update_complete_image
+  validates :request_images, presence: { message: "画像を選択してください"}, on: :update_complete_image
+  validate :request_images_length, on: :update_complete_image
   validate :deadline_limit, on: [:create, :update]
 
   def deadline_limit
@@ -23,6 +24,12 @@ class Request < ApplicationRecord
       if deadline < Time.now || deadline < Time.current.since(2.days)
         errors.add(:deadline, '締切日は、最短で本日から3日後で設定してください')
       end
+    end
+  end
+
+  def request_images_length
+    if request_images.size > amount
+      errors.add(:request_images, "選択された画像が指定枚数よりも多いです")
     end
   end
 
@@ -36,6 +43,21 @@ class Request < ApplicationRecord
         f.write(decoded_data)
       end
       attach_image(filename)
+    end
+  end
+
+  def parse_base64s(images)
+    if images.present?
+      images.each do |image|
+        content_type = create_extension(image)
+        contents = image.sub %r/data:((image|application)\/.{3,}),/, ''
+        decoded_data = Base64.decode64(contents)
+        filename = Time.zone.now.to_s + '.' + content_type
+        File.open("#{Rails.root}/tmp/#{filename}", 'wb') do |f|
+          f.write(decoded_data)
+        end
+        attach_request_images(filename)
+      end
     end
   end
 
@@ -66,6 +88,11 @@ class Request < ApplicationRecord
 
   def attach_image(filename)
     reference_image.attach(io: File.open("#{Rails.root}/tmp/#{filename}"), filename: filename)
+    FileUtils.rm("#{Rails.root}/tmp/#{filename}")
+  end
+
+  def attach_request_images(filename)
+    request_images.attach(io: File.open("#{Rails.root}/tmp/#{filename}"), filename: filename)
     FileUtils.rm("#{Rails.root}/tmp/#{filename}")
   end
 end

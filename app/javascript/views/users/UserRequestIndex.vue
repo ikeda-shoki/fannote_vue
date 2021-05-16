@@ -58,6 +58,7 @@
           :index="index"
           @modalClose="modalClose"
           @requestStatusUpdate="requestStatusUpdate"
+          @requestImageUpdate="requestImageUpdate"
         ></Modal>
       </transition>
     </template>
@@ -137,6 +138,10 @@ export default {
       this.modalClose();
       this.getInfoRequested();
     },
+    requestImageUpdate() {
+      this.modalClose();
+      this.getInfoRequested();
+    }
   },
   mounted() {
     if (this.$route.name === "requesting") {

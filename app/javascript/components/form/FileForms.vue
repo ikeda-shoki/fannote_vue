@@ -3,16 +3,25 @@
     <FormName :id="id" :required="required" :labelName="labelName"></FormName>
     <dt class="form-file">
       <label :for="id" class="button">
-        <input :id="id" :name="name" type="file" ref="file" @change="upload" />ファイルを選択
+        <input
+          :id="id"
+          :name="name"
+          type="file"
+          ref="file"
+          @change="fileUpload"
+          multiple="true"
+        />ファイルを選択
       </label>
     </dt>
-    <transition name="fade">
-      <div class="preview-image" v-if="image64">
-        <slot>
-          <p>投稿する画像</p>
-          <img :src="image64" alt="投稿した画像" />
-        </slot>
-        <CloseButton @click.native="previewDelete"></CloseButton>
+    <transition
+      name="fade-list"
+      v-for="(image64, index) in image64s"
+      :key="image64.id"
+    >
+      <div class="preview-image" key="image64">
+        <p>送信する画像</p>
+        <img :src="image64" alt="送信する画像" />
+        <CloseButton @click.native="previewDelete(index)"></CloseButton>
       </div>
     </transition>
   </div>
@@ -25,7 +34,7 @@ import CloseButton from "../parts/CloseButton.vue";
 export default {
   data() {
     return {
-      image64: "",
+      image64s: [],
     };
   },
   props: {
@@ -33,27 +42,35 @@ export default {
     name: { type: String, required: true },
     required: { type: Boolean, required: true },
     labelName: { type: String, required: true },
-    image: { type: String },
     images: { type: Array },
+    requesImagesCount: { type: Number, required: true },
   },
   methods: {
-    upload() {
-      let file = event.target.files[0] || event.dataTransfer.files;
-      let reader = new FileReader();
-      reader.onload = () => {
-        this.image64 = event.target.result;
-        this.$emit("input", this.image64);
-      };
-      reader.readAsDataURL(file);
+    async upload() {
+      let fileList = event.target.files || event.dataTransfer.files;
+      if (fileList === 0) {
+        return;
+      }
+      for (var i = 0; i < fileList.length; i++) {
+        let file = fileList[i];
+        let reader = new FileReader();
+        await (reader.onload = () => {
+          this.image64s.push(event.target.result);
+        });
+        reader.readAsDataURL(file);
+      }
     },
-    previewDelete() {
-      this.image64 = "";
-      this.$refs.file.value = null;
-      this.$emit("imageDelete", "");
+    async fileUpload() {
+      await this.upload();
+      this.$emit("input", this.image64s);
     },
-    postImage() {
-      if (this.image) {
-        this.image64 = this.image;
+    previewDelete(index) {
+      this.image64s.splice(index, 1);
+      this.$emit("imageDelete", this.image64s);
+    },
+    postImages() {
+      if (this.images.length) {
+        this.image64s = this.images;
       }
     },
   },
@@ -62,7 +79,7 @@ export default {
     CloseButton,
   },
   created() {
-    this.postImage();
+    this.postImages();
   },
 };
 </script>

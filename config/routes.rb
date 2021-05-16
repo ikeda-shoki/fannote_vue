@@ -52,6 +52,7 @@ Rails.application.routes.draw do
             get :requesting_show
             get :requesting_show
             patch :update_request_status
+            patch :update_request_complete_image
             get :request_done
             get :request_complete
           end

@@ -90,15 +90,36 @@ class Api::V1::RequestsController < ApplicationController
 
   # 完成した画像を登録する際に使用
   def update_request_complete_image
-    if @request.update(complete_image_update_params) && @request.valid?(:update_complete_image)
-      if @request.amount === @request.request_images_complete_images.size
-        @request.update(request_status: :"製作完了")
-        @request.requested.increment!(:complete_request_count, 1)
+    if @request.request_images.attached?
+      #すでに画像が登録されている場合
+      @request.request_images.purge
+      if @request.parse_base64s(params[:request][:request_images]) && @request.valid?(:update_complete_image)
+        if @request.amount === @request.request_images.size
+          @request.update(request_status: :"製作完了")
+          @request.requested.increment!(:complete_request_count, 1)
+          render json: @request, status: :ok
+          return
+        end
+        # @request.create_notification_request_status(current_user)
+        render json: @request, status: :ok
+      else
+        render json: @request.errors, status: :unprocessable_entity
       end
-      @request.create_notification_request_status(current_user)
-      redirect_to user_request_done_path(user_id: @request.requester, id: @request), notice: "依頼されたイラストを送信しました"
     else
-      render 'requested_show'
+      #初めての画像投稿の場合
+      if @request.parse_base64s(params[:request][:request_images]) && @request.valid?(:update_complete_image)
+        if @request.amount === @request.request_images.size
+          @request.update(request_status: :"製作完了")
+          @request.requested.increment!(:complete_request_count, 1)
+          render json: @request, status: :ok
+          return
+        end
+        # @request.create_notification_request_status(current_user)
+        render json: @request, status: :ok
+      else
+        @request.request_images.purge
+        render json: @request.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -127,7 +148,7 @@ class Api::V1::RequestsController < ApplicationController
   end
 
   def complete_image_update_params
-    params.require(:request).permit(request_images_complete_images: [])
+    params.require(:request).permit(request_images: [])
   end
 
   def ensure_request_user

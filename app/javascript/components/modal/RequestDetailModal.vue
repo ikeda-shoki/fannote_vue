@@ -1,27 +1,41 @@
 <template>
   <div id="request-detail-modal">
     <div class="request-detail-modal-contents">
-      <div class="request-detail-modal-content" v-for="requestContent in requestContents" :key="requestContent.id">
+      <div
+        class="request-detail-modal-content"
+        v-for="requestContent in requestContents"
+        :key="requestContent.id"
+      >
         <div class="request-detail-modal-left">
           <h6>{{ requestContent.title }}</h6>
         </div>
         <div class="request-detail-modal-right">
           <template v-if="requestContent.title === '参考画像'">
-            <img :src="requestContent.content" alt="参考画像" v-if="requestContent.content">
+            <img
+              :src="requestContent.content"
+              alt="参考画像"
+              v-if="requestContent.content"
+            />
             <img src="~no_image.jpg" alt="NoImage" v-else />
           </template>
           <template v-else-if="requestContent.title === '受付状況'">
-            <RequestStatus :requestStatus="requestContent.content"></RequestStatus>
+            <RequestStatus
+              :requestStatus="requestContent.content"
+            ></RequestStatus>
           </template>
           <h5 v-else>{{ requestContent.content }}</h5>
         </div>
       </div>
 
       <template v-if="$route.name === 'requesting'">
-        <div class="request-detail-modal-buttons">
-          <button class="button" @click="modalChenge">依頼を変更する</button>
-          <button class="button" @click="requestDelete">依頼を削除する</button>
-        </div>
+        <template v-if="request.request_status === '未受付'">
+          <div class="request-detail-modal-buttons">
+            <button class="button" @click="modalChenge">依頼を変更する</button>
+            <button class="button" @click="requestDelete">
+              依頼を削除する
+            </button>
+          </div>
+        </template>
       </template>
 
       <template v-if="$route.name === 'requested'">
@@ -42,21 +56,38 @@
             ></ErrorMessage>
           </div>
           <div class="request-detail-modal-submitbutton">
-            <FormButton buttonName="登録する" @click.native="requestStatusUpdate"></FormButton>
+            <FormButton
+              buttonName="登録する"
+              @click.native="requestStatusUpdate"
+            ></FormButton>
           </div>
         </template>
-        <template v-if="request.request_status === '受付中'">
+        <template v-if="request.request_status === '製作中'">
+          <p v-if="errors" class="error" key="error">
+            入力内容を確認してください
+          </p>
           <div class="request-detail-modal-file">
-            <FileForm
+            <FileForms
               id="request-images"
               name="request-images"
               :required="true"
-              :image="request_images"
-              labelName="完成したイラスト"
+              :images="request.request_images"
+              :requesImagesCount="request.amount - 1"
+              labelName="完成した作品"
               @imageDelete="imageDelete"
               @input="onFileChange"
             >
-            </FileForm>
+            </FileForms>
+            <ErrorMessage
+              v-if="errorMessage.request_images"
+              :message="errorMessage.request_images"
+            ></ErrorMessage>
+          </div>
+          <div class="request-detail-modal-submitbutton">
+            <FormButton
+              buttonName="送信する"
+              @click.native="requestCompleteImagesUpdate"
+            ></FormButton>
           </div>
         </template>
       </template>
@@ -70,11 +101,12 @@ import axios from "axios";
 import RequestStatus from "../parts/RequestStatus.vue";
 import RadioButton from "../form/RadioButton.vue";
 import FormButton from "../form/FormButton.vue";
-import FileForm from "../form/FileForm.vue";
+import FileForms from "../form/FileForms.vue";
+import ErrorMessage from "../form/ErrorMessage.vue";
 
 export default {
   props: {
-    request: { type: Object, required: true }
+    request: { type: Object, required: true },
   },
   data() {
     return {
@@ -83,12 +115,12 @@ export default {
         { title: "参考画像", content: this.request.reference_image },
         { title: "ファイル形式", content: this.request.file_format },
         { title: "用途", content: this.request.use },
-        { title: "枚数", content: this.request.amount + '枚' },
+        { title: "枚数", content: this.request.amount + "枚" },
         { title: "納期", content: this.request.vue_deadline },
         { title: "受付状況", content: this.request.request_status },
       ],
       requestStatus: this.request.request_status,
-      request_images: [],
+      requestImages: [],
       options: [
         {
           label: "製作する",
@@ -101,13 +133,14 @@ export default {
       ],
       errors: false,
       errorMessage: {},
-    }
+    };
   },
   components: {
     RequestStatus,
     RadioButton,
     FormButton,
-    FileForm,
+    FileForms,
+    ErrorMessage,
   },
   methods: {
     modalChenge() {
@@ -115,7 +148,11 @@ export default {
     },
     requestDelete() {
       axios({
-        url: "/api/v1/users/" + this.$route.params.id + "/requests/" + this.request.id,
+        url:
+          "/api/v1/users/" +
+          this.$route.params.id +
+          "/requests/" +
+          this.request.id,
         method: "DELETE",
       })
         .then((response) => {
@@ -125,11 +162,16 @@ export default {
           console.log(error);
         });
     },
-    requestStatusUpdate(){
+    requestStatusUpdate() {
       axios({
-        url: "/api/v1/users/" + this.$route.params.id + "/requests/" + this.request.id + "/update_request_status",
+        url:
+          "/api/v1/users/" +
+          this.$route.params.id +
+          "/requests/" +
+          this.request.id +
+          "/update_request_status",
         data: {
-          request_status: this.requestStatus
+          request_status: this.requestStatus,
         },
         method: "PATCH",
       })
@@ -137,11 +179,50 @@ export default {
           this.$emit("successRequestStatusUpdate");
         })
         .catch((error) => {
-          console.log(error);
+          this.errorMessage = error.response.data;
+          this.errors = true;
+          setTimeout(() => {
+            this.scrollTop();
+          }, 500);
         });
-    }
-  }
-}
+    },
+    scrollTop() {
+      var modalTop = document.getElementById("request-edit-modal");
+      modalTop.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
+    onFileChange(value) {
+      this.requestImages = value;
+    },
+    imageDelete(value) {
+      this.requestImages = value;
+    },
+    requestCompleteImagesUpdate() {
+      this.request.request_images = this.requestImages
+      axios({
+        url:
+          "/api/v1/users/" +
+          this.$route.params.id +
+          "/requests/" +
+          this.request.id +
+          "/update_request_complete_image",
+        data: {
+          request: { request_images: this.requestImages }
+        },
+        method: "PATCH",
+      })
+        .then((response) => {
+          this.$emit("successRequestImageUpdate");
+        })
+        .catch((error) => {
+          this.errorMessage = error.response.data;
+          this.errors = true;
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -193,7 +274,23 @@ $danger-color: #e15253;
   }
 
   .request-detail-modal-radiobutton {
-    margin: 60px 0 10px 0;
+    margin: 40px 0 10px 0;
+  }
+
+  .request-detail-modal-file {
+    margin: 40px 0 10px 0;
+  }
+
+  #error-message {
+    width: 65%;
+    margin: 20px 0 30px auto;
+  }
+
+  .error {
+    font-weight: bold;
+    font-size: 20px;
+    color: $danger-color;
+    margin-top: 60px;
   }
 }
 </style>

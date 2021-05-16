@@ -95,6 +95,9 @@ $danger-color: #e15253;
         display: flex;
         align-items: center;
         padding: 5px 10px;
+        background: #d4d0cc;
+        border-radius: 5px;
+        width: 50%;
 
         &::before {
           content: "";
