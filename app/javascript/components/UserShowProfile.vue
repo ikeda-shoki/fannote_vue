@@ -33,8 +33,12 @@
     </div>
 
     <div class="user-show-profile-request-buttons" v-if="user.current_user_same_as">
-      <button class="button">依頼された内容</button>
-      <button class="button">依頼した内容</button>
+      <router-link :to="{ name: 'requested', params: { id: user.id }}" v-if="user.is_reception">
+        <button class="button">依頼された内容</button>
+      </router-link>
+      <router-link :to="{ name: 'requesting', params: { id: user.id }}">
+        <button class="button">依頼した内容</button>
+      </router-link>
     </div>
 
     <transition name="fade">
@@ -45,6 +49,7 @@
         :modalType="modalType"
         @modalClose="modalClose"
         @successUser="successUser"
+        @screenTransition="screenTransition"
       ></Modal>
     </transition>
   </div>
@@ -68,6 +73,7 @@ export default {
   },
   props: {
     user: { type: Object, required: true },
+    currenUserId: { required: true }
   },
   data() {
     return {
@@ -89,7 +95,11 @@ export default {
     },
     successUser() {
       this.$emit("userUpdate");
-    }
+    },
+    async screenTransition() {
+      await this.modalClose();
+      this.$router.push("/users/" + this.currenUserId + "/requesting");
+    },
   },
 };
 </script>
@@ -118,7 +128,6 @@ $danger-color: #e15253;
 
   #title {
     font-size: 23px;
-    font-weight: 800;
 
     /deep/ h2 {
       font-weight: 800;

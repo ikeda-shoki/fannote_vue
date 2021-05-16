@@ -13,7 +13,18 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show] do
-
+    member do
+      get "requesting", to: 'requests#requesting'
+      get "requested", to: 'requests#requested'
+    end
+    resources :request, only: [] do
+      member do
+        get :requesting_show
+        get :requesting_show
+        get :request_done
+        get :request_complete
+      end
+    end
   end
 
   namespace :api, { format: 'json' } do
@@ -25,6 +36,7 @@ Rails.application.routes.draw do
           get :main
         end
       end
+
       resources :users, only: [:show, :update] do
         collection do
           get :sign_in
@@ -32,8 +44,21 @@ Rails.application.routes.draw do
         member do
           get :followed
           get :following
+          get "requesting", to: 'requests#requesting'
+          get "requested", to: 'requests#requested'
+        end
+        resources :requests, only: [:create, :update, :destroy] do
+          member do
+            get :requesting_show
+            get :requesting_show
+            patch :update_request_status
+            patch :update_request_complete_image
+            get :request_done
+            get :request_complete
+          end
         end
       end
+
       post 'follow/:id', to: 'relationships#follow', as: 'follow'
       delete 'follow/:id', to: 'relationships#unfollow', as: 'unfollow'
     end
