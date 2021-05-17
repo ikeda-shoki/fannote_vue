@@ -20,6 +20,7 @@
           @success="successUser"
         ></UserEditModal>
       </div>
+
       <div class="modal-main" v-if="modalType === 'リクエストを依頼する'">
         <template v-if="editData.account_name">
           <ModalHeader
@@ -33,8 +34,9 @@
         </template>
         <RequestModal :user="editData" @success="successRequest"></RequestModal>
       </div>
+
       <div class="modal-main" v-if="modalType === 'リクエスト詳細'">
-        <template v-if="editData.requested_user">
+        <template v-if="$route.name === 'requesting'">
           <template v-if="editData.requested_user.account_name">
             <ModalHeader
               :header="editData.requested_user.account_name + 'への依頼'"
@@ -46,7 +48,7 @@
             ></ModalHeader>
           </template>
         </template>
-        <template v-if="editData.requesting_user">
+        <template v-if="$route.name === 'requested'">
           <template v-if="editData.requesting_user.account_name">
             <ModalHeader
               :header="editData.requesting_user.account_name + 'からの依頼'"
@@ -66,6 +68,7 @@
           @successRequestImageUpdate="requestImageUpdate"
         ></RequestDetailModal>
       </div>
+
       <div class="modal-main" v-if="modalType === 'リクエストを編集'">
         <template v-if="editData.requested_user.account_name">
           <ModalHeader

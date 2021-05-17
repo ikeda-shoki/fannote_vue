@@ -8,12 +8,14 @@ import PostImageShow from "../views/post_images/PostImageShow.vue";
 import User from "../views/users/User.vue";
 import UserShow from "../views/users/UserShow.vue";
 import UserRequestIndex from "../views/users/UserRequestIndex.vue"
+import UserRequestResult from "../views/users/UserRequestResult.vue";
 
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  routes: [{
+  routes: [
+    {
       path: "/",
       component: Top,
     },
@@ -51,6 +53,16 @@ const router = new Router({
           name: "requested"
         },
       ]
+    },
+    {
+      path: "/users/:user_id/requests/:id/request_done",
+      component: UserRequestResult,
+      name: "request_done"
+    },
+    {
+      path: "/users/:user_id/requests/:id/request_complete",
+      component: UserRequestResult,
+      name: "request_complete"
     },
   ],
   scrollBehavior(to, from, savedPosition) {

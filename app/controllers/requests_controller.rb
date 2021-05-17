@@ -16,14 +16,6 @@ class RequestsController < ApplicationController
   def requested
   end
 
-  # 自分の依頼詳細画面
-  def requesting_show
-  end
-
-  # 自分に来ている依頼詳細画面
-  def requested_show
-  end
-
   # 依頼終了画面
   def request_done
   end

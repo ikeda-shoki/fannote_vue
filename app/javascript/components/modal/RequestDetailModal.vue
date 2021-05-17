@@ -36,6 +36,13 @@
             </button>
           </div>
         </template>
+        <template v-if="request.request_status === '製作完了'">
+          <router-link :to="'/users/' + request.requesting_user.id + '/requests/' + request.id + '/request_complete'">
+            <div class="request-detail-modal-button">
+              <button class="button">完成した作品を確認する</button>
+            </div>
+          </router-link>
+        </template>
       </template>
 
       <template v-if="$route.name === 'requested'">
@@ -89,6 +96,13 @@
               @click.native="requestCompleteImagesUpdate"
             ></FormButton>
           </div>
+        </template>
+        <template v-if="request.request_status === '製作完了'">
+          <router-link :to="'/users/' + request.requested_user.id + '/requests/' + request.id + '/request_done'">
+            <div class="request-detail-modal-button">
+              <button class="button">送信した作品を確認する</button>
+            </div>
+          </router-link>
         </template>
       </template>
     </div>
@@ -279,6 +293,11 @@ $danger-color: #e15253;
 
   .request-detail-modal-file {
     margin: 40px 0 10px 0;
+  }
+
+  .request-detail-modal-button {
+    text-align: center;
+    margin-top: 50px;
   }
 
   #error-message {
