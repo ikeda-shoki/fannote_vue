@@ -8,7 +8,14 @@ class Api::V1::PostImagesController < ApplicationController
   end
 
   def main
-    @post_images = PostImage.all
+    @post_images = PostImage.preload(:user).sort_new(10)
+    @following_users_post_images = PostImage.preload(:user).my_follower_img(current_user).sort_new(15) if user_signed_in?
+    # @hashtags = Hashtag.find(PostImageHashtagRelation.group(:hashtag_id).sort_favorite(:hashtag_id, 20).pluck(:hashtag_id))
+    ranking_post_images = PostImage.preload(:user).find(Favorite.group(:post_image_id).sort_favorite(:post_image_id))
+    @ranking_post_images = ranking_post_images.first(10)
+    @post_images_illust = (ranking_post_images.select { |n| n.post_image_genre === "イラスト" }).first(10)
+    @post_images_photo = (ranking_post_images.select { |n| n.post_image_genre === "写真" }).first(10)
+    @post_images_logo = (ranking_post_images.select { |n| n.post_image_genre === "ロゴ" }).first(10)
   end
 
   def create
