@@ -86,7 +86,7 @@
         </div>
       </div>
 
-      <h2>フォローユーザーの人気作品</h2>
+      <h2>フォローユーザーの新着作品</h2>
       <div class="new-post-images">
         <div
           class="post-image"
@@ -163,6 +163,10 @@ export default {
   .new-post-images {
     display: flex;
     flex-wrap: wrap;
+    width: 95%;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+    overflow: hidden;
 
     /deep/ #post-image {
       margin-right: 15px;
