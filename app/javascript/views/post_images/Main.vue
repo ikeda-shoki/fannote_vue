@@ -1,106 +1,76 @@
 <template>
   <div id="main">
     <div class="container">
-      <h2>人気の作品</h2>
       <div class="favorite-images">
-        <div
-          class="ranking-post-image"
-          v-for="rankingImage in rankingImages"
-          :key="rankingImage.id"
-        >
-          <PostImage
-            :id="rankingImage.id"
-            :image="rankingImage.post_image"
-            :title="rankingImage.title"
-            :userName="rankingImage.user.user_name"
-            :accountName="rankingImage.user.account_name"
-          ></PostImage>
-        </div>
+        <h2>人気の作品</h2>
+        <hooper :settings="hooperSettings">
+          <slide
+            class="post-image"
+            v-for="(postImage, index) in rankingImages"
+            :key="postImage.id"
+          >
+            <div class="favorite-image">
+              <router-link :to="'/post_images/' + postImage.id">
+                <span class="image-score">{{ index + 1 }}</span>
+                <img :src="postImage.post_image" />
+                <div class="favorite-image-info">
+                  <div class="favorite-image-info-user">
+                    <span v-if="postImage.user.account_name"
+                      ><i class="fas fa-user"></i
+                      >{{ postImage.user.account_name }}</span
+                    >
+                    <span v-else
+                      >{{ postImage.user.user_name }}<i class="fas fa-user"></i
+                    ></span>
+                  </div>
+                  <p>{{ postImage.title }}</p>
+                </div>
+              </router-link>
+            </div>
+          </slide>
+          <hooper-pagination slot="hooper-addons" />
+          <hooper-navigation slot="hooper-addons" />
+        </hooper>
       </div>
 
-      <h2>新着作品</h2>
-      <div class="new-post-images">
-        <div
-          class="post-image"
-          v-for="postImage in postImages"
-          :key="postImage.id"
-        >
-          <PostImage
-            :id="postImage.id"
-            :image="postImage.post_image"
-            :title="postImage.title"
-            :userName="postImage.user.user_name"
-            :accountName="postImage.user.account_name"
-          ></PostImage>
-        </div>
+      <div class="main-post-images">
+        <SliderImages
+          title="新着作品"
+          refName="new"
+          :postImages="postImages"
+        ></SliderImages>
       </div>
 
-      <h2>イラストの人気作品</h2>
-      <div class="new-post-images">
-        <div
-          class="post-image"
-          v-for="rankingIllustImage in rankingIllustImages"
-          :key="rankingIllustImage.id"
-        >
-          <PostImage
-            :id="rankingIllustImage.id"
-            :image="rankingIllustImage.post_image"
-            :title="rankingIllustImage.title"
-            :userName="rankingIllustImage.user.user_name"
-            :accountName="rankingIllustImage.user.account_name"
-          ></PostImage>
-        </div>
+      <div class="main-post-images">
+        <SliderImages
+          title="イラストの人気作品"
+          refName="iluust"
+          :postImages="rankingIllustImages"
+        ></SliderImages>
       </div>
 
-      <h2>写真の人気作品</h2>
-      <div class="new-post-images">
-        <div
-          class="post-image"
-          v-for="rankingPhotoImage in rankingPhotoImages"
-          :key="rankingPhotoImage.id"
-        >
-          <PostImage
-            :id="rankingPhotoImage.id"
-            :image="rankingPhotoImage.post_image"
-            :title="rankingPhotoImage.title"
-            :userName="rankingPhotoImage.user.user_name"
-            :accountName="rankingPhotoImage.user.account_name"
-          ></PostImage>
-        </div>
+      <div class="main-post-images">
+        <SliderImages
+          title="写真の人気作品"
+          refName="photo"
+          :postImages="rankingPhotoImages"
+        ></SliderImages>
       </div>
 
-      <h2>ロゴの人気作品</h2>
-      <div class="new-post-images">
-        <div
-          class="post-image"
-          v-for="rankingLogoImage in rankingLogoImages"
-          :key="rankingLogoImage.id"
-        >
-          <PostImage
-            :id="rankingLogoImage.id"
-            :image="rankingLogoImage.post_image"
-            :title="rankingLogoImage.title"
-            :userName="rankingLogoImage.user.user_name"
-            :accountName="rankingLogoImage.user.account_name"
-          ></PostImage>
-        </div>
+      <div class="main-post-images">
+        <SliderImages
+          title="ロゴの人気作品"
+          refName="logo"
+          :postImages="rankingLogoImages"
+        ></SliderImages>
       </div>
 
-      <h2>フォローユーザーの人気作品</h2>
-      <div class="new-post-images">
-        <div
-          class="post-image"
-          v-for="followingUserImage in followingUserImages"
-          :key="followingUserImage.id"
-        >
-          <PostImage
-            :id="followingUserImage.id"
-            :image="followingUserImage.post_image"
-            :title="followingUserImage.title"
-            :userName="followingUserImage.user.user_name"
-            :accountName="followingUserImage.user.account_name"
-          ></PostImage>
-        </div>
+      <div class="main-post-images">
+        <SliderImages
+          title="フォローユーザーの人気作品"
+          refName="follow"
+          :postImages="followingUserImages"
+        ></SliderImages>
       </div>
     </div>
   </div>
@@ -108,7 +78,15 @@
 
 <script>
 import axios from "axios";
+import {
+  Hooper,
+  Slide,
+  Pagination as HooperPagination,
+  Navigation as HooperNavigation,
+} from "hooper";
+import "hooper/dist/hooper.css";
 import PostImage from "../../components/parts/PostImage.vue";
+import SliderImages from "../../components/parts/SliderImages.vue";
 
 export default {
   data() {
@@ -119,6 +97,13 @@ export default {
       rankingIllustImages: [],
       rankingPhotoImages: [],
       rankingLogoImages: [],
+      hooperSettings: {
+        infiniteScroll: true,
+        trimWhiteSpace: true,
+        shortDrag: false,
+        itemsToShow: 3.5,
+        centerMode: true,
+      },
     };
   },
   mounted() {
@@ -143,6 +128,11 @@ export default {
   },
   components: {
     PostImage,
+    Hooper,
+    Slide,
+    SliderImages,
+    HooperPagination,
+    HooperNavigation,
   },
   props: {
     userLogIn: { type: Boolean },
@@ -151,22 +141,101 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$accent-color: #e65b20;
+$back-ground-color: #f7f4f2;
+$font-color: #3e1300;
+$font-white: #fffffe;
+$danger-color: #e15253;
+
 #main {
   padding-top: 10%;
 
-  h2 {
-    font-size: 30px;
-    font-weight: bold;
+  .favorite-images {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .favorite-image {
+      height: 250px;
+      margin: 0 10px;
+
+      &:hover {
+        .favorite-image-info {
+          opacity: 1;
+          right: 0;
+        }
+      }
+
+      a {
+        position: relative;
+      }
+
+      img {
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+
+      .image-score {
+        position: absolute;
+        top: -220px;
+        left: 20px;
+        padding: 10px 20px;
+        background: $back-ground-color;
+        opacity: 0.8;
+        border-radius: 50%;
+        border: 1px solid $accent-color;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .favorite-image-info {
+        position: absolute;
+        width: 60%;
+        height: 60px;
+        top: -100px;
+        right: -60%;
+        background-color: $accent-color;
+        border-radius: 10px 0 0 10px;
+        padding: 5px 10px;
+        transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        opacity: 0;
+
+        i,
+        span,
+        p {
+          color: $back-ground-color;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .hooper {
+      height: auto;
+    }
+
+    /deep/ .hooper-indicator {
+      background-color: $back-ground-color;
+      &:hover {
+        background-color: $accent-color;
+      }
+    }
+    /deep/ .hooper-indicator.is-active {
+      background-color: $accent-color;
+    }
   }
 
-  .favorite-images,
-  .new-post-images {
-    display: flex;
-    flex-wrap: wrap;
-
-    /deep/ #post-image {
-      margin-right: 15px;
-    }
+  .main-post-images {
+    margin-bottom: 30px;
   }
 }
 </style>
