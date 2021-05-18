@@ -35,9 +35,24 @@ class PostImage < ApplicationRecord
     favorites.where(user_id: user.id).exists?
   end
 
+  def get_post_image_comment
+    post_image_comments.preload(:user).order('created_at DESC')
+  end
+
+  def self.my_follower_img(current_user)
+    where(user_id: current_user.following_user.pluck(:id))
+  end
+
+  def self.search_keyword(keyword)
+    where(['title LIKE ? OR image_introduction LIKE ?', "%#{keyword}%", "%#{keyword}%"])
+  end
+
   def self.following_img(following_user)
     where(user_id: following_user.pluck(:id)).reverse_order
   end
+
+  # controller用 scope
+  scope :sort_new, -> (count) { order('id desc').limit(count) }
 
   private
 

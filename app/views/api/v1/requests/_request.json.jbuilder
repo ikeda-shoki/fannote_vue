@@ -12,3 +12,9 @@ end
 json.request_images(images)
 json.vue_deadline( l request.deadline )
 json.created_at( l request.created_at, format: :date )
+json.set! :requesting_user do
+  json.partial! "api/v1/users/user", user: request.requester
+end
+json.set! :requested_user do
+  json.partial! "api/v1/users/user", user: request.requested
+end

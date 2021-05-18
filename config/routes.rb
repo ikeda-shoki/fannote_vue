@@ -17,10 +17,8 @@ Rails.application.routes.draw do
       get "requesting", to: 'requests#requesting'
       get "requested", to: 'requests#requested'
     end
-    resources :request, only: [] do
+    resources :requests, only: [] do
       member do
-        get :requesting_show
-        get :requesting_show
         get :request_done
         get :request_complete
       end
