@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/about', to: 'post_images#about'
   get '/use', to: 'post_images#use'
 
-  resources :post_images, only: [:show] do
+  resources :post_images, only: [:show, :index] do
     collection do
       get '/main', to: 'post_images#main'
     end
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   namespace :api, { format: 'json' } do
     namespace :v1 do
-      resources :post_images, only: [:show, :create, :update, :destroy] do
+      resources :post_images, only: [:show, :index, :create, :update, :destroy] do
         resource :favorites, only: [:create, :destroy]
         resources :post_comments, only: [:create, :destroy]
         collection do

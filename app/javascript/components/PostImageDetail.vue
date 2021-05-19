@@ -22,11 +22,11 @@
         <i class="far fa-user"></i>{{ user.user_name }}
       </span>
       <span class="post-image-detail-create-at"
-        ><i class="fas fa-pen"></i>{{ postImage.created_at }}</span
+        ><i class="fas fa-pen"></i>{{ postImage.vue_created_at }}</span
       >
       <span class="post-image-detail-uploat-at"
         ><i class="far fa-arrow-alt-circle-up"></i
-        >{{ postImage.updated_at }}</span
+        >{{ postImage.vue_updated_at }}</span
       >
       <span class="post-image-detail-favorite"
         ><i class="far fa-heart"></i>{{ postImage.favorite_count }}</span

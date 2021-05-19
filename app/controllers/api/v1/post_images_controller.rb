@@ -7,6 +7,13 @@ class Api::V1::PostImagesController < ApplicationController
     @post_comments = @post_image.post_comments.order(id: "DESC")
   end
 
+  def index
+    @post_images = PostImage.preload(:user).all.order(id: "DESC")
+    @post_images_illust = (@post_images.select { |n| n.post_image_genre === "イラスト"})
+    @post_images_photo = (@post_images.select { |n| n.post_image_genre === "写真"})
+    @post_images_logo = (@post_images.select { |n| n.post_image_genre === "ロゴ"})
+  end
+
   def main
     @post_images = PostImage.preload(:user).sort_new(15)
     @following_users_post_images = PostImage.preload(:user).my_follower_img(current_user).sort_new(15) if user_signed_in?
