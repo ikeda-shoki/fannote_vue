@@ -21,6 +21,7 @@
         ></PostImage>
       </slide>
     </hooper>
+    <router-link :to="'/post_images'" class="post-images-link">作品一覧へ<i class="fas fa-angle-right"></i></router-link>
     <span @click.prevent="slidePrev()" class="slide-prev-button" v-if="!isFirstSlide">
       <i class="fas fa-angle-double-left"></i>
     </span>
@@ -117,6 +118,27 @@ $danger-color: #e15253;
     position: absolute;
     top: 50%;
     right: -30px;
+  }
+
+  .post-images-link {
+    display: block;
+    text-align: right;
+    transition: all .5s;
+    -moz-transition: all .5s;
+
+    &:hover {
+      color: $accent-color;
+
+      i {
+        color: $accent-color;
+      }
+    }
+
+    i {
+      margin-left: 10px;
+      transition: all .5s;
+      -moz-transition: all .5s;
+    }
   }
 }
 </style>

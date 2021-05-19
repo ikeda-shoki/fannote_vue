@@ -9,13 +9,16 @@ import User from "../views/users/User.vue";
 import UserShow from "../views/users/UserShow.vue";
 import UserRequestIndex from "../views/users/UserRequestIndex.vue"
 import UserRequestResult from "../views/users/UserRequestResult.vue";
+import PostImages from "../views/post_images/PostImages.vue";
+// import {
+//   component
+// } from "vue/types/umd";
 
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  routes: [
-    {
+  routes: [{
       path: "/",
       component: Top,
     },
@@ -30,6 +33,25 @@ const router = new Router({
     {
       path: "/post_images/main",
       component: Main,
+    },
+    {
+      path: "/post_images",
+      component: PostImages,
+      name: "postImagesAll",
+      children: [{
+          path: "/post_images/illust",
+          component: PostImages,
+          name: "postImagesIllust",
+        }, {
+          path: "/post_images/photo",
+          component: PostImages,
+          name: "postImagesPhoto",
+        }, {
+          path: "/post_images/logo",
+          component: PostImages,
+          name: "postImagesLogo",
+        },
+      ]
     },
     {
       path: "/post_images/:id",
