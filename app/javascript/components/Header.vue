@@ -239,7 +239,7 @@ export default {
   },
   watch: {
     $route() {
-      this.pullDownMenu();
+      this.isHeaderMenu = true;
     },
   },
 };
