@@ -68,7 +68,7 @@
 
       <div class="main-post-images">
         <SliderImages
-          title="フォローユーザーの人気作品"
+          title="フォローユーザーの新着作品"
           refName="follow"
           :postImages="followingUserImages"
         ></SliderImages>
