@@ -8,7 +8,8 @@ Rails.application.routes.draw do
 
   resources :post_images, only: [:show, :index] do
     collection do
-      get '/main', to: 'post_images#main'
+      get :main
+      get '/hashtag/:name', to: "post_images#hashtag"
     end
   end
 
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
         resources :post_comments, only: [:create, :destroy]
         collection do
           get :main
+          get '/hashtag/:name', to: "post_images#hashtag"
         end
       end
 

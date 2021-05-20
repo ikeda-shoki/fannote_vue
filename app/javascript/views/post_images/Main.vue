@@ -43,6 +43,14 @@
       </div>
 
       <div class="main-post-images">
+        <SliderHashTags
+          title="人気のタグ"
+          refName="hashtag"
+          :hashTags="hashTags">
+        </SliderHashTags>
+      </div>
+
+      <div class="main-post-images">
         <SliderImages
           title="イラストの人気作品"
           refName="iluust"
@@ -88,6 +96,7 @@ import {
 import "hooper/dist/hooper.css";
 import PostImage from "../../components/parts/PostImage.vue";
 import SliderImages from "../../components/parts/SliderImages.vue";
+import SliderHashTags from "../../components/parts/SliderHashTags.vue";
 
 export default {
   data() {
@@ -98,6 +107,7 @@ export default {
       rankingIllustImages: [],
       rankingPhotoImages: [],
       rankingLogoImages: [],
+      hashTags: [],
       hooperSettings: {
         infiniteScroll: true,
         trimWhiteSpace: true,
@@ -120,6 +130,7 @@ export default {
           this.rankingIllustImages = response.data.ranking_illust_images;
           this.rankingPhotoImages = response.data.ranking_photo_images;
           this.rankingLogoImages = response.data.ranking_logo_images;
+          this.hashTags = response.data.hash_tags;
         },
         (error) => {
           console.log(error, response);
@@ -132,6 +143,7 @@ export default {
     Hooper,
     Slide,
     SliderImages,
+    SliderHashTags,
     HooperPagination,
     HooperNavigation,
   },
