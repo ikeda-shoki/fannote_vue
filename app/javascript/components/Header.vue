@@ -24,6 +24,33 @@
               <i :class="logInUserLink.icon"></i>
             </router-link>
           </div>
+          <div
+            v-else-if="logInUserLink.name === 'メニュー'"
+            class="header-menu"
+          >
+            <a
+              href="/"
+              @click.prevent="pullDownMenu"
+              class="header-menu-button"
+            >
+              {{ logInUserLink.name }}
+              <i :class="logInUserLink.icon"></i>
+            </a>
+            <ul
+              class="header-menu-lists"
+              :class="{ 'open-menu': isHeaderMenu }"
+            >
+              <li
+                class="header-menu-list"
+                v-for="headerMenu in headerMenus"
+                :key="headerMenu.name"
+              >
+                <router-link :to="headerMenu.link">
+                  {{ headerMenu.name }}<i :class="headerMenu.class"></i>
+                </router-link>
+              </li>
+            </ul>
+          </div>
           <div v-else @click="modalOpen(logInUserLink.name)">
             <router-link
               :to="logInUserLink.path"
@@ -177,6 +204,12 @@ export default {
           hover: false,
         },
       ],
+      headerMenus: [
+        { name: "メイン画面", class: "fas fa-home", link: "/post_images/main" },
+        { name: "投稿一覧", class: "fas fa-copy", link: "/post_images" },
+        { name: "ユーザー一覧", class: "fas fa-users", link: "/post_images" },
+      ],
+      isHeaderMenu: true,
     };
   },
   methods: {
@@ -197,9 +230,17 @@ export default {
       await this.modalClose();
       this.$router.push("/post_images/" + value);
     },
+    pullDownMenu() {
+      this.isHeaderMenu = !this.isHeaderMenu;
+    },
   },
   components: {
     Modal,
+  },
+  watch: {
+    $route() {
+      this.isHeaderMenu = true;
+    },
   },
 };
 </script>
@@ -208,6 +249,10 @@ export default {
 $accent-color: #e65b20;
 $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
+
+.slide-top-move {
+  transition: all 3s;
+}
 
 header {
   position: fixed;
@@ -253,6 +298,60 @@ header {
         border-radius: 20px;
         transition: all 0.5s;
         padding: 5px 13px;
+      }
+    }
+
+    .header-menu {
+      position: relative;
+
+      .header-menu-button {
+        &:hover {
+          background-color: $accent-color;
+          color: $back-ground-color;
+          font-weight: bold;
+        }
+      }
+
+      .header-menu-lists {
+        position: absolute;
+        left: -18px;
+        background-color: $back-ground-color;
+        width: 130px;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.5s;
+        -moz-transition: all 0.5s;
+
+        .header-menu-list {
+          font-size: 13px;
+          padding: 10px 15px;
+          transition: all 0.5s;
+          -moz-transition: all 0.5s;
+
+          &:hover {
+            background-color: $accent-color;
+
+            a {
+              color: $back-ground-color;
+            }
+
+            i {
+              color: $back-ground-color;
+            }
+          }
+
+          a {
+            padding: 0;
+            display: block;
+          }
+
+          i {
+            margin-left: 5px;
+          }
+        }
+      }
+
+      .open-menu {
+        opacity: 0;
       }
     }
   }
