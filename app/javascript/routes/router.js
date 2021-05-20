@@ -10,9 +10,7 @@ import UserShow from "../views/users/UserShow.vue";
 import UserRequestIndex from "../views/users/UserRequestIndex.vue"
 import UserRequestResult from "../views/users/UserRequestResult.vue";
 import PostImages from "../views/post_images/PostImages.vue";
-// import {
-//   component
-// } from "vue/types/umd";
+import Users from "../views/users/Users.vue";
 
 Vue.use(Router);
 
@@ -56,6 +54,10 @@ const router = new Router({
     {
       path: "/post_images/:id",
       component: PostImageShow,
+    },
+    {
+      path: "/users",
+      component: Users,
     },
     {
       path: "/users/:id",
