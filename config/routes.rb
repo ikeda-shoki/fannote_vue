@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :index] do
     member do
       get "requesting", to: 'requests#requesting'
       get "requested", to: 'requests#requested'
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users, only: [:show, :update] do
+      resources :users, only: [:show, :update, :index] do
         collection do
           get :sign_in
         end

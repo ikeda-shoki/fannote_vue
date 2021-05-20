@@ -1,4 +1,4 @@
-json.extract! user, :id, :user_name, :account_name, :user_introduction, :is_reception, :complete_request_count
+json.extract! user, :id, :user_name, :account_name, :user_introduction, :is_reception, :complete_request_count, :created_at
 if user.profile_image.attached?
   image = user.encode_base64(user.profile_image)
 end

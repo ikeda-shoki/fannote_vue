@@ -14,6 +14,10 @@ class Api::V1::UsersController < ApplicationController
     @follower_images = PostImage.preload(:user).following_img(@user.following_user)
   end
 
+  def index
+    @users = User.all.order(id: "DESC")
+  end
+
   def update
     user = User.find(params[:id])
     if user.update(user_params)
