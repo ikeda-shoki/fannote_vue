@@ -16,6 +16,10 @@ class User < ApplicationRecord
   has_many :followed_user, through: :followed, source: :follower
   has_many :request, class_name: "Request", foreign_key: "requester_id", dependent: :destroy
   has_many :requested, class_name: "Request", foreign_key: "requested_id", dependent: :destroy
+  has_many :user_rooms, dependent: :destroy
+  has_many :chats, dependent: :destroy
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
   validates :account_name, uniqueness: { message: "入力されたアカウントネームは使用されています。" }
   validates :user_name, presence: { message: "名前を入力してください。" }

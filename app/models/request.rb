@@ -2,9 +2,11 @@ class Request < ApplicationRecord
   has_one_attached :reference_image
   has_many_attached :request_images
   attr_accessor :image
-
+  
   belongs_to :requester, class_name: "User"
   belongs_to :requested, class_name: "User"
+  has_many :user_rooms, dependent: :destroy
+  has_many :chats, dependent: :destroy
 
   enum file_format: { jpeg: 1, png: 2 }
   enum request_status: { 未受付: 0, 受付不可: 1, 製作中: 2, 製作完了: 3 }

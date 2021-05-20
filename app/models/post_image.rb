@@ -5,6 +5,8 @@ class PostImage < ApplicationRecord
   belongs_to :user
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :hash_tags, through: :post_image_hashtag_relations, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   validates :title, presence: { message: "タイトルを入力してください。" }
   validates :post_image_genre, presence: { message: "ジャンルを選択してください。" }
