@@ -5,6 +5,9 @@ class Api::V1::PostImagesController < ApplicationController
     @post_image = PostImage.find(params[:id])
     @user = @post_image.user
     @post_comments = @post_image.post_comments.order(id: "DESC")
+    @hash_tags = @post_image.hash_tags
+    part_image_introduction = @post_image.image_introduction.split(' ')
+    @image_introduction = part_image_introduction.drop_while { |i| i.slice(0) === "#" || i.slice(0) === "＃" }
   end
 
   def index
@@ -58,7 +61,6 @@ class Api::V1::PostImagesController < ApplicationController
 
   def hashtag
     @tag = HashTag.find_by(hashname: params[:name])
-    @post_images = @tag.post_images.preload(:user)
   end
 
   private
