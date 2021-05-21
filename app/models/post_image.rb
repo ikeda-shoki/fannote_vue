@@ -5,6 +5,9 @@ class PostImage < ApplicationRecord
   belongs_to :user
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :post_image_hashtag_relations, dependent: :destroy
+  has_many :hash_tags, through: :post_image_hashtag_relations, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   validates :title, presence: { message: "タイトルを入力してください。" }
   validates :post_image_genre, presence: { message: "ジャンルを選択してください。" }
@@ -33,6 +36,26 @@ class PostImage < ApplicationRecord
 
   def favorited_by?(user)
     favorites.where(user_id: user.id).exists?
+  end
+
+  after_create do
+    post_image = PostImage.find_by(id: id)
+    post_image_hashtags = image_introduction.scan(/[#＃][\w\p{Han}ぁ-ヶｦ-ﾟー]+/)
+    post_image.hash_tags = []
+    post_image_hashtags.uniq.map do |hashtag|
+      tag = HashTag.find_or_create_by(hashname: hashtag.downcase.delete('#＃'))
+      post_image.hash_tags << tag
+    end
+  end
+
+  before_update do
+    post_image = PostImage.find_by(id: id)
+    post_image.hash_tags.clear
+    post_image_hashtags = image_introduction.scan(/[#＃][\w\p{Han}ぁ-ヶｦ-ﾟー]+/)
+    post_image_hashtags.uniq.map do |hashtag|
+      tag = HashTag.find_or_create_by(hashname: hashtag.downcase.delete('#＃'))
+      post_image.hash_tags << tag
+    end
   end
 
   def get_post_image_comment

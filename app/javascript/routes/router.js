@@ -11,6 +11,7 @@ import UserRequestIndex from "../views/users/UserRequestIndex.vue"
 import UserRequestResult from "../views/users/UserRequestResult.vue";
 import PostImages from "../views/post_images/PostImages.vue";
 import Users from "../views/users/Users.vue";
+import HashTag from "../views/post_images/HashTag.vue";
 
 Vue.use(Router);
 
@@ -54,6 +55,10 @@ const router = new Router({
     {
       path: "/post_images/:id",
       component: PostImageShow,
+    },
+    {
+      path: "/post_images/hashtag/:name",
+      component: HashTag,
     },
     {
       path: "/users",

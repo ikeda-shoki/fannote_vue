@@ -37,6 +37,8 @@ export default {
 
 <style lang="scss" scoped>
 #user-items {
+  width: 100%;
+
   .user-item-content {
     display: flex;
     flex-direction: row;

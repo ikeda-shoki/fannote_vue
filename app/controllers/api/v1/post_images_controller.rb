@@ -5,6 +5,9 @@ class Api::V1::PostImagesController < ApplicationController
     @post_image = PostImage.find(params[:id])
     @user = @post_image.user
     @post_comments = @post_image.post_comments.order(id: "DESC")
+    @hash_tags = @post_image.hash_tags
+    part_image_introduction = @post_image.image_introduction.split(' ')
+    @image_introduction = part_image_introduction.drop_while { |i| i.slice(0) === "#" || i.slice(0) === "＃" }
   end
 
   def index
@@ -17,7 +20,7 @@ class Api::V1::PostImagesController < ApplicationController
   def main
     @post_images = PostImage.preload(:user).sort_new(15)
     @following_users_post_images = PostImage.preload(:user).my_follower_img(current_user).sort_new(15) if user_signed_in?
-    # @hashtags = Hashtag.find(PostImageHashtagRelation.group(:hashtag_id).sort_favorite(:hashtag_id, 20).pluck(:hashtag_id))
+    @hash_tags = HashTag.find(PostImageHashtagRelation.group(:hash_tag_id).sort_favorite(:hash_tag_id, 20).pluck(:hash_tag_id))
     ranking_post_images = PostImage.preload(:user).find(Favorite.group(:post_image_id).sort_favorite(:post_image_id))
     @ranking_post_images = ranking_post_images.first(15)
     @post_images_illust = (ranking_post_images.select { |n| n.post_image_genre === "イラスト" }).first(15)
@@ -54,6 +57,10 @@ class Api::V1::PostImagesController < ApplicationController
     else
       render json: post_image.errors, status: :unprocessable_entity
     end
+  end
+
+  def hashtag
+    @tag = HashTag.find_by(hashname: params[:name])
   end
 
   private

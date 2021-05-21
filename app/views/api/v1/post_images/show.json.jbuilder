@@ -3,6 +3,8 @@ json.set! :post_image do
   json.set! :user do
     json.partial! "api/v1/users/user", user: @user
   end
+  json.hash_tags(@hash_tags)
+  json.part_image_introductions(@image_introduction)
 end
 
 json.set! :user do

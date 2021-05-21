@@ -51,3 +51,9 @@ json.set! :ranking_logo_images do
     end
   end
 end
+
+json.set! :hash_tags do
+  json.array! @hash_tags do |hash_tag|
+    json.partial! "api/v1/post_images/hash_tag", hash_tag: hash_tag
+  end
+end

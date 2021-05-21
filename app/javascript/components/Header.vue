@@ -36,20 +36,22 @@
               {{ logInUserLink.name }}
               <i :class="logInUserLink.icon"></i>
             </a>
-            <ul
-              class="header-menu-lists"
-              :class="{ 'open-menu': isHeaderMenu }"
-            >
-              <li
-                class="header-menu-list"
-                v-for="headerMenu in headerMenus"
-                :key="headerMenu.name"
+            <transition name=fade>
+              <ul
+                class="header-menu-lists"
+                v-show="isHeaderMenu"
               >
-                <router-link :to="headerMenu.link">
-                  {{ headerMenu.name }}<i :class="headerMenu.class"></i>
-                </router-link>
-              </li>
-            </ul>
+                <li
+                  class="header-menu-list"
+                  v-for="headerMenu in headerMenus"
+                  :key="headerMenu.name"
+                >
+                  <router-link :to="headerMenu.link">
+                    {{ headerMenu.name }}<i :class="headerMenu.class"></i>
+                  </router-link>
+                </li>
+              </ul>
+            </transition>
           </div>
           <div v-else @click="modalOpen(logInUserLink.name)">
             <router-link
@@ -207,9 +209,9 @@ export default {
       headerMenus: [
         { name: "メイン画面", class: "fas fa-home", link: "/post_images/main" },
         { name: "投稿一覧", class: "fas fa-copy", link: "/post_images" },
-        { name: "ユーザー一覧", class: "fas fa-users", link: "/post_images" },
+        { name: "ユーザー一覧", class: "fas fa-users", link: "/users" },
       ],
-      isHeaderMenu: true,
+      isHeaderMenu: false,
     };
   },
   methods: {
@@ -239,7 +241,7 @@ export default {
   },
   watch: {
     $route() {
-      this.isHeaderMenu = true;
+      this.isHeaderMenu = false;
     },
   },
 };
@@ -348,10 +350,6 @@ header {
             margin-left: 5px;
           }
         }
-      }
-
-      .open-menu {
-        opacity: 0;
       }
     }
   }

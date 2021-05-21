@@ -8,11 +8,12 @@ Rails.application.routes.draw do
 
   resources :post_images, only: [:show, :index] do
     collection do
-      get '/main', to: 'post_images#main'
+      get :main
+      get '/hashtag/:name', to: "post_images#hashtag"
     end
   end
 
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :index] do
     member do
       get "requesting", to: 'requests#requesting'
       get "requested", to: 'requests#requested'
@@ -32,10 +33,11 @@ Rails.application.routes.draw do
         resources :post_comments, only: [:create, :destroy]
         collection do
           get :main
+          get '/hashtag/:name', to: "post_images#hashtag"
         end
       end
 
-      resources :users, only: [:show, :update] do
+      resources :users, only: [:show, :update, :index] do
         collection do
           get :sign_in
         end

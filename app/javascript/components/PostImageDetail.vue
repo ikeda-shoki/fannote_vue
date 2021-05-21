@@ -12,7 +12,16 @@
       </div>
     </div>
     <div class="post-image-detail-introduction">
-      <p>{{ postImage.image_introduction }}</p>
+      <template v-for="imageIntroduction in postImage.part_image_introductions">
+        <span :key="imageIntroduction.index">{{ imageIntroduction }} </span>
+      </template>
+      <div class="post-image-detail-hahstags">
+        <template v-for="hashTag in postImage.hash_tags">
+          <router-link :to="'/post_images/hashtag/' + hashTag.hashname" :key="hashTag.hashname" class="post-image-detail-hashtag">
+            #{{ hashTag.hashname }}
+          </router-link>
+        </template>
+      </div>
     </div>
     <div class="post-image-detail-etc">
       <span class="post-image-detail-username" v-if="user.account_name">
@@ -128,6 +137,16 @@ $danger-color: #e15253;
 
   .post-image-detail-introduction {
     margin-bottom: 10px;
+
+    .post-image-detail-hashtag {
+      font-weight: bold;
+      transition: all .3s;
+      -moz-transition: all .3s;
+
+      &:hover {
+        color: $accent-color;
+      }
+    }
   }
 
   .post-image-detail-etc {
