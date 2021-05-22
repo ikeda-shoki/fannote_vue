@@ -9,7 +9,7 @@ class Api::V1::RelationshipsController < ApplicationController
   def follow
     if !current_user.following?(@user)
       current_user.follow(params[:id])
-      # @user.create_notification_follow(current_user, @user)
+      @user.create_notification_follow(current_user, @user)
       render json: @user.followed_user.count, status: :ok
     else
       redirect_to main_post_images_path

@@ -72,9 +72,7 @@
       <div class="modal-main" v-if="modalType === 'リクエストを編集'">
         <template v-if="editData.requested_user.account_name">
           <ModalHeader
-            :header="
-              editData.requested_user.account_name + 'への依頼を変更する'
-            "
+            :header="editData.requested_user.account_name + 'への依頼を変更する'"
           ></ModalHeader>
         </template>
         <template v-else>
@@ -87,6 +85,12 @@
           @success="successRequestUpdate"
         ></RequestEditModal>
       </div>
+
+      <div class="modal-main" v-if="modalType === '通知'">
+        <ModalHeader header="通知一覧"></ModalHeader>
+        <NotificationsModal @modalClose="modalClose"></NotificationsModal>
+      </div>
+
       <CloseButton @click.native="modalClose"></CloseButton>
     </div>
   </div>
@@ -101,6 +105,7 @@ import UserEditModal from "./modal/UserEditModal.vue";
 import RequestModal from "./modal/RequestModal.vue";
 import RequestDetailModal from "./modal/RequestDetailModal.vue";
 import RequestEditModal from "./modal/RequestEditModal.vue";
+import NotificationsModal from "./modal/NotificationsModal.vue";
 
 export default {
   props: {
@@ -159,6 +164,7 @@ export default {
     RequestModal,
     RequestDetailModal,
     RequestEditModal,
+    NotificationsModal,
   },
 };
 </script>

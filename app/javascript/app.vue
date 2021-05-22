@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header :userLogIn="signIn" :currentUser="currentUser"></Header>
+    <Header :userLogIn="signIn" :currentUser="currentUser" @isUnchecked="isUnchecked"></Header>
     <transition name="fade" mode="out-in">
       <router-view :userLogIn="signIn" :currentUser="currentUser" :key="$route.params.id"></router-view>
     </transition>
@@ -20,6 +20,11 @@ export default {
       currentUser: {},
       signIn: "",
     };
+  },
+  methods: {
+    isUnchecked(value) {
+      this.currentUser.unchecked_notifications = value;
+    }
   },
   mounted() {
     axios.get("/api/v1/users/sign_in").then((response) => {

@@ -40,7 +40,7 @@ class Api::V1::RequestsController < ApplicationController
     end
     request.requested_id = user.id
     if request.save
-      # @request.create_notification_request(current_user)
+      request.create_notification_request(current_user)
       render json: request, status: :created
     else
       render json: request.errors, status: :unprocessable_entity
@@ -81,7 +81,7 @@ class Api::V1::RequestsController < ApplicationController
   # request_show画面でのrequest_statusのみの更新
   def update_request_status
     if @request.update(request_update_params)
-      # @request.create_notification_request_status(current_user)
+      @request.create_notification_request_status(current_user)
       render json: @request, status: :ok
     else
       render json: @request.errors, status: :unprocessable_entity
@@ -100,7 +100,7 @@ class Api::V1::RequestsController < ApplicationController
           render json: @request, status: :ok
           return
         end
-        # @request.create_notification_request_status(current_user)
+        @request.create_notification_request_status(current_user)
         render json: @request, status: :ok
       else
         render json: @request.errors, status: :unprocessable_entity
@@ -114,7 +114,7 @@ class Api::V1::RequestsController < ApplicationController
           render json: @request, status: :ok
           return
         end
-        # @request.create_notification_request_status(current_user)
+        @request.create_notification_request_status(current_user)
         render json: @request, status: :ok
       else
         @request.request_images.purge

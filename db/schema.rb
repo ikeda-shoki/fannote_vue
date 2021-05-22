@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_20_162941) do
+ActiveRecord::Schema.define(version: 2021_05_22_103857) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(version: 2021_05_20_162941) do
   create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "visitor_id", null: false
     t.bigint "visited_id", null: false
-    t.bigint "post_image_id", null: false
-    t.bigint "request_id", null: false
+    t.bigint "post_image_id"
+    t.bigint "request_id"
     t.string "action", default: "", null: false
     t.boolean "checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false

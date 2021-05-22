@@ -63,6 +63,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :notifications, only: [:index, :destroy] do
+        collection do
+          delete :all_destroy
+        end
+      end
+
       post 'follow/:id', to: 'relationships#follow', as: 'follow'
       delete 'follow/:id', to: 'relationships#unfollow', as: 'unfollow'
     end

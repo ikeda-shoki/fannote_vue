@@ -6,8 +6,8 @@ class Api::V1::PostCommentsController < ApplicationController
     post_comment = PostComment.new(post_comment_params)
     post_comment.post_image_id = post_image.id
     if post_comment.save
+      post_image.create_notification_post_image_comment(current_user)
       render json: post_comment.to_json(include: :user), status: :created
-      # @post_image.create_notification_post_image_comment(current_user)
     else
       render json: post_comment.errors, status: :unprocessable_entity
     end

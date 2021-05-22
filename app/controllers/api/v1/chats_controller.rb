@@ -24,7 +24,7 @@ class Api::V1::ChatsController < ApplicationController
   def create
     chat = current_user.chats.new(chat_params)
     if chat.save
-      # @chat.create_notification_chat(current_user)
+      chat.create_notification_chat(current_user)
       render json: chat, status: :created
     else
       render json: chat.errors, status: :unprocessable_entity

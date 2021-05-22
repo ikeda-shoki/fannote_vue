@@ -5,7 +5,7 @@ class Api::V1::FavoritesController < ApplicationController
     @post_image = PostImage.find(params[:post_image_id])
     favorite = current_user.favorites.new(post_image_id: @post_image.id)
     if favorite.save
-      # @post_image.create_notification_favorite(current_user)
+      @post_image.create_notification_favorite(current_user)
       render json: favorite, status: :created
     else
       render json: favorite.errors, status: :unprocessable_entity

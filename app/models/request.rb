@@ -2,11 +2,12 @@ class Request < ApplicationRecord
   has_one_attached :reference_image
   has_many_attached :request_images
   attr_accessor :image
-  
+
   belongs_to :requester, class_name: "User"
   belongs_to :requested, class_name: "User"
   has_many :user_rooms, dependent: :destroy
   has_many :chats, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   enum file_format: { jpeg: 1, png: 2 }
   enum request_status: { 未受付: 0, 受付不可: 1, 製作中: 2, 製作完了: 3 }
@@ -75,6 +76,44 @@ class Request < ApplicationRecord
 
   def self.following_img(following_user)
     where(user_id: following_user.pluck(:id)).reverse_order
+  end
+
+  def create_notification_request(current_user)
+    notification = current_user.active_notifications.new(
+      request_id: id,
+      visitor_id: requester_id,
+      visited_id: requested_id,
+      action: 'request'
+    )
+    notification.save
+  end
+
+  def create_notification_request_status(current_user)
+    if request_status === "製作中"
+      notification = current_user.active_notifications.new(
+        request_id: id,
+        visitor_id: requested_id,
+        visited_id: requester_id,
+        action: 'request_ok'
+      )
+      notification.save
+    elsif request_status === "受付不可"
+      notification = current_user.active_notifications.new(
+        request_id: id,
+        visitor_id: requested_id,
+        visited_id: requester_id,
+        action: 'request_out'
+      )
+      notification.save
+    elsif request_status === "製作完了"
+      notification = current_user.active_notifications.new(
+        request_id: id,
+        visitor_id: requested_id,
+        visited_id: requester_id,
+        action: 'request_complete'
+      )
+      notification.save
+    end
   end
 
   private

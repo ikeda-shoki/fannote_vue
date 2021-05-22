@@ -66,12 +66,37 @@ class PostImage < ApplicationRecord
     where(user_id: current_user.following_user.pluck(:id))
   end
 
-  def self.search_keyword(keyword)
-    where(['title LIKE ? OR image_introduction LIKE ?', "%#{keyword}%", "%#{keyword}%"])
-  end
+  # def self.search_keyword(keyword)
+  #   where(['title LIKE ? OR image_introduction LIKE ?', "%#{keyword}%", "%#{keyword}%"])
+  # end
 
   def self.following_img(following_user)
     where(user_id: following_user.pluck(:id)).reverse_order
+  end
+
+  def create_notification_favorite(current_user)
+    favorited = Notification.is_favite_notification(current_user.id, user_id, id)
+    if favorited.blank?
+      notification = current_user.active_notifications.new(
+        post_image_id: id,
+        visited_id: user_id,
+        action: 'favorite'
+      )
+      unless notification.visitor_id === notification.visited_id
+        notification.save
+      end
+    end
+  end
+
+  def create_notification_post_image_comment(current_user)
+    notification = current_user.active_notifications.new(
+      post_image_id: id,
+      visited_id: user_id,
+      action: 'post_image_comment'
+    )
+    unless notification.visitor_id === notification.visited_id
+      notification.save
+    end
   end
 
   # controller用 scope

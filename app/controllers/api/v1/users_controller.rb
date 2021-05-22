@@ -3,7 +3,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :ensure_current_user, only: [:edit, :update, :destroy]
 
   def sign_in
-    @user = current_user
+    @current_user = current_user
   end
 
   def show
