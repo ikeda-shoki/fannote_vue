@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :index] do
     member do
+      get :followed
+      get :following
       get "requesting", to: 'requests#requesting'
       get "requested", to: 'requests#requested'
     end

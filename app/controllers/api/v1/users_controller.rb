@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
   before_action :ensure_current_user, only: [:edit, :update, :destroy]
 
   def sign_in
@@ -31,6 +31,16 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: user.errors, status: :unprocessable_entity
     end
+  end
+
+  def following
+    @user = User.find(params[:id])
+    @followers = @user.following_user
+  end
+
+  def followed
+    @user = User.find(params[:id])
+    @followed = @user.followed_user
   end
 
   private

@@ -17,7 +17,11 @@
           class="chats-main"
         >
           <template v-for="(chat, index) in chats">
-            <div v-if="chat.user_id === currentUser.id" :key="chat.id" class="my-comments">
+            <div
+              v-if="chat.user_id === currentUser.id"
+              :key="chat.id"
+              class="my-comments"
+            >
               <MyComment
                 :chat="chat"
                 :index="index"
@@ -30,7 +34,7 @@
           </template>
         </transition-group>
 
-        <div name="fade-list" class="chat-form">
+        <div class="chat-form">
           <div class="chat-form-main">
             <CommentForm
               v-model="message"
@@ -159,7 +163,7 @@ $font-white: #fffffe;
 $danger-color: #e15253;
 
 .fade-list-chat-move {
-  transition: all .5s;
+  transition: all 0.5s;
 }
 
 .fade-list-chat-enter {
@@ -167,11 +171,11 @@ $danger-color: #e15253;
 }
 
 .fade-list-chat-enter-active {
-  transition: all .5s;
+  transition: all 0.5s;
 }
 
 .fade-list-chat-leave-active {
-  transition: opacity .5s ease;
+  transition: all 0.5s ease;
 }
 
 .fade-list-chat-leave-to {
