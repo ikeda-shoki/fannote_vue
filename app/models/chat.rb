@@ -2,7 +2,7 @@ class Chat < ApplicationRecord
   belongs_to :user
   belongs_to :request
 
-  validates :message, presence: true
+  validates :message, presence: { message: "メッセージ送信欄が空白です。" }
 
   # def create_notification_chat(current_user)
   #   rooms = room.user_rooms

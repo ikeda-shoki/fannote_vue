@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         get :request_done
         get :request_complete
       end
+      resource :chats, only: :show
     end
   end
 
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
             get :request_done
             get :request_complete
           end
+          resource :chats, only: [:show, :create, :destroy]
         end
       end
 
