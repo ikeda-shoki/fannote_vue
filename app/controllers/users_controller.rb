@@ -6,4 +6,11 @@ class UsersController < ApplicationController
 
   def index
   end
+
+  def following
+  end
+
+  def followed
+  end
+
 end

@@ -41,6 +41,22 @@ class User < ApplicationRecord
     self == current_user
   end
 
+  def create_notification_follow(current_user, user)
+    followed = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ", current_user.id, user.id, 'follow'])
+    if followed.blank?
+      notification = current_user.active_notifications.new(
+        visitor_id: current_user.id,
+        visited_id: user.id,
+        action: 'follow'
+      )
+      notification.save
+    end
+  end
+
+  def unchecked_notifications?
+    passive_notifications.where(checked: false).any?
+  end
+
   def parse_base64(image)
     if image.present? || rex_image(image) == ''
       content_type = create_extension(image)

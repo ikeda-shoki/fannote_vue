@@ -14,14 +14,18 @@
         <span>{{ user.user_post_image_count }}</span>
       </div>
       <div class="user-item">
-        <h6>フォロー</h6>
-        <span>{{ user.follower_count }}</span>
+        <router-link :to="'/users/' + this.$route.params.id + '/following'">
+          <h6>フォロー</h6>
+          <span>{{ user.follower_count }}</span>
+        </router-link>
       </div>
       <div class="user-item">
-        <h6>フォロワー</h6>
-        <transition name="fade-list" type="out-in">
-          <span :key="user.followed_count">{{ user.followed_count }}</span>
-        </transition>
+        <router-link :to="'/users/' + this.$route.params.id + '/followed'">
+          <h6>フォロワー</h6>
+          <transition name="fade-list" type="out-in">
+            <span :key="user.followed_count">{{ user.followed_count }}</span>
+          </transition>
+        </router-link>
       </div>
     </div>
   </div>

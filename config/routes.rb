@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :index] do
     member do
+      get :followed
+      get :following
       get "requesting", to: 'requests#requesting'
       get "requested", to: 'requests#requested'
     end
@@ -23,6 +25,7 @@ Rails.application.routes.draw do
         get :request_done
         get :request_complete
       end
+      resource :chats, only: :show
     end
   end
 
@@ -56,6 +59,13 @@ Rails.application.routes.draw do
             get :request_done
             get :request_complete
           end
+          resource :chats, only: [:show, :create, :destroy]
+        end
+      end
+
+      resources :notifications, only: [:index, :destroy] do
+        collection do
+          delete :all_destroy
         end
       end
 

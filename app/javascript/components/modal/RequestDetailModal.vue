@@ -106,6 +106,7 @@
         </template>
       </template>
     </div>
+    <ChatButton :userId="Number($route.params.id)" :requestId="request.id"></ChatButton>
   </div>
 </template>
 
@@ -117,6 +118,7 @@ import RadioButton from "../form/RadioButton.vue";
 import FormButton from "../form/FormButton.vue";
 import FileForms from "../form/FileForms.vue";
 import ErrorMessage from "../form/ErrorMessage.vue";
+import ChatButton from "../parts/ChatButton.vue";
 
 export default {
   props: {
@@ -155,6 +157,7 @@ export default {
     FormButton,
     FileForms,
     ErrorMessage,
+    ChatButton,
   },
   methods: {
     modalChenge() {
@@ -310,6 +313,12 @@ $danger-color: #e15253;
     font-size: 20px;
     color: $danger-color;
     margin-top: 60px;
+  }
+
+  #chat-button {
+    position: fixed;
+    top: 600px;
+    right: 170px;
   }
 }
 </style>

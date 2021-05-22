@@ -36,11 +36,8 @@
               {{ logInUserLink.name }}
               <i :class="logInUserLink.icon"></i>
             </a>
-            <transition name=fade>
-              <ul
-                class="header-menu-lists"
-                v-show="isHeaderMenu"
-              >
+            <transition name="fade">
+              <ul class="header-menu-lists" v-show="isHeaderMenu">
                 <li
                   class="header-menu-list"
                   v-for="headerMenu in headerMenus"
@@ -52,6 +49,24 @@
                 </li>
               </ul>
             </transition>
+          </div>
+          <div
+            v-else-if="logInUserLink.name === '通知'"
+            @click="modalOpen(logInUserLink.name)"
+            class="notification-link"
+          >
+            <router-link
+              :to="logInUserLink.path"
+              :class="{ hover: logInUserLink.hover }"
+              @click.native="isUnchecked"
+            >
+              {{ logInUserLink.name }}
+              <i :class="logInUserLink.icon"></i>
+            </router-link>
+            <div
+              v-if="currentUser.unchecked_notifications"
+              class="is-unchecked"
+            ></div>
           </div>
           <div v-else @click="modalOpen(logInUserLink.name)">
             <router-link
@@ -78,6 +93,7 @@
           </a>
         </div>
       </div>
+
       <div class="header-right" v-else>
         <div
           class="header-link"
@@ -235,6 +251,9 @@ export default {
     pullDownMenu() {
       this.isHeaderMenu = !this.isHeaderMenu;
     },
+    isUnchecked() {
+      this.$emit("isUnchecked", false)
+    }
   },
   components: {
     Modal,
@@ -350,6 +369,21 @@ header {
             margin-left: 5px;
           }
         }
+      }
+    }
+
+    .notification-link {
+      position: relative;
+
+      .is-unchecked {
+        position: absolute;
+        background-color: #efa04c;
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        top: 2px;
+        right: 5px;
       }
     }
   }

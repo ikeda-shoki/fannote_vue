@@ -35,3 +35,13 @@ User.create!(
   complete_request_count: 0,
   password: "000000"
 )
+
+10.times do |n|
+  User.create!(
+    email: "test#{n + 1}@example.com",
+    user_name: Faker::Name.unique.name,
+    account_name: Faker::Name.unique.name,
+    is_reception: "false",
+    password: "000000"
+  )
+end

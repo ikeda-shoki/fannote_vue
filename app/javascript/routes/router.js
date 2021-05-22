@@ -12,6 +12,8 @@ import UserRequestResult from "../views/users/UserRequestResult.vue";
 import PostImages from "../views/post_images/PostImages.vue";
 import Users from "../views/users/Users.vue";
 import HashTag from "../views/post_images/HashTag.vue";
+import UserRequestChat from "../views/users/UserRequestChat.vue";
+import UserFollowIndex from "../views/users/UserFollowIndex.vue";
 
 Vue.use(Router);
 
@@ -81,6 +83,16 @@ const router = new Router({
           component: UserRequestIndex,
           name: "requested"
         },
+        {
+          path: "/users/:id/following",
+          component: UserFollowIndex,
+          name: "following"
+        },
+        {
+          path: "/users/:id/followed",
+          component: UserFollowIndex,
+          name: "followed"
+        },
       ]
     },
     {
@@ -92,6 +104,10 @@ const router = new Router({
       path: "/users/:user_id/requests/:id/request_complete",
       component: UserRequestResult,
       name: "request_complete"
+    },
+    {
+      path: "/users/:user_id/requests/:request_id/chats",
+      component: UserRequestChat,
     },
   ],
   scrollBehavior(to, from, savedPosition) {
