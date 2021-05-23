@@ -31,7 +31,9 @@
           <hooper-pagination slot="hooper-addons" />
           <hooper-navigation slot="hooper-addons" />
         </hooper>
-        <router-link :to="'/post_images'" class="post-images-link">作品一覧へ<i class="fas fa-angle-right"></i></router-link>
+        <router-link :to="'/post_images'" class="post-images-link"
+          >作品一覧へ<i class="fas fa-angle-right"></i
+        ></router-link>
       </div>
 
       <div class="main-post-images">
@@ -46,7 +48,8 @@
         <SliderHashTags
           title="人気のタグ"
           refName="hashtag"
-          :hashTags="hashTags">
+          :hashTags="hashTags"
+        >
         </SliderHashTags>
       </div>
 
@@ -255,8 +258,8 @@ $danger-color: #e15253;
     display: block;
     margin-top: 20px;
     text-align: right;
-    transition: all .5s;
-    -moz-transition: all .5s;
+    transition: all 0.5s;
+    -moz-transition: all 0.5s;
 
     &:hover {
       color: $accent-color;
@@ -268,8 +271,8 @@ $danger-color: #e15253;
 
     i {
       margin-left: 10px;
-      transition: all .5s;
-      -moz-transition: all .5s;
+      transition: all 0.5s;
+      -moz-transition: all 0.5s;
     }
   }
 }

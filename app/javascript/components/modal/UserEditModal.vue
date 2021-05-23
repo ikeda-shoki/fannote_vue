@@ -79,9 +79,19 @@
       </div>
       <div class="form-item user-edit-modal-buttons" key="form-button">
         <FormButton buttonName="更新する" @click.native="editUser"></FormButton>
-        <button class="button" @click="deleteUser">退会する</button>
+        <button
+          class="button"
+          @click="openConfirm"
+        >
+          退会する
+        </button>
       </div>
     </transition-group>
+    <transition name="fade">
+      <Confirm v-if="isConfirm === true" @falseAction="closeConfirm" @successAction="deleteUser">
+        あなたに関する全てのデータが消去されます。本当に退会しますか？
+      </Confirm>
+    </transition>
   </div>
 </template>
 
@@ -93,6 +103,7 @@ import RadioButton from "../form/RadioButton.vue";
 import FormButton from "../form/FormButton.vue";
 import CircleImage from "../parts/CircleImage.vue";
 import ErrorMessage from "../form/ErrorMessage.vue";
+import Confirm from "../parts/Confirm.vue";
 import axios from "axios";
 
 export default {
@@ -104,6 +115,7 @@ export default {
     FormButton,
     CircleImage,
     ErrorMessage,
+    Confirm,
   },
   props: {
     editData: { type: Object },
@@ -120,16 +132,17 @@ export default {
       options: [
         {
           label: "受け付ける",
-          value: true
+          value: true,
         },
         {
           label: "受け付けない",
-          value: false
-        }
+          value: false,
+        },
       ],
+      isConfirm: false,
       errors: false,
       errorMessage: {},
-    }
+    };
   },
   methods: {
     onFileChange(value) {
@@ -139,17 +152,17 @@ export default {
       this.user.image = value;
     },
     scrollTop() {
-      var modalTop = document.getElementById('user-edit-modal');
+      var modalTop = document.getElementById("user-edit-modal");
       modalTop.scrollTo({
         top: 0,
-        behavior: "smooth"
-      })
+        behavior: "smooth",
+      });
     },
     editUser() {
       axios({
         url: "/api/v1/users/" + this.$route.params.id,
         data: {
-          user: this.user
+          user: this.user,
         },
         method: "PATCH",
       })
@@ -161,13 +174,12 @@ export default {
           this.errors = true;
           setTimeout(() => {
             this.scrollTop();
-          }, 500)
+          }, 500);
         });
     },
     deleteUser() {
       axios({
-        url:
-          "/api/v1/users/" + this.$route.params.id,
+        url: "/api/v1/users/" + this.$route.params.id,
         data: {
           id: this.$route.params.id,
         },
@@ -179,8 +191,14 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    }
-  }
+    },
+    openConfirm() {
+      this.isConfirm = true;
+    },
+    closeConfirm() {
+      this.isConfirm = false;
+    },
+  },
 };
 </script>
 
@@ -252,6 +270,12 @@ $danger-color: #e15253;
     color: $danger-color;
     margin-bottom: 40px;
     text-align: left;
+  }
+
+  #confirm {
+    /deep/ p {
+      font-size: 18px;
+    }
   }
 }
 </style>

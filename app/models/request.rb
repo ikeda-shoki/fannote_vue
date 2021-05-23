@@ -16,7 +16,7 @@ class Request < ApplicationRecord
   validates :file_format, presence: { message: "ファイル形式は必ず選択してください"}
   validates :use, presence: { message: "用途は必ず入力してください"}
   validates :deadline, presence: { message: "締め切りは必ず入力してください"}
-  validates :amount, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 99 }, presence: true
+  validates :amount, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 99, message: "数量は1以上の値を選択してください" }, presence: true
   validates :request_status, presence: true
   validates :request_images, presence: { message: "画像を選択してください"}, on: :update_complete_image
   validate :request_images_length, on: :update_complete_image
