@@ -1,5 +1,5 @@
 <template>
-  <form id="user-edit-modal" @submit.prevent="editUser">
+  <div id="user-edit-modal">
     <transition-group name="fade-list">
       <p v-if="errors" class="error" key="error">入力内容を確認してください</p>
       <div class="form-item" key="form-user-name">
@@ -77,11 +77,12 @@
           :message="errorMessage.is_reception"
         ></ErrorMessage>
       </div>
-      <div class="form-item" key="form-button">
-        <FormButton buttonName="更新する"></FormButton>
+      <div class="form-item user-edit-modal-buttons" key="form-button">
+        <FormButton buttonName="更新する" @click.native="editUser"></FormButton>
+        <button class="button" @click="deleteUser">退会する</button>
       </div>
     </transition-group>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -162,6 +163,22 @@ export default {
             this.scrollTop();
           }, 500)
         });
+    },
+    deleteUser() {
+      axios({
+        url:
+          "/api/v1/users/" + this.$route.params.id,
+        data: {
+          id: this.$route.params.id,
+        },
+        method: "DELETE",
+      })
+        .then((response) => {
+          this.$router.push("/users/withdrawal");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 };
@@ -210,6 +227,17 @@ $danger-color: #e15253;
 
   .form-item {
     margin-bottom: 20px;
+  }
+
+  .user-edit-modal-buttons {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+
+    .button {
+      margin-left: 15px;
+      background-color: $danger-color;
+    }
   }
 
   #error-message {

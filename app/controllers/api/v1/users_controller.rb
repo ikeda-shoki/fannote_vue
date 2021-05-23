@@ -43,6 +43,16 @@ class Api::V1::UsersController < ApplicationController
     @followed = @user.followed_user
   end
 
+  def destroy
+    @user = User.find(params[:id])
+    if @user.destroy
+      head :no_content
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+
   private
 
   def user_params

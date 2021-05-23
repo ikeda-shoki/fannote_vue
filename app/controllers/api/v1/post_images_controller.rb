@@ -53,7 +53,7 @@ class Api::V1::PostImagesController < ApplicationController
   def destroy
     post_image = PostImage.find(params[:id])
     if post_image.destroy
-      render json: post_image, staus: :delete
+      head :no_content
     else
       render json: post_image.errors, status: :unprocessable_entity
     end

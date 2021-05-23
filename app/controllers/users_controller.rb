@@ -23,4 +23,7 @@ class UsersController < ApplicationController
   def followed
   end
 
+  def withdrawal
+  end
+
 end

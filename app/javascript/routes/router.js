@@ -14,6 +14,7 @@ import Users from "../views/users/Users.vue";
 import HashTag from "../views/post_images/HashTag.vue";
 import UserRequestChat from "../views/users/UserRequestChat.vue";
 import UserFollowIndex from "../views/users/UserFollowIndex.vue";
+import UserWithdrawal from "../views/users/UserWithdrawal.vue";
 
 Vue.use(Router);
 
@@ -65,6 +66,10 @@ const router = new Router({
     {
       path: "/users",
       component: Users,
+    },
+    {
+      path: "/users/withdrawal",
+      component: UserWithdrawal,
     },
     {
       path: "/users/:id",
