@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:show, :index, :update, :following, :followed]
   before_action :ensure_current_user, only: [:edit, :update, :destroy]
 
   def sign_in

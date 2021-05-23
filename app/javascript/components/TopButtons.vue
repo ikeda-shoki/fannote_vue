@@ -7,7 +7,7 @@
       <a href="/users/sign_up" class="top-button"><span>Sign Up</span></a>
     </Button>
     <Button>
-      <a href="" class="top-button"><span>Guest Log In(ポートフォリオ用)</span></a>
+      <a href="/users/new_guest" class="top-button" data-method="post"><span>Guest Log In(ポートフォリオ用)</span></a>
     </Button>
   </div>
 </template>
