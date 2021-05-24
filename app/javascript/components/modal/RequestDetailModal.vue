@@ -106,10 +106,6 @@
             ></ErrorMessage>
           </div>
           <div class="request-detail-modal-submitbutton">
-            <!-- <FormButton
-              buttonName="送信する"
-              @click.native="requestCompleteImagesUpdate"
-            ></FormButton> -->
             <FormButton
               buttonName="送信する"
               @click.native="openConfirm"

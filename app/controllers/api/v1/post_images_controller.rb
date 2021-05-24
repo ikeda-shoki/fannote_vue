@@ -6,8 +6,6 @@ class Api::V1::PostImagesController < ApplicationController
     @user = @post_image.user
     @post_comments = @post_image.post_comments.order(id: "DESC")
     @hash_tags = @post_image.hash_tags
-    part_image_introduction = @post_image.image_introduction.split(' ')
-    @image_introduction = part_image_introduction.drop_while { |i| i.slice(0) === "#" || i.slice(0) === "＃" }
   end
 
   def index

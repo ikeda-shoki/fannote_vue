@@ -107,7 +107,6 @@ class Api::V1::RequestsController < ApplicationController
       end
     else
       #初めての画像投稿の場合
-      binding.pry
       if @request.parse_base64s(params[:request][:request_images]) && @request.valid?(:update_complete_image)
         if @request.amount === @request.request_images.size
           @request.update(request_status: :"製作完了")
@@ -118,7 +117,7 @@ class Api::V1::RequestsController < ApplicationController
         @request.create_notification_request_status(current_user)
         render json: @request, status: :ok
       else
-        render json: @request.errors, status: :unprocessable_entity
+        render json: { request_images: [ "画像を選択してください" ]}, status: :unprocessable_entity
         @request.request_images.purge
       end
     end
