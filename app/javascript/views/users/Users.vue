@@ -1,36 +1,39 @@
 <template>
-  <div id="users-index">
-    <div class="container">
-      <Title title="ユーザー一覧"></Title>
-      <div class="users-sort">
-        <SelectForm
-          :value="selectSort"
-          :options="options"
-          :checkedValue="selectSort"
-          @input="selectSort = $event"
-          name="sort_post_image"
-        ></SelectForm>
-        <button class="button" @click="sortUsers">
-          並び替える
-        </button>
+  <transition-group name="fade">
+    <Loading v-if="isLoading === true" key="loader"></Loading>
+    <div id="users-index" v-if="isLoading === false" key="noloader">
+      <div class="container">
+        <Title title="ユーザー一覧"></Title>
+        <div class="users-sort">
+          <SelectForm
+            :value="selectSort"
+            :options="options"
+            :checkedValue="selectSort"
+            @input="selectSort = $event"
+            name="sort_post_image"
+          ></SelectForm>
+          <button class="button" @click="sortUsers">
+            並び替える
+          </button>
+        </div>
+        <div class="users-search">
+          <CommentForm
+            v-model="keyword"
+            id="search"
+            type="text"
+            name="search"
+            placeholder="キーワードを入力してください"
+          ></CommentForm>
+          <i class="fas fa-search" @click="searchUsers"></i>
+        </div>
+        <transition-group tag="div" class="users-items" name="sort-user">
+          <template v-for="user in usersSearch">
+            <UserItem :user="user" :key="user.id"></UserItem>
+          </template>
+        </transition-group>
       </div>
-      <div class="users-search">
-        <CommentForm
-          v-model="keyword"
-          id="search"
-          type="text"
-          name="search"
-          placeholder="キーワードを入力してください"
-        ></CommentForm>
-        <i class="fas fa-search" @click="searchUsers"></i>
-      </div>
-      <transition-group tag="div" class="users-items" name="sort-user">
-        <template v-for="user in usersSearch">
-          <UserItem :user="user" :key="user.id"></UserItem>
-        </template>
-      </transition-group>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -38,6 +41,7 @@ import Title from "../../components/parts/Title.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
 import UserItem from "../../components/parts/UserItem.vue";
 import CommentForm from "../../components/form/CommetForm.vue";
+import Loading from "../../components/parts/Loading.vue";
 import axios from "axios";
 
 export default {
@@ -53,6 +57,7 @@ export default {
       ],
       selectSort: "new",
       keyword: "",
+      isLoading: true,
     };
   },
   components: {
@@ -60,10 +65,11 @@ export default {
     SelectForm,
     UserItem,
     CommentForm,
+    Loading,
   },
   methods: {
-    getInfo() {
-      axios.get("/api/v1/users").then(
+    async getInfo() {
+      await axios.get("/api/v1/users").then(
         (response) => {
           this.users = response.data.users;
           this.usersSearch = response.data.users;
@@ -72,6 +78,7 @@ export default {
           this.$router.push("/post_images/main");
         }
       );
+      this.isLoading = false;
     },
     sortUsers() {
       if (this.selectSort === "new") {

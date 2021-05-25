@@ -1,95 +1,103 @@
 <template>
-  <div id="main">
-    <div class="container">
-      <div class="favorite-images">
-        <h2>人気の作品</h2>
-        <hooper :settings="hooperSettings">
-          <slide
-            class="post-image"
-            v-for="(postImage, index) in rankingImages"
-            :key="postImage.id"
-          >
-            <div class="favorite-image">
-              <router-link :to="'/post_images/' + postImage.id">
-                <span class="image-score">{{ index + 1 }}</span>
-                <img :src="postImage.post_image" />
-                <div class="favorite-image-info">
-                  <div class="favorite-image-info-user">
-                    <span v-if="postImage.user.account_name"
-                      ><i class="fas fa-user"></i
-                      >{{ postImage.user.account_name }}</span
-                    >
-                    <span v-else
-                      >{{ postImage.user.user_name }}<i class="fas fa-user"></i
-                    ></span>
+  <transition-group name="fade">
+    <Loading v-if="isLoading === true" key="loader"></Loading>
+    <div id="main" v-if="isLoading === false" key="noloader">
+      <div class="container">
+        <div class="favorite-images">
+          <h2>人気の作品</h2>
+          <hooper :settings="hooperSettings">
+            <slide
+              class="post-image"
+              v-for="(postImage, index) in rankingImages"
+              :key="postImage.id"
+            >
+              <div class="favorite-image">
+                <router-link :to="'/post_images/' + postImage.id">
+                  <span class="image-score">{{ index + 1 }}</span>
+                  <img :src="postImage.post_image" />
+                  <div class="favorite-image-info">
+                    <div class="favorite-image-info-user">
+                      <span v-if="postImage.user.account_name"
+                        ><i class="fas fa-user"></i
+                        >{{ postImage.user.account_name }}</span
+                      >
+                      <span v-else
+                        >{{ postImage.user.user_name }}<i class="fas fa-user"></i
+                      ></span>
+                    </div>
+                    <p>{{ postImage.title }}</p>
                   </div>
-                  <p>{{ postImage.title }}</p>
-                </div>
-              </router-link>
-            </div>
-          </slide>
-          <hooper-pagination slot="hooper-addons" />
-          <hooper-navigation slot="hooper-addons" />
-        </hooper>
-        <router-link :to="'/post_images'" class="post-images-link"
-          >作品一覧へ<i class="fas fa-angle-right"></i
-        ></router-link>
-      </div>
+                </router-link>
+              </div>
+            </slide>
+            <hooper-pagination slot="hooper-addons" />
+            <hooper-navigation slot="hooper-addons" />
+          </hooper>
+          <router-link :to="'/post_images'" class="post-images-link"
+            >作品一覧へ<i class="fas fa-angle-right"></i
+          ></router-link>
+        </div>
 
-      <div class="main-post-images">
-        <SliderImages
-          title="新着作品"
-          refName="new"
-          :postImages="postImages"
-        ></SliderImages>
-      </div>
+        <div class="main-post-images">
+          <SliderImages
+            title="新着作品"
+            refName="new"
+            :postImages="postImages"
+          ></SliderImages>
+        </div>
 
-      <div class="main-post-images">
-        <SliderHashTags
-          title="人気のタグ"
-          refName="hashtag"
-          :hashTags="hashTags"
-        >
-        </SliderHashTags>
-      </div>
+        <div class="main-post-images">
+          <SliderHashTags
+            title="人気のタグ"
+            refName="hashtag"
+            :hashTags="hashTags"
+          >
+          </SliderHashTags>
+        </div>
 
-      <div class="main-post-images">
-        <SliderImages
-          title="イラストの人気作品"
-          refName="iluust"
-          :postImages="rankingIllustImages"
-        ></SliderImages>
-      </div>
+        <div class="main-post-images">
+          <SliderImages
+            title="イラストの人気作品"
+            refName="iluust"
+            :postImages="rankingIllustImages"
+          ></SliderImages>
+        </div>
 
-      <div class="main-post-images">
-        <SliderImages
-          title="写真の人気作品"
-          refName="photo"
-          :postImages="rankingPhotoImages"
-        ></SliderImages>
-      </div>
+        <div class="main-post-images">
+          <SliderImages
+            title="写真の人気作品"
+            refName="photo"
+            :postImages="rankingPhotoImages"
+          ></SliderImages>
+        </div>
 
-      <div class="main-post-images">
-        <SliderImages
-          title="ロゴの人気作品"
-          refName="logo"
-          :postImages="rankingLogoImages"
-        ></SliderImages>
-      </div>
+        <div class="main-post-images">
+          <SliderImages
+            title="ロゴの人気作品"
+            refName="logo"
+            :postImages="rankingLogoImages"
+          ></SliderImages>
+        </div>
 
-      <div class="main-post-images">
-        <SliderImages
-          title="フォローユーザーの新着作品"
-          refName="follow"
-          :postImages="followingUserImages"
-        ></SliderImages>
+        <div class="main-post-images">
+          <SliderImages
+            title="フォローユーザーの新着作品"
+            refName="follow"
+            :postImages="followingUserImages"
+          ></SliderImages>
+        </div>
       </div>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
 import axios from "axios";
+import PostImage from "../../components/parts/PostImage.vue";
+import SliderImages from "../../components/parts/SliderImages.vue";
+import SliderHashTags from "../../components/parts/SliderHashTags.vue";
+import Loading from "../../components/parts/Loading.vue";
+
 import {
   Hooper,
   Slide,
@@ -97,9 +105,6 @@ import {
   Navigation as HooperNavigation,
 } from "hooper";
 import "hooper/dist/hooper.css";
-import PostImage from "../../components/parts/PostImage.vue";
-import SliderImages from "../../components/parts/SliderImages.vue";
-import SliderHashTags from "../../components/parts/SliderHashTags.vue";
 
 export default {
   data() {
@@ -118,14 +123,15 @@ export default {
         itemsToShow: 3.5,
         centerMode: true,
       },
+      isLoading: true,
     };
   },
   mounted() {
     this.getPostImages();
   },
   methods: {
-    getPostImages() {
-      axios.get("/api/v1/post_images/main").then(
+    async getPostImages() {
+      await axios.get("/api/v1/post_images/main").then(
         (response) => {
           this.postImages = response.data.post_images;
           this.followingUserImages = response.data.following_user_images;
@@ -139,10 +145,12 @@ export default {
           console.log(error, response);
         }
       );
+      this.isLoading = false;
     },
   },
   components: {
     PostImage,
+    Loading,
     Hooper,
     Slide,
     SliderImages,

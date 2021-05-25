@@ -1,40 +1,43 @@
 <template>
-  <div id="post-image-show">
-    <div class="container">
-      <div class="post-image-show-left">
-        <PostImageDetail
-          :postImage="postImage"
-          :user="user"
-          @chengeFavorite="chengeFavorite"
-          @update="getInfo"
-        >
-        </PostImageDetail>
-        <form class="post-image-comment" v-on:submit.prevent="postImageComment">
-          <CommentForm
-            v-model="post_comment.comment"
-            id="post-image-comment"
-            type="text"
-            name="post-image-comment"
-            placeholder="コメントを入力できます"
-          ></CommentForm>
-          <FormButton buttonName="送信"></FormButton>
-        </form>
-        <PostImageComments
-          :postComments="post_comments"
-          :userLogIn="userLogIn"
-          @postCommentDelete="postCommentDelete"
-        ></PostImageComments>
-      </div>
-      <div class="post-image-show-right">
-        <PostImageShowUser
-          :user="user"
-          :currentUser="currentUser"
-          @follow="followUp"
-          @unfollow="followDown"
-        ></PostImageShowUser>
+  <transition-group name="fade">
+    <Loading v-if="isLoading === true" key="loader"></Loading>
+    <div id="post-image-show" v-if="isLoading === false" key="noloader">
+      <div class="container">
+        <div class="post-image-show-left">
+          <PostImageDetail
+            :postImage="postImage"
+            :user="user"
+            @chengeFavorite="chengeFavorite"
+            @update="getInfo"
+          >
+          </PostImageDetail>
+          <form class="post-image-comment" v-on:submit.prevent="postImageComment">
+            <CommentForm
+              v-model="post_comment.comment"
+              id="post-image-comment"
+              type="text"
+              name="post-image-comment"
+              placeholder="コメントを入力できます"
+            ></CommentForm>
+            <FormButton buttonName="送信"></FormButton>
+          </form>
+          <PostImageComments
+            :postComments="post_comments"
+            :userLogIn="userLogIn"
+            @postCommentDelete="postCommentDelete"
+          ></PostImageComments>
+        </div>
+        <div class="post-image-show-right">
+          <PostImageShowUser
+            :user="user"
+            :currentUser="currentUser"
+            @follow="followUp"
+            @unfollow="followDown"
+          ></PostImageShowUser>
+        </div>
       </div>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -44,6 +47,7 @@ import CommentForm from "../../components/form/CommetForm.vue";
 import FormButton from "../../components/form/FormButton.vue";
 import PostImageComments from "../../components/PostImageComments.vue";
 import PostImageShowUser from "../../components/PostImageShowUser.vue";
+import Loading from "../../components/parts/Loading.vue";
 
 export default {
   data() {
@@ -54,6 +58,7 @@ export default {
         comment: "",
       },
       post_comments: [],
+      isLoading: true,
     };
   },
   props: {
@@ -69,6 +74,7 @@ export default {
     FormButton,
     PostImageComments,
     PostImageShowUser,
+    Loading,
   },
   methods: {
     chengeFavorite(value) {
@@ -79,8 +85,8 @@ export default {
         this.postImage.favorite_count -= 1;
       }
     },
-    getInfo() {
-      axios.get("/api/v1/post_images/" + this.$route.params.id).then(
+    async getInfo() {
+      await axios.get("/api/v1/post_images/" + this.$route.params.id).then(
         (response) => {
           this.postImage = response.data.post_image;
           this.user = response.data.user;
@@ -90,6 +96,7 @@ export default {
           console.log(error, response);
         }
       );
+      this.isLoading = false;
     },
     postImageComment() {
       axios({

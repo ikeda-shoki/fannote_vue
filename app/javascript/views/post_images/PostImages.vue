@@ -1,81 +1,84 @@
 <template>
-  <div id="post-image-index">
-    <div class="container">
-      <Title title="投稿一覧"></Title>
-      <div class="post-image-sort">
-        <SelectForm
-          :value="selectSort"
-          :options="options"
-          :checkedValue="selectSort"
-          @input="selectSort = $event"
-          name="sort_post_image"
-        ></SelectForm>
-        <button class="button" @click="sortPostImages(selectGenre())">
-          並び替える
-        </button>
-      </div>
-      <div class="post-image-search">
-        <CommentForm
-          v-model="keyword"
-          id="search"
-          type="text"
-          name="search"
-          placeholder="キーワードを入力してください"
-        ></CommentForm>
-        <i class="fas fa-search" @click="searchPostImages(selectGenre())"></i>
-      </div>
-      <div class="genre-buttons">
-        <router-link
-          to="/post_images"
-          class="genre-button"
-          @click="selectGenre"
-          exact
-        >
-          全て
-        </router-link>
-        <router-link
-          to="/post_images/illust"
-          class="genre-button"
-          @click="selectGenre"
-          exact
-        >
-          イラスト
-        </router-link>
-        <router-link
-          to="/post_images/photo"
-          class="genre-button"
-          @click="selectGenre"
-          exact
-        >
-          写真
-        </router-link>
-        <router-link
-          to="/post_images/logo"
-          class="genre-button"
-          @click="selectGenre"
-          exact
-        >
-          ロゴ
-        </router-link>
-      </div>
-      <div class="post-image-contents">
-        <div class="post-images-main">
-          <template v-if="$route.name === 'postImagesAll'">
-            <PostImages :postImages="postImagesSearch"></PostImages>
-          </template>
-          <template v-if="$route.name === 'postImagesIllust'">
-            <PostImages :postImages="postImagesIllustSearch"></PostImages>
-          </template>
-          <template v-if="$route.name === 'postImagesPhoto'">
-            <PostImages :postImages="postImagesPhotoSearch"></PostImages>
-          </template>
-          <template v-if="$route.name === 'postImagesLogo'">
-            <PostImages :postImages="postImagesLogoSearch"></PostImages>
-          </template>
+  <transition-group name="fade">
+    <Loading v-if="isLoading === true" key="loader"></Loading>
+    <div id="post-image-index" v-if="isLoading === false" key="noloader">
+      <div class="container">
+        <Title title="投稿一覧"></Title>
+        <div class="post-image-sort">
+          <SelectForm
+            :value="selectSort"
+            :options="options"
+            :checkedValue="selectSort"
+            @input="selectSort = $event"
+            name="sort_post_image"
+          ></SelectForm>
+          <button class="button" @click="sortPostImages(selectGenre())">
+            並び替える
+          </button>
+        </div>
+        <div class="post-image-search">
+          <CommentForm
+            v-model="keyword"
+            id="search"
+            type="text"
+            name="search"
+            placeholder="キーワードを入力してください"
+          ></CommentForm>
+          <i class="fas fa-search" @click="searchPostImages(selectGenre())"></i>
+        </div>
+        <div class="genre-buttons">
+          <router-link
+            to="/post_images"
+            class="genre-button"
+            @click="selectGenre"
+            exact
+          >
+            全て
+          </router-link>
+          <router-link
+            to="/post_images/illust"
+            class="genre-button"
+            @click="selectGenre"
+            exact
+          >
+            イラスト
+          </router-link>
+          <router-link
+            to="/post_images/photo"
+            class="genre-button"
+            @click="selectGenre"
+            exact
+          >
+            写真
+          </router-link>
+          <router-link
+            to="/post_images/logo"
+            class="genre-button"
+            @click="selectGenre"
+            exact
+          >
+            ロゴ
+          </router-link>
+        </div>
+        <div class="post-image-contents">
+          <div class="post-images-main">
+            <template v-if="$route.name === 'postImagesAll'">
+              <PostImages :postImages="postImagesSearch"></PostImages>
+            </template>
+            <template v-if="$route.name === 'postImagesIllust'">
+              <PostImages :postImages="postImagesIllustSearch"></PostImages>
+            </template>
+            <template v-if="$route.name === 'postImagesPhoto'">
+              <PostImages :postImages="postImagesPhotoSearch"></PostImages>
+            </template>
+            <template v-if="$route.name === 'postImagesLogo'">
+              <PostImages :postImages="postImagesLogoSearch"></PostImages>
+            </template>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -83,6 +86,7 @@ import Title from "../../components/parts/Title.vue";
 import PostImages from "../../components/PostImages.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
 import CommentForm from "../../components/form/CommetForm.vue";
+import Loading from "../../components/parts/Loading.vue";
 import axios from "axios";
 
 export default {
@@ -91,6 +95,7 @@ export default {
     PostImages,
     SelectForm,
     CommentForm,
+    Loading,
   },
   data() {
     return {
@@ -110,11 +115,12 @@ export default {
       ],
       selectSort: "new",
       keyword: "",
+      isLoading: true,
     };
   },
   methods: {
-    getInfo() {
-      axios.get("/api/v1/post_images").then(
+    async getInfo() {
+      await axios.get("/api/v1/post_images").then(
         (response) => {
           this.postImages = response.data.post_images;
           this.postImagesSearch = response.data.post_images;
@@ -129,6 +135,7 @@ export default {
           console.log(error, response);
         }
       );
+      this.isLoading = false;
     },
     sortPostImages(postImages) {
       if (this.selectSort === "new") {

@@ -1,49 +1,51 @@
 <template>
-  <div id="user-request-result">
-    <div class="container">
-      <template v-if="$route.name === 'request_done'">
-        <template v-if="requestingUser.account_name">
-          <h3>
-            {{ requestingUser.account_name }}への依頼が完成しました！
-          </h3>
+  <transition-group name="fade">
+    <Loading v-if="isLoading === true" key="loader"></Loading>
+    <div id="user-request-result" v-if="isLoading === false" key="noloader">
+      <div class="container">
+        <template v-if="$route.name === 'request_done'">
+          <template v-if="requestingUser.account_name">
+            <h3>{{ requestingUser.account_name }}への依頼が完成しました！</h3>
+          </template>
+          <template v-else>
+            <h3>{{ requestingUser.user_name }}への依頼が完成しました！</h3>
+          </template>
         </template>
-        <template v-else>
-          <h3>
-            {{ requestingUser.user_name }}への依頼が完成しました！
-          </h3>
-        </template>
-      </template>
 
-      <template v-if="$route.name === 'request_complete'">
-        <template v-if="requestedUser.account_name">
-          <h3>
-            {{ requestedUser.account_name }}からの作品が到着しました！
-          </h3>
+        <template v-if="$route.name === 'request_complete'">
+          <template v-if="requestedUser.account_name">
+            <h3>{{ requestedUser.account_name }}からの作品が到着しました！</h3>
+          </template>
+          <template v-else>
+            <h3>{{ requestedUser.user_name }}からの作品が到着しました！</h3>
+          </template>
         </template>
-        <template v-else>
-          <h3>
-            {{ requestedUser.user_name }}からの作品が到着しました！
-          </h3>
-        </template>
-      </template>
 
-      <div class="request-result-images">
-        <div v-for="requestImage in request.request_images" :key="requestImage.id" class="request-result-image">
-          <img :src="requestImage" alt="完成作品">
+        <div class="request-result-images">
+          <div
+            v-for="requestImage in request.request_images"
+            :key="requestImage.id"
+            class="request-result-image"
+          >
+            <img :src="requestImage" alt="完成作品" />
+          </div>
         </div>
+
+        <template v-if="$route.name === 'request_complete'">
+          <div class="request-result-delete-button">
+            <button class="button" @click="requestComplete()">
+              依頼を完了して削除する
+            </button>
+          </div>
+        </template>
       </div>
-
-      <template v-if="$route.name === 'request_complete'">
-        <div class="request-result-delete-button">
-          <button class="button" @click="requestComplete()">依頼を完了して削除する</button>
-        </div>
-      </template>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
 import axios from "axios";
+import Loading from "../../components/parts/Loading.vue";
 
 export default {
   data() {
@@ -51,11 +53,15 @@ export default {
       request: {},
       requestingUser: {},
       requestedUser: {},
+      isLoading: true,
     };
   },
+  components: {
+    Loading,
+  },
   methods: {
-    getInfoRequestDone() {
-      axios
+    async getInfoRequestDone() {
+      await axios
         .get(
           "/api/v1/users/" +
             this.$route.params.user_id +
@@ -73,9 +79,10 @@ export default {
             console.log(error, response);
           }
         );
+      this.isLoading = false;
     },
-    getInfoRequestComplete() {
-      axios
+    async getInfoRequestComplete() {
+      await axios
         .get(
           "/api/v1/users/" +
             this.$route.params.user_id +
@@ -93,6 +100,7 @@ export default {
             console.log(error, response);
           }
         );
+      this.isLoading = false;
     },
     requestComplete() {
       axios({
@@ -104,7 +112,9 @@ export default {
         method: "DELETE",
       })
         .then((response) => {
-          this.$router.push("/users/" + this.$route.params.user_id + "/requesting");
+          this.$router.push(
+            "/users/" + this.$route.params.user_id + "/requesting"
+          );
         })
         .catch((error) => {
           console.log(error);
@@ -113,8 +123,10 @@ export default {
   },
   mounted() {
     if (this.$route.name === "request_done") {
+      this.isLoading = true;
       this.getInfoRequestDone();
     } else if (this.$route.name === "request_complete") {
+      this.isLoading = true;
       this.getInfoRequestComplete();
     }
   },
