@@ -83,14 +83,13 @@
           @mouseover="onAccent(logOut)"
           @mouseleave="outAccent(logOut)"
         >
-          <a
-            href="/users/sign_out"
+          <span
             :class="{ hover: logOut.hover }"
-            data-method="delete"
+            @click.prevent="openConfirm"
           >
             ログアウト
             <i class="fas fa-sign-out-alt"></i>
-          </a>
+          </span>
         </div>
       </div>
 
@@ -134,12 +133,28 @@
       >
       </Modal>
     </transition>
+    <transition name="fade">
+      <Confirm
+        v-if="isConfirm === true"
+        @falseAction="closeConfirm"
+        @successAction="successAction"
+      >
+        <template>本当にログアウトしていいですか？</template>
+        <template v-slot:okButton>
+          <a href="/users/sign_out" class="button" data-method="delete">
+          ログアウト
+          </a>
+        </template>
+      </Confirm>
+    </transition>
   </header>
 </template>
 
 <script>
 import "logo.png";
 import Modal from "./Modal.vue";
+import Confirm from "./parts/Confirm.vue";
+import axios from "axios"
 
 export default {
   props: {
@@ -159,38 +174,31 @@ export default {
       },
       modalType: "",
       isModal: false,
+      isConfirm: false,
       logInUserLinks: [
         {
           name: "投稿する",
           path: "",
           hover: false,
-          method: "get",
           icon: "far fa-plus-square",
-          click: this.modalOpen,
         },
         {
           name: "マイページ",
           path: "",
           hover: false,
-          method: "get",
           icon: "far fa-user",
-          click: this.modalOpen,
         },
         {
           name: "通知",
           path: "",
           hover: false,
-          method: "get",
           icon: "far fa-bell",
-          click: this.modalOpen,
         },
         {
           name: "メニュー",
           path: "",
           hover: false,
-          method: "get",
           icon: "fas fa-caret-down",
-          click: this.modalOpen,
         },
       ],
       routerLinks: [
@@ -252,11 +260,26 @@ export default {
       this.isHeaderMenu = !this.isHeaderMenu;
     },
     isUnchecked() {
-      this.$emit("isUnchecked", false)
+      this.$emit("isUnchecked", false);
+    },
+    openConfirm() {
+      this.isConfirm = true;
+    },
+    closeConfirm() {
+      this.isConfirm = false;
+    },
+    successAction() {
+      axios.delete("/users/sign_out")
+        .then(() => {
+        })
+        .catch(() => {
+
+        })
     }
   },
   components: {
     Modal,
+    Confirm,
   },
   watch: {
     $route() {
@@ -315,6 +338,13 @@ header {
       transition: all 0.5s;
 
       a {
+        display: block;
+        border-radius: 20px;
+        transition: all 0.5s;
+        padding: 5px 13px;
+      }
+
+      span {
         display: block;
         border-radius: 20px;
         transition: all 0.5s;

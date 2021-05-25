@@ -1,65 +1,68 @@
 <template>
-  <div id="user-request-chat">
-    <div class="container">
-      <div class="chats">
-        <div class="chats-title">
-          <h2 v-if="requestOtherUser.account_name">
-            {{ requestOtherUser.account_name }}さんとのチャット
-          </h2>
-          <h2 v-else>{{ requestOtherUser.user_name }}さんとのチャット</h2>
-        </div>
-
-        <transition-group
-          name="fade-list-chat"
-          mode="out-in"
-          tag="div"
-          id="chats-middle"
-          class="chats-main"
-        >
-          <template v-for="(chat, index) in chats">
-            <div
-              v-if="chat.user_id === currentUser.id"
-              :key="chat.id"
-              class="my-comments"
-            >
-              <MyComment
-                :chat="chat"
-                :index="index"
-                @chatDelete="chatDelete"
-              ></MyComment>
-            </div>
-            <div v-else :key="chat.id">
-              <Fukidasi :chat="chat"></Fukidasi>
-            </div>
-          </template>
-        </transition-group>
-
-        <div class="chat-form">
-          <div class="chat-form-main">
-            <CommentForm
-              v-model="message"
-              id="chat"
-              type="text"
-              name="chat"
-              placeholder="メッセージを入力できます"
-            ></CommentForm>
-            <FormButton
-              buttonName="送信"
-              @click.native="createChat"
-            ></FormButton>
+  <transition-group name="fade">
+    <Loading v-if="isLoading === true" key="loader"></Loading>
+    <div id="user-request-chat" v-if="isLoading === false" key="noloader">
+      <div class="container">
+        <div class="chats">
+          <div class="chats-title">
+            <h2 v-if="requestOtherUser.account_name">
+              {{ requestOtherUser.account_name }}さんとのチャット
+            </h2>
+            <h2 v-else>{{ requestOtherUser.user_name }}さんとのチャット</h2>
           </div>
-          <transition name="fade">
-            <div class="chat-form-error" v-show="error">
-              <ErrorMessage
-                v-if="errorMessage.message"
-                :message="errorMessage.message"
-              ></ErrorMessage>
+
+          <transition-group
+            name="fade-list-chat"
+            mode="out-in"
+            tag="div"
+            id="chats-middle"
+            class="chats-main"
+          >
+            <template v-for="(chat, index) in chats">
+              <div
+                v-if="chat.user_id === currentUser.id"
+                :key="chat.id"
+                class="my-comments"
+              >
+                <MyComment
+                  :chat="chat"
+                  :index="index"
+                  @chatDelete="chatDelete"
+                ></MyComment>
+              </div>
+              <div v-else :key="chat.id">
+                <Fukidasi :chat="chat"></Fukidasi>
+              </div>
+            </template>
+          </transition-group>
+
+          <div class="chat-form">
+            <div class="chat-form-main">
+              <CommentForm
+                v-model="message"
+                id="chat"
+                type="text"
+                name="chat"
+                placeholder="メッセージを入力できます"
+              ></CommentForm>
+              <FormButton
+                buttonName="送信"
+                @click.native="createChat"
+              ></FormButton>
             </div>
-          </transition>
+            <transition name="fade">
+              <div class="chat-form-error" v-show="error">
+                <ErrorMessage
+                  v-if="errorMessage.message"
+                  :message="errorMessage.message"
+                ></ErrorMessage>
+              </div>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -68,6 +71,7 @@ import Fukidasi from "../../components/parts/Fukidasi.vue";
 import CommentForm from "../../components/form/CommetForm.vue";
 import FormButton from "../../components/form/FormButton.vue";
 import ErrorMessage from "../../components/form/ErrorMessage.vue";
+import Loading from "../../components/parts/Loading.vue";
 import axios from "axios";
 
 export default {
@@ -81,11 +85,12 @@ export default {
       message: "",
       error: false,
       errorMessage: {},
+      isLoading: true,
     };
   },
   methods: {
-    getInfo() {
-      axios
+    async getInfo() {
+      await axios
         .get(
           "/api/v1/users/" +
             this.$route.params.user_id +
@@ -102,6 +107,7 @@ export default {
             this.$router.push("/post_images/main");
           }
         );
+      this.isLoading = false;
     },
     createChat() {
       axios({
@@ -151,6 +157,7 @@ export default {
     CommentForm,
     FormButton,
     ErrorMessage,
+    Loading,
   },
 };
 </script>

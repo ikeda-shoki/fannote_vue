@@ -20,6 +20,10 @@ Rails.application.routes.draw do
       get "requesting", to: 'requests#requesting'
       get "requested", to: 'requests#requested'
     end
+    collection do
+      post :new_guest
+      get :withdrawal
+    end
     resources :requests, only: [] do
       member do
         get :request_done
@@ -40,7 +44,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users, only: [:show, :update, :index] do
+      resources :users, only: [:show, :update, :index, :destroy] do
         collection do
           get :sign_in
         end

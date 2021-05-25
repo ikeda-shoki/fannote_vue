@@ -117,8 +117,8 @@ class Api::V1::RequestsController < ApplicationController
         @request.create_notification_request_status(current_user)
         render json: @request, status: :ok
       else
+        render json: { request_images: [ "画像を選択してください" ]}, status: :unprocessable_entity
         @request.request_images.purge
-        render json: @request.errors, status: :unprocessable_entity
       end
     end
   end

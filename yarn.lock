@@ -7474,6 +7474,11 @@ vue@^2.6.12:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
+vuejs-dialog@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/vuejs-dialog/-/vuejs-dialog-1.4.2.tgz#33ef5a7669291c1bb09f2e958c4a438e54cdd293"
+  integrity sha512-6kRse144WXDFBMKdeuqE43rHy0ZJ81uLOFh62r2d80ICKavQYHIvr+GlTFmoR23190lC4f2w+ZJ8cS4ljkCDMw==
+
 watchpack-chokidar2@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/watchpack-chokidar2/-/watchpack-chokidar2-2.0.1.tgz#38500072ee6ece66f3769936950ea1771be1c957"

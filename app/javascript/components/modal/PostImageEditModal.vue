@@ -1,5 +1,5 @@
 <template>
-  <form id="post-image-edit-modal" @submit.prevent="editPostImage">
+  <div id="post-image-edit-modal">
     <transition-group name="fade-list">
       <p v-if="errors" class="error" key="error">入力内容を確認してください</p>
       <div class="form-item" key="form-text">
@@ -62,12 +62,18 @@
       </div>
       <div class="form-item" key="form-button">
         <div class="post-image-edit-modal-buttons">
-          <FormButton buttonName="更新する"></FormButton>
-          <button class="button" @click="postImageDelete">投稿を削除する</button>
+          <FormButton buttonName="更新する" @click.native="editPostImage"></FormButton>
+          <!-- <button class="button" @click="postImageDelete">投稿を削除する</button> -->
+          <button class="button" @click="openConfirm">投稿を削除する</button>
         </div>
       </div>
     </transition-group>
-  </form>
+    <transition name="fade">
+      <Confirm v-if="isConfirm" @falseAction="closeConfirm" @successAction="postImageDelete">
+        投稿は元に戻りませんが、本当に投稿を削除してもいいですか？
+      </Confirm>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -78,6 +84,7 @@ import RadioButton from "../form/RadioButton.vue";
 import FileForm from "../form/FileForm.vue";
 import FormButton from "../form/FormButton.vue";
 import ErrorMessage from "../form/ErrorMessage.vue";
+import Confirm from "../parts/Confirm.vue";
 import axios from "axios";
 
 export default {
@@ -88,6 +95,7 @@ export default {
     FileForm,
     FormButton,
     ErrorMessage,
+    Confirm,
   },
   data() {
     return {
@@ -111,6 +119,7 @@ export default {
         image: this.editData.post_image,
         post_image_genre: this.editData.post_image_genre,
       },
+      isConfirm: false,
       errors: false,
       errorMessage: {},
     };
@@ -162,6 +171,12 @@ export default {
         .then(response => {
           this.$emit('postImageDeleteSuccess', this.editData.user.id);
         })
+    },
+    openConfirm() {
+      this.isConfirm = true;
+    },
+    closeConfirm() {
+      this.isConfirm = false;
     }
   },
 };

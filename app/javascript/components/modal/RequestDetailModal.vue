@@ -31,18 +31,33 @@
         <template v-if="request.request_status === '未受付'">
           <div class="request-detail-modal-buttons">
             <button class="button" @click="modalChenge">依頼を変更する</button>
-            <button class="button" @click="requestDelete">
-              依頼を削除する
-            </button>
+            <button class="button" @click="openConfirm">依頼を削除する</button>
           </div>
         </template>
         <template v-if="request.request_status === '製作完了'">
-          <router-link :to="'/users/' + request.requesting_user.id + '/requests/' + request.id + '/request_complete'">
+          <router-link
+            :to="
+              '/users/' +
+                request.requesting_user.id +
+                '/requests/' +
+                request.id +
+                '/request_complete'
+            "
+          >
             <div class="request-detail-modal-button">
               <button class="button">完成した作品を確認する</button>
             </div>
           </router-link>
         </template>
+        <transition name="fade">
+          <Confirm
+            v-if="isConfirm === true"
+            @falseAction="closeConfirm"
+            @successAction="requestDelete"
+          >
+            本当に依頼を取り下げますか？
+          </Confirm>
+        </transition>
       </template>
 
       <template v-if="$route.name === 'requested'">
@@ -93,12 +108,14 @@
           <div class="request-detail-modal-submitbutton">
             <FormButton
               buttonName="送信する"
-              @click.native="requestCompleteImagesUpdate"
+              @click.native="openConfirm"
             ></FormButton>
           </div>
         </template>
         <template v-if="request.request_status === '製作完了'">
-          <router-link :to="'/users/' + request.requested_user.id + '/requests/' + request.id + '/request_done'">
+          <router-link
+            :to="
+              '/users/' + request.requested_user.id + '/requests/' + request.id + '/request_done'">
             <div class="request-detail-modal-button">
               <button class="button">送信した作品を確認する</button>
             </div>
@@ -106,7 +123,19 @@
         </template>
       </template>
     </div>
-    <ChatButton :userId="Number($route.params.id)" :requestId="request.id"></ChatButton>
+    <ChatButton
+      :userId="Number($route.params.id)"
+      :requestId="request.id"
+    ></ChatButton>
+    <transition name="fade" tag="div" class="requested-confirm">
+      <Confirm
+        v-if="isConfirm === true"
+        @falseAction="closeConfirm"
+        @successAction="requestCompleteImagesUpdate"
+      >
+        作成枚数まで送信してしまうと送信する画像を変更することはできませんが完成した画像を送信していいですか？
+      </Confirm>
+    </transition>
   </div>
 </template>
 
@@ -119,6 +148,7 @@ import FormButton from "../form/FormButton.vue";
 import FileForms from "../form/FileForms.vue";
 import ErrorMessage from "../form/ErrorMessage.vue";
 import ChatButton from "../parts/ChatButton.vue";
+import Confirm from "../parts/Confirm.vue";
 
 export default {
   props: {
@@ -147,6 +177,7 @@ export default {
           value: "受付不可",
         },
       ],
+      isConfirm: false,
       errors: false,
       errorMessage: {},
     };
@@ -158,6 +189,7 @@ export default {
     FileForms,
     ErrorMessage,
     ChatButton,
+    Confirm,
   },
   methods: {
     modalChenge() {
@@ -217,7 +249,7 @@ export default {
       this.requestImages = value;
     },
     requestCompleteImagesUpdate() {
-      this.request.request_images = this.requestImages
+      this.request.request_images = this.requestImages;
       axios({
         url:
           "/api/v1/users/" +
@@ -226,7 +258,7 @@ export default {
           this.request.id +
           "/update_request_complete_image",
         data: {
-          request: { request_images: this.requestImages }
+          request: { request_images: this.requestImages },
         },
         method: "PATCH",
       })
@@ -234,9 +266,17 @@ export default {
           this.$emit("successRequestImageUpdate");
         })
         .catch((error) => {
+          console.log(error.response.data)
+          this.isConfirm = false;
           this.errorMessage = error.response.data;
           this.errors = true;
         });
+    },
+    openConfirm() {
+      this.isConfirm = true;
+    },
+    closeConfirm() {
+      this.isConfirm = false;
     },
   },
 };
@@ -319,6 +359,13 @@ $danger-color: #e15253;
     position: fixed;
     top: 600px;
     right: 170px;
+  }
+
+  
+  #confirm {
+    /deep/ p {
+      font-size: 14px;
+    }
   }
 }
 </style>

@@ -12,9 +12,7 @@
       </div>
     </div>
     <div class="post-image-detail-introduction">
-      <template v-for="imageIntroduction in postImage.part_image_introductions">
-        <span :key="imageIntroduction.index">{{ imageIntroduction }} </span>
-      </template>
+      <p>{{ postImage.image_introduction }}</p>
       <div class="post-image-detail-hahstags">
         <template v-for="hashTag in postImage.hash_tags">
           <router-link :to="'/post_images/hashtag/' + hashTag.hashname" :key="hashTag.hashname" class="post-image-detail-hashtag">
