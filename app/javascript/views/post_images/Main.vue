@@ -71,6 +71,7 @@
           ></SliderImages>
         </div>
 
+
         <div class="main-post-images">
           <SliderImages
             title="ロゴの人気作品"
@@ -86,7 +87,9 @@
             :postImages="followingUserImages"
           ></SliderImages>
         </div>
+
       </div>
+      
     </div>
   </transition-group>
 </template>
@@ -206,7 +209,7 @@ $danger-color: #e15253;
         object-fit: cover;
         object-position: center center;
       }
-
+      
       .image-score {
         position: absolute;
         top: -220px;
