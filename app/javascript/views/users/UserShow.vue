@@ -1,27 +1,37 @@
 <template>
-  <div id="user-show">
-    <div class="user-show-post-images">
-      <Title title="投稿一覧"></Title>
-      <div class="user-show-post-images-index">
-        <PostImages :postImages="postImages"></PostImages>
-      </div>
-      <Title title="お気に入りした投稿一覧"></Title>
-      <div class="user-show-post-images-favorite">
-        <PostImages :postImages="favoriteImages"></PostImages>
-      </div>
-      <Title title="フォローユーザーの投稿一覧"></Title>
-      <div class="user-show-post-images-follower">
-        <PostImages :postImages="followerImages"></PostImages>
+  <transition-group name="fade-list">
+    <LoadingCompornent v-if="isLoading === true" key="loader"></LoadingCompornent>
+    <div id="user-show" v-if="isLoading === false" key="noloader">
+      <transition name="alert">
+        <Alert :type="alertType.type" v-if="isAlert === true">
+          {{ alertType.message }}
+        </Alert>
+      </transition>
+      <div class="user-show-post-images">
+        <Title title="投稿一覧"></Title>
+        <div class="user-show-post-images-index">
+          <PostImages :postImages="postImages"></PostImages>
+        </div>
+        <Title title="お気に入りした投稿一覧"></Title>
+        <div class="user-show-post-images-favorite">
+          <PostImages :postImages="favoriteImages"></PostImages>
+        </div>
+        <Title title="フォローユーザーの投稿一覧"></Title>
+        <div class="user-show-post-images-follower">
+          <PostImages :postImages="followerImages"></PostImages>
+        </div>
       </div>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
 import axios from "axios";
+import LoadingCompornent from "../../components/parts/LoadingCompornent.vue";
 import UserShowProfile from "../../components/UserShowProfile.vue";
 import PostImages from "../../components/PostImages.vue";
 import Title from "../../components/parts/Title.vue";
+import Alert from "../../components/parts/Alert.vue";
 
 export default {
   data() {
@@ -29,14 +39,20 @@ export default {
       postImages: [],
       favoriteImages: [],
       followerImages: [],
+      isLoading: true,
+      isAlert: false,
+      alertType: {
+        type: "",
+        message: "",
+      },
     };
   },
   props: {
     user: { type: Object, required: true }
   },
   methods: {
-    getInfo() {
-      axios.get("/api/v1/users/" + this.$route.params.id).then(
+    async getInfo() {
+      await axios.get("/api/v1/users/" + this.$route.params.id).then(
         (response) => {
           this.postImages = response.data.post_images;
           this.favoriteImages = response.data.favorite_images;
@@ -46,14 +62,37 @@ export default {
           console.log(error, response);
         }
       );
+      this.isLoading = false;
     },
+    deletePostImage() {
+      this.alertType.type = "danger";
+      this.alertType.message = "投稿を削除しました。";
+      this.isAlert = true;
+    },
+    async deleteAlert() {
+      await this.deletePostImage();
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
+    async deletePostImageAfterGetInfo() {
+      await this.getInfo();
+      this.deleteAlert();
+    }
   },
   mounted() {
-    this.getInfo();
+    if(this.$route.query.method === "delete"){
+      this.deletePostImageAfterGetInfo();
+    }
+    else{
+      this.getInfo();
+    }
   },
   components: {
+    LoadingCompornent,
     PostImages,
     Title,
+    Alert,
   },
 };
 </script>

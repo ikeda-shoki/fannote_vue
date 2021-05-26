@@ -1,8 +1,20 @@
 <template>
   <div id="app">
-    <Header :userLogIn="signIn" :currentUser="currentUser" @isUnchecked="isUnchecked"></Header>
+    <Header
+      :userLogIn="signIn"
+      :currentUser="currentUser"
+      :isHeaderMenu="isHeaderMenu"
+      @isUnchecked="isUnchecked"
+      @pullDownMenu="pullDownMenu"
+      @closeMenu="pullDownMenu"
+    ></Header>
     <transition name="fade" mode="out-in">
-      <router-view :userLogIn="signIn" :currentUser="currentUser" :key="$route.params.id"></router-view>
+      <router-view
+        :userLogIn="signIn"
+        :currentUser="currentUser"
+        :key="$route.params.id"
+        @click.native="downMenu"
+      ></router-view>
     </transition>
   </div>
 </template>
@@ -19,12 +31,19 @@ export default {
     return {
       currentUser: {},
       signIn: "",
+      isHeaderMenu: false,
     };
   },
   methods: {
     isUnchecked(value) {
       this.currentUser.unchecked_notifications = value;
-    }
+    },
+    pullDownMenu(value) {
+      this.isHeaderMenu = value;
+    },
+    downMenu() {
+      this.isHeaderMenu = false;
+    },
   },
   mounted() {
     axios.get("/api/v1/users/sign_in").then((response) => {
@@ -91,6 +110,10 @@ $danger-color: #e15253;
   transition: all 0.6s;
 }
 
+.fade-list-leave {
+  opacity: 0;
+}
+
 .fade-list-leave-active {
   transition: all 0.6s;
   position: absolute;
@@ -120,5 +143,27 @@ $danger-color: #e15253;
 
 .slide-leave-active {
   transition: all 1s ease;
+}
+
+.alert-slide-enter {
+  opacity: 0;
+  right: -200px;
+}
+
+.alert-enter,
+.alert-leave-to {
+  opacity: 0;
+  transform: translateX(380px);
+}
+
+.alert-enter-to,
+.alert-leave {
+  transform: translateX(0);
+}
+
+.alert-enter-active,
+.alert-leave-active {
+  right: 0;
+  transition: all 1s;
 }
 </style>

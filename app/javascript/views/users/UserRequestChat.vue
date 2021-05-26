@@ -214,6 +214,12 @@ $danger-color: #e15253;
   .chats-main {
     height: 500px;
     overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+  }
   }
 
   .chat-form {

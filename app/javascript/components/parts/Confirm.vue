@@ -15,15 +15,23 @@
 </template>
 
 <script>
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+
 export default {
   methods: {
     falseAction() {
       this.$emit("falseAction", false);
+      clearAllBodyScrollLocks();
     },
     successAction() {
-      this.$emit("successAction")
+      this.$emit("successAction");
+      clearAllBodyScrollLocks();
     },
-  }
+  },
+  mounted() {
+    var confirm = document.querySelector('#confirm');
+    disableBodyScroll(confirm);
+  },
 }
 </script>
 

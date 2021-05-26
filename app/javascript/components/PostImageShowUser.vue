@@ -124,6 +124,12 @@ $danger-color: #e15253;
       flex-wrap: wrap;
       height: 220px;
       overflow: scroll;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       .post-image-show-profile-image {
         img {

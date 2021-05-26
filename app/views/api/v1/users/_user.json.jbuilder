@@ -7,4 +7,5 @@ json.user_post_image_count(user.post_images.count)
 json.current_user_same_as(user.current_user_same_as?(current_user))
 json.follower_count(user.follower.count)
 json.followed_count(user.followed.count)
+json.request_count(user.requested.count)
 

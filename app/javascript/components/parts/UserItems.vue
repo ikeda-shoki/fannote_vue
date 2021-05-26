@@ -3,7 +3,7 @@
     <div class="user-item-content">
       <div class="user-item">
         <h6>依頼数</h6>
-        <span>0</span>
+        <span>{{ user.request_count }}</span>
       </div>
       <div class="user-item">
         <h6>依頼達成数</h6>
@@ -14,13 +14,13 @@
         <span>{{ user.user_post_image_count }}</span>
       </div>
       <div class="user-item">
-        <router-link :to="'/users/' + this.$route.params.id + '/following'">
+        <router-link :to="'/users/' + user.id + '/following'">
           <h6>フォロー</h6>
           <span>{{ user.follower_count }}</span>
         </router-link>
       </div>
       <div class="user-item">
-        <router-link :to="'/users/' + this.$route.params.id + '/followed'">
+        <router-link :to="'/users/' + user.id + '/followed'">
           <h6>フォロワー</h6>
           <transition name="fade-list" type="out-in">
             <span :key="user.followed_count">{{ user.followed_count }}</span>

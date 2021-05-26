@@ -1,7 +1,12 @@
 <template>
-  <transition-group name="fade">
-    <Loading v-if="isLoading === true" key="loader"></Loading>
+  <transition-group name="fade-list">
+    <LoadingCompornent v-if="isLoading === true" key="loader"></LoadingCompornent>
     <div id="user-requesting" v-if="isLoading === false" key="noloader">
+      <transition name="alert">
+        <Alert :type="alertType.type" v-if="isAlert === true">
+          {{ alertType.message }}
+        </Alert>
+      </transition>
       <template v-if="$route.name === 'requesting'">
         <div class="user-requesting-title">
           <Title title="依頼中の内容一覧"></Title>
@@ -19,7 +24,7 @@
             @click.native="modalOpen(request, index)"
           ></RequestItem>
         </div>
-        <transition name="fade">
+        <!-- <transition name="fade">
           <Modal
             v-if="isModal ? true : false"
             :isShow="isModal"
@@ -31,7 +36,7 @@
             @successRequestUpdate="successRequestUpdate"
             @requestDelete="requestDelete"
           ></Modal>
-        </transition>
+        </transition> -->
       </template>
 
       <template v-if="$route.name === 'requested'">
@@ -51,7 +56,7 @@
             @click.native="modalOpen(request, index)"
           ></RequestItem>
         </div>
-        <transition name="fade">
+        <!-- <transition name="fade" mode>
           <Modal
             v-if="isModal ? true : false"
             :isShow="isModal"
@@ -62,18 +67,33 @@
             @requestStatusUpdate="requestStatusUpdate"
             @requestImageUpdate="requestImageUpdate"
           ></Modal>
-        </transition>
+        </transition> -->
       </template>
     </div>
+    <Modal
+      key="modal"
+      v-if="isModal ? true : false"
+      :isShow="isModal"
+      :editData="request"
+      :modalType="modalType"
+      :index="index"
+      @modalClose="modalClose"
+      @requestStatusUpdate="requestStatusUpdate"
+      @requestImageUpdate="requestImageUpdate"
+      @requestModalChenge="modalType = 'リクエストを編集'"
+      @successRequestUpdate="successRequestUpdate"
+      @requestDelete="requestDelete"
+    ></Modal>
   </transition-group>
 </template>
 
 <script>
 import axios from "axios";
-import Loading from "../../components/parts/Loading.vue";
+import LoadingCompornent from "../../components/parts/LoadingCompornent.vue";
 import Title from "../../components/parts/Title.vue";
 import RequestItem from "../../components/parts/RequestItem.vue";
 import Modal from "../../components/Modal.vue";
+import Alert from "../../components/parts/Alert.vue";
 
 export default {
   data() {
@@ -84,13 +104,19 @@ export default {
       requests: [],
       request: {},
       index: 0,
+      isAlert: false,
+      alertType: {
+        type: "",
+        message: "",
+      },
     };
   },
   components: {
     Title,
     RequestItem,
     Modal,
-    Loading,
+    LoadingCompornent,
+    Alert,
   },
   props: {
     user: { type: Object, required: true },
@@ -128,14 +154,32 @@ export default {
       this.isModal = false;
       this.request = {};
     },
-    successRequestUpdate(value) {
+    updateAlert() {
+      this.alertType.type = "success";
+      this.alertType.message = "依頼を変更しました！";
+      this.isAlert = true;
+    },
+    async successUpdateAlert() {
+      await this.updateAlert();
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
+    requestUpdate(value){
       this.request.request_introduction = value.request.request_introduction;
       this.request.use = value.request.use;
       this.request.file_format = value.request.file_format;
       this.request.deadline = value.request.deadline;
       this.request.amount = value.request.amount;
       this.request.reference_image = value.reference_image;
+    },
+    async chengeModal(value) {
+      await this.requestUpdate(value);
       this.modalType = "リクエスト詳細";
+    },
+    async successRequestUpdate(value) {
+      await this.chengeModal(value);
+      this.successUpdateAlert();
     },
     requestDelete(index) {
       this.modalClose();
@@ -149,12 +193,32 @@ export default {
     requestImageUpdate() {
       this.modalClose();
       this.getInfoRequested();
+    },
+    createAlert() {
+      this.alertType.type = "success";
+      this.alertType.message = "依頼を送信しました！";
+      this.isAlert = true;
+    },
+    async successCreateAlert(){
+      await this.createAlert();
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
+    async createRequestGetInfoRequesting() {
+      await this.getInfoRequesting();
+      this.successCreateAlert();
     }
   },
   mounted() {
     if (this.$route.name === "requesting") {
-      this.isLoading = true;
-      this.getInfoRequesting();
+      if(this.$route.query.method === "create") {
+        this.createRequestGetInfoRequesting();
+      }
+      else {
+        this.isLoading = true;
+        this.getInfoRequesting();
+      }
     }
     if (this.$route.name === "requested") {
       this.isLoading = true;
@@ -164,9 +228,11 @@ export default {
   watch: {
     $route: function(to, from) {
       if (to.name === "requesting") {
+        this.isLoading = true;
         this.getInfoRequesting();
       }
       if (to.name === "requested") {
+        this.isLoading = true;
         this.getInfoRequested();
       }
     },

@@ -1,128 +1,136 @@
 <template>
   <header>
-    <div class="container">
-      <router-link :to="'/post_images/main'">
-        <div class="header-left">
-          <img src="~logo.png" />
-          <h1>FanNotes</h1>
-        </div>
-      </router-link>
-      <div class="header-right" v-if="userLogIn">
-        <div
-          class="header-link"
-          v-for="logInUserLink in logInUserLinks"
-          :key="logInUserLink.id"
-          @mouseover="onAccent(logInUserLink)"
-          @mouseleave="outAccent(logInUserLink)"
-        >
-          <div v-if="logInUserLink.name === 'マイページ'">
-            <router-link
-              :to="'/users/' + currentUser.id"
-              :class="{ hover: logInUserLink.hover }"
-            >
-              {{ logInUserLink.name }}
-              <i :class="logInUserLink.icon"></i>
-            </router-link>
+    <transition name="alert">
+      <Alert :type="alertType.type" v-if="isAlert === true">
+        {{ alertType.message }}
+      </Alert>
+    </transition>
+    <div class="header">
+      <div class="container">
+        <router-link :to="'/post_images/main'">
+          <div class="header-left">
+            <img src="~logo.png" />
+            <h1>FanNotes</h1>
           </div>
+        </router-link>
+        <div class="header-right" v-if="userLogIn">
           <div
-            v-else-if="logInUserLink.name === 'メニュー'"
-            class="header-menu"
+            class="header-link"
+            v-for="logInUserLink in logInUserLinks"
+            :key="logInUserLink.id"
+            @mouseover="onAccent(logInUserLink)"
+            @mouseleave="outAccent(logInUserLink)"
           >
-            <a
-              href="/"
-              @click.prevent="pullDownMenu"
-              class="header-menu-button"
-            >
-              {{ logInUserLink.name }}
-              <i :class="logInUserLink.icon"></i>
-            </a>
-            <transition name="fade">
-              <ul class="header-menu-lists" v-show="isHeaderMenu">
-                <li
-                  class="header-menu-list"
-                  v-for="headerMenu in headerMenus"
-                  :key="headerMenu.name"
-                >
-                  <router-link :to="headerMenu.link">
-                    {{ headerMenu.name }}<i :class="headerMenu.class"></i>
-                  </router-link>
-                </li>
-              </ul>
-            </transition>
-          </div>
-          <div
-            v-else-if="logInUserLink.name === '通知'"
-            @click="modalOpen(logInUserLink.name)"
-            class="notification-link"
-          >
-            <router-link
-              :to="logInUserLink.path"
-              :class="{ hover: logInUserLink.hover }"
-              @click.native="isUnchecked"
-            >
-              {{ logInUserLink.name }}
-              <i :class="logInUserLink.icon"></i>
-            </router-link>
+            <div v-if="logInUserLink.name === 'マイページ'">
+              <router-link
+                :to="'/users/' + currentUser.id"
+                :class="{ hover: logInUserLink.hover }"
+              >
+                {{ logInUserLink.name }}
+                <i :class="logInUserLink.icon"></i>
+              </router-link>
+            </div>
             <div
-              v-if="currentUser.unchecked_notifications"
-              class="is-unchecked"
-            ></div>
-          </div>
-          <div v-else @click="modalOpen(logInUserLink.name)">
-            <router-link
-              :to="logInUserLink.path"
-              :class="{ hover: logInUserLink.hover }"
+              v-else-if="logInUserLink.name === 'メニュー'"
+              class="header-menu"
             >
-              {{ logInUserLink.name }}
-              <i :class="logInUserLink.icon"></i>
+              <a
+                href="/"
+                @click.prevent="pullDownMenu"
+                class="header-menu-button"
+              >
+                {{ logInUserLink.name }}
+                <i :class="logInUserLink.icon"></i>
+              </a>
+              <transition name="fade">
+                <ul class="header-menu-lists" v-if="isHeaderMenu === true">
+                  <li
+                    class="header-menu-list"
+                    v-for="headerMenu in headerMenus"
+                    :key="headerMenu.name"
+                  >
+                    <router-link :to="headerMenu.link">
+                      {{ headerMenu.name }}<i :class="headerMenu.class"></i>
+                    </router-link>
+                  </li>
+                </ul>
+              </transition>
+            </div>
+            <div
+              v-else-if="logInUserLink.name === '通知'"
+              @click="modalOpen(logInUserLink.name)"
+              class="notification-link"
+            >
+              <router-link
+                :to="logInUserLink.path"
+                :class="{ hover: logInUserLink.hover }"
+                @click.native="isUnchecked"
+              >
+                {{ logInUserLink.name }}
+                <i :class="logInUserLink.icon"></i>
+              </router-link>
+              <div
+                v-if="currentUser.unchecked_notifications"
+                class="is-unchecked"
+              ></div>
+            </div>
+            <div v-else @click="modalOpen(logInUserLink.name)">
+              <router-link
+                :to="logInUserLink.path"
+                :class="{ hover: logInUserLink.hover }"
+              >
+                {{ logInUserLink.name }}
+                <i :class="logInUserLink.icon"></i>
+              </router-link>
+            </div>
+          </div>
+          <div
+            class="header-link"
+            @mouseover="onAccent(logOut)"
+            @mouseleave="outAccent(logOut)"
+          >
+            <span
+              :class="{ hover: logOut.hover }"
+              @click.prevent="openConfirm"
+            >
+              ログアウト
+              <i class="fas fa-sign-out-alt"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="header-right" v-else>
+          <div
+            class="header-link"
+            v-for="routerLink in routerLinks"
+            :key="routerLink.id"
+            @mouseover="onAccent(routerLink)"
+            @mouseleave="outAccent(routerLink)"
+          >
+            <router-link
+              :to="routerLink.path"
+              :class="{ hover: routerLink.hover }"
+              active-class="link--active"
+              exact
+            >
+              {{ routerLink.name }}
             </router-link>
           </div>
-        </div>
-        <div
-          class="header-link"
-          @mouseover="onAccent(logOut)"
-          @mouseleave="outAccent(logOut)"
-        >
-          <span
-            :class="{ hover: logOut.hover }"
-            @click.prevent="openConfirm"
+          <div
+            class="header-link"
+            v-for="normalLink in normalLinks"
+            :key="normalLink.id"
+            @mouseover="onAccent(normalLink)"
+            @mouseleave="outAccent(normalLink)"
           >
-            ログアウト
-            <i class="fas fa-sign-out-alt"></i>
-          </span>
-        </div>
-      </div>
-
-      <div class="header-right" v-else>
-        <div
-          class="header-link"
-          v-for="routerLink in routerLinks"
-          :key="routerLink.id"
-          @mouseover="onAccent(routerLink)"
-          @mouseleave="outAccent(routerLink)"
-        >
-          <router-link
-            :to="routerLink.path"
-            :class="{ hover: routerLink.hover }"
-            active-class="link--active"
-            exact
-          >
-            {{ routerLink.name }}
-          </router-link>
-        </div>
-        <div
-          class="header-link"
-          v-for="normalLink in normalLinks"
-          :key="normalLink.id"
-          @mouseover="onAccent(normalLink)"
-          @mouseleave="outAccent(normalLink)"
-        >
-          <a :href="normalLink.path" :class="{ hover: normalLink.hover }">{{
-            normalLink.name
-          }}</a>
+            <a :href="normalLink.path" :class="{ hover: normalLink.hover }">{{
+              normalLink.name
+            }}</a>
+          </div>
         </div>
       </div>
     </div>
+
     <transition name="fade">
       <Modal
         v-if="isModal ? true : false"
@@ -154,6 +162,7 @@
 import "logo.png";
 import Modal from "./Modal.vue";
 import Confirm from "./parts/Confirm.vue";
+import Alert from "./parts/Alert.vue";
 import axios from "axios"
 
 export default {
@@ -166,6 +175,7 @@ export default {
     currentUser: {
       type: Object,
     },
+    isHeaderMenu: { type: Boolean },
   },
   data() {
     return {
@@ -175,6 +185,11 @@ export default {
       modalType: "",
       isModal: false,
       isConfirm: false,
+      isAlert: false,
+      alertType: {
+        type: "",
+        message: "",
+      },
       logInUserLinks: [
         {
           name: "投稿する",
@@ -235,7 +250,6 @@ export default {
         { name: "投稿一覧", class: "fas fa-copy", link: "/post_images" },
         { name: "ユーザー一覧", class: "fas fa-users", link: "/users" },
       ],
-      isHeaderMenu: false,
     };
   },
   methods: {
@@ -252,12 +266,29 @@ export default {
     modalClose(value) {
       this.isModal = value;
     },
-    async screenTransition(value) {
-      await this.modalClose();
+    successPostImage(value) {
+      this.modalClose;
+      this.alertType.type = "success";
+      this.alertType.message = "投稿が完了しました！";
+      this.isAlert = true;
       this.$router.push("/post_images/" + value);
     },
+    async screenTransition(value) {
+      await this.successPostImage(value);
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 4000);
+    },
     pullDownMenu() {
-      this.isHeaderMenu = !this.isHeaderMenu;
+      if(this.isHeaderMenu === true){
+        this.$emit('pullDownMenu', false);
+      }
+      else if(this.isHeaderMenu === false){
+        this.$emit('pullDownMenu', true);
+      }
+    },
+    closeMenu() {
+      this.$emit('closeMenu', false);
     },
     isUnchecked() {
       this.$emit("isUnchecked", false);
@@ -280,10 +311,11 @@ export default {
   components: {
     Modal,
     Confirm,
+    Alert,
   },
   watch: {
     $route() {
-      this.isHeaderMenu = false;
+      this.closeMenu();
     },
   },
 };
@@ -305,7 +337,11 @@ header {
   z-index: 1;
   width: 100%;
   height: 80px;
-  background-color: $back-ground-color;
+
+  .header {
+    opacity: 0.8;
+    background-color: $back-ground-color;
+  }
 
   .container {
     display: flex;
