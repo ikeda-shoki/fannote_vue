@@ -10,15 +10,30 @@
       <div class="user-show-post-images">
         <Title title="投稿一覧"></Title>
         <div class="user-show-post-images-index">
-          <PostImages :postImages="postImages"></PostImages>
+          <template v-if="postImages.length">
+            <PostImages :postImages="postImages"></PostImages>
+          </template>
+          <template v-else>
+            <p class="no-content">現在表示できるコンテンツはありません。</p>
+          </template>
         </div>
         <Title title="お気に入りした投稿一覧"></Title>
         <div class="user-show-post-images-favorite">
-          <PostImages :postImages="favoriteImages"></PostImages>
+          <template v-if="favoriteImages.length">
+            <PostImages :postImages="favoriteImages"></PostImages>
+          </template>
+          <template v-else>
+            <p class="no-content">現在表示できるコンテンツはありません。</p>
+          </template>
         </div>
         <Title title="フォローユーザーの投稿一覧"></Title>
         <div class="user-show-post-images-follower">
-          <PostImages :postImages="followerImages"></PostImages>
+          <template v-if="followerImages.length">
+            <PostImages :postImages="followerImages"></PostImages>
+          </template>
+          <template v-else>
+            <p class="no-content">現在表示できるコンテンツはありません。</p>
+          </template>
         </div>
       </div>
     </div>
@@ -120,6 +135,13 @@ export default {
     &-follower {
       margin-top: 30px;
     }
+  }
+
+  .no-content {
+    font-size: 16px;
+    font-weight: bold;
+    height: 200px;
+    line-height: 200px;
   }
 }
 </style>

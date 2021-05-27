@@ -66,10 +66,6 @@ class PostImage < ApplicationRecord
     where(user_id: current_user.following_user.pluck(:id))
   end
 
-  # def self.search_keyword(keyword)
-  #   where(['title LIKE ? OR image_introduction LIKE ?', "%#{keyword}%", "%#{keyword}%"])
-  # end
-
   def self.following_img(following_user)
     where(user_id: following_user.pluck(:id)).reverse_order
   end
@@ -100,7 +96,7 @@ class PostImage < ApplicationRecord
   end
 
   # controller用 scope
-  scope :sort_new, -> (count) { order('id desc').limit(count) }
+  scope :sort_new, -> (count) { order('post_images.id desc').limit(count) }
 
   private
 

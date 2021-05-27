@@ -86,7 +86,6 @@ $danger-color: #e15253;
   .post-image-comment {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     #circle-image {
       /deep/ img {
@@ -116,7 +115,7 @@ $danger-color: #e15253;
   }
 
   #close-button {
-    margin-left: 10px;
+    margin-left: auto;
   }
 }
 

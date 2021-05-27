@@ -11,7 +11,7 @@
         <div class="post-image-show-left">
           <PostImageDetail
             :postImage="postImage"
-            :user="user"
+            :user="postImage.user"
             @chengeFavorite="chengeFavorite"
             @postImageUpdate="updatePostImage"
           >
@@ -45,7 +45,7 @@
         </div>
         <div class="post-image-show-right">
           <PostImageShowUser
-            :user="user"
+            :user="postImage.user"
             :currentUser="currentUser"
             @follow="followUp"
             @unfollow="followDown"
@@ -71,7 +71,6 @@ export default {
   data() {
     return {
       postImage: {},
-      user: {},
       post_comment: {
         comment: "",
       },
@@ -133,7 +132,6 @@ export default {
       await axios.get("/api/v1/post_images/" + this.$route.params.id).then(
         (response) => {
           this.postImage = response.data.post_image;
-          this.user = response.data.user;
           this.post_comments = response.data.post_comments;
         },
         (error) => {
@@ -181,14 +179,14 @@ export default {
       }, 3000);
     },
     follow(value) {
-      this.user.followed_count = value;
-      this.user.follower = true;
+      this.postImage.user.followed_count = value;
+      this.postImage.user.follower = true;
       this.alertType.type = "success";
-      if(this.user.account_name){
-        this.alertType.message = this.user.account_name + "さんをフォローしました！";
+      if(this.postImage.user.account_name){
+        this.alertType.message = this.postImage.user.account_name + "さんをフォローしました！";
       }
       else {
-        this.alertType.message = this.user.user_name + "さんをフォローしました！";
+        this.alertType.message = this.postImage.user.user_name + "さんをフォローしました！";
       }
       this.isAlert = true;
     },
@@ -199,14 +197,14 @@ export default {
       }, 3000);
     },
     unfollow(value) {
-      this.user.followed_count = value;
-      this.user.follower = false;
+      this.postImage.user.followed_count = value;
+      this.postImage.user.follower = false;
       this.alertType.type = "danger";
-      if(this.user.account_name){
-        this.alertType.message = this.user.account_name + "さんのフォローを外しました。";
+      if(this.postImage.user.account_name){
+        this.alertType.message = this.postImage.user.account_name + "さんのフォローを外しました。";
       }
       else {
-        this.alertType.message = this.user.user_name + "さんのフォローを外しました。";
+        this.alertType.message = this.postImage.user.user_name + "さんのフォローを外しました。";
       }
       this.isAlert = true;
     },
