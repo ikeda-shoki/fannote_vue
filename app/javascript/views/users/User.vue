@@ -88,7 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 #user {
-  margin-top: 80px;
+  margin: 80px 0 50px;
 
   .container {
     display: flex;

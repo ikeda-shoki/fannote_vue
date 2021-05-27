@@ -11,7 +11,7 @@
         <Title title="投稿一覧"></Title>
         <div class="user-show-post-images-index">
           <template v-if="postImages.length">
-            <PostImages :postImages="postImages"></PostImages>
+            <PostImagesPaginate :postImages="postImages"></PostImagesPaginate>
           </template>
           <template v-else>
             <p class="no-content">現在表示できるコンテンツはありません。</p>
@@ -20,7 +20,7 @@
         <Title title="お気に入りした投稿一覧"></Title>
         <div class="user-show-post-images-favorite">
           <template v-if="favoriteImages.length">
-            <PostImages :postImages="favoriteImages"></PostImages>
+            <PostImagesPaginate :postImages="favoriteImages"></PostImagesPaginate>
           </template>
           <template v-else>
             <p class="no-content">現在表示できるコンテンツはありません。</p>
@@ -29,7 +29,7 @@
         <Title title="フォローユーザーの投稿一覧"></Title>
         <div class="user-show-post-images-follower">
           <template v-if="followerImages.length">
-            <PostImages :postImages="followerImages"></PostImages>
+            <PostImagesPaginate :postImages="followerImages"></PostImagesPaginate>
           </template>
           <template v-else>
             <p class="no-content">現在表示できるコンテンツはありません。</p>
@@ -45,6 +45,7 @@ import axios from "axios";
 import LoadingCompornent from "../../components/parts/LoadingCompornent.vue";
 import UserShowProfile from "../../components/UserShowProfile.vue";
 import PostImages from "../../components/PostImages.vue";
+import PostImagesPaginate from "../../components/PostImagesPaginate.vue";
 import Title from "../../components/parts/Title.vue";
 import Alert from "../../components/parts/Alert.vue";
 
@@ -106,6 +107,7 @@ export default {
   components: {
     LoadingCompornent,
     PostImages,
+    PostImagesPaginate,
     Title,
     Alert,
   },

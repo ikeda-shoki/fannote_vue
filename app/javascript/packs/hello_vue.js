@@ -10,7 +10,9 @@ import VueRouter from "vue-router";
 import axios from "axios";
 import router from "../routes/router.js";
 import App from '../app.vue'
+import Paginate from 'vuejs-paginate'
 
+Vue.component('paginate', Paginate)
 Vue.use(VueRouter);
 
 document.addEventListener('DOMContentLoaded', () => {
