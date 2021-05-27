@@ -7,7 +7,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.with_attached_profile_image.preload(:post_images).find(params[:id])
     @post_images = @user.post_images.order(id: "DESC")
     favorites = Favorite.favorite_post_image(@user.id)
     @favorite_images = PostImage.preload(:user).find(favorites.reverse)
@@ -15,7 +15,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def index
-    @users = User.all.order(id: "DESC")
+    @users = User.with_attached_profile_image.order(id: "DESC")
   end
 
   def update
@@ -34,12 +34,12 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def following
-    @user = User.find(params[:id])
+    @user = User.with_attached_profile_image.find(params[:id])
     @followers = @user.following_user
   end
 
   def followed
-    @user = User.find(params[:id])
+    @user = User.with_attached_profile_image.find(params[:id])
     @followed = @user.followed_user
   end
 

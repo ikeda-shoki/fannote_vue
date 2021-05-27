@@ -1,6 +1,6 @@
 <template>
-  <transition-group name="fade">
-    <Loading v-if="isLoading === true" key="loader"></Loading>
+  <transition-group name="fade-list">
+    <LoadingCompornent v-if="isLoading === true" key="loader"></LoadingCompornent>
     <div id="user-follow-index" v-if="isLoading === false" key="noloader">
       <template v-if="$route.name === 'following'">
         <Title title="フォローリスト"></Title>
@@ -24,7 +24,7 @@
 
 <script>
 import axios from 'axios'
-import Loading from "../../components/parts/Loading.vue";
+import LoadingCompornent from "../../components/parts/LoadingCompornent.vue";
 import Title from "../../components/parts/Title.vue";
 import UserItem from "../../components/parts/UserItem.vue";
 
@@ -39,7 +39,7 @@ export default {
   components: {
     Title,
     UserItem,
-    Loading,
+    LoadingCompornent,
   },
   methods: {
     async getInfoFollowing() {

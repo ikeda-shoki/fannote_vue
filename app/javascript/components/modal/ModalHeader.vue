@@ -20,7 +20,7 @@ export default {
     background-color: $accent-color;
     border-radius: 20px 20px 0 0;
     text-align: center;
-    height: 6%;
+    height: 45px;
 
     h1 {
       color: $back-ground-color;

@@ -1,21 +1,25 @@
 <template>
-  <div id="hash-tag">
-    <div class="container">
-      <div class="hash-tag-title">
-        <h2>#{{ hashTagName }}</h2>
-        <div class="hash-tag-post-images-count">
-          <span class="hash-tag-title-count">{{ hashTagPostImagesCount }}</span><span>作品</span>
+  <transition-group name="fade">
+    <Loading v-if="isLoading === true" key="loader"></Loading>
+    <div id="hash-tag" v-if="isLoading === false" key="noloader">
+      <div class="container">
+        <div class="hash-tag-title">
+          <h2>#{{ hashTagName }}</h2>
+          <div class="hash-tag-post-images-count">
+            <span class="hash-tag-title-count">{{ hashTagPostImagesCount }}</span><span>作品</span>
+          </div>
+        </div>
+        <div class="hash-tag-post-images">
+          <PostImages :postImages="hashTagPostImages"></PostImages>
         </div>
       </div>
-      <div class="hash-tag-post-images">
-        <PostImages :postImages="hashTagPostImages"></PostImages>
-      </div>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script>
 import axios from 'axios'
+import Loading from "../../components/parts/Loading.vue"
 import PostImages from "../../components/PostImages.vue"
 
 export default {
@@ -24,11 +28,12 @@ export default {
       hashTagName: "",
       hashTagPostImages: [],
       hashTagPostImagesCount: "",
+      isLoading: true,
     }
   },
   methods: {
-    getInfo() {
-      axios.get("/api/v1/post_images/hashtag/" + this.$route.params.name).then(
+    async getInfo() {
+      await axios.get("/api/v1/post_images/hashtag/" + this.$route.params.name).then(
         (response) => {
           this.hashTagName = response.data.hash_tag.hashname;
           this.hashTagPostImages = response.data.hash_tag.post_images
@@ -38,6 +43,7 @@ export default {
           this.$router.push("/post_images/main");
         }
       );
+      this.isLoading = false;
     },
   },
   mounted() {
@@ -45,6 +51,7 @@ export default {
   },
   components: {
     PostImages,
+    Loading,
   }
 }
 </script>

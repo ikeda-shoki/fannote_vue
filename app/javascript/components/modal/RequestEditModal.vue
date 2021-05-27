@@ -196,6 +196,13 @@ $danger-color: #e15253;
   padding: 30px 40px;
   overflow: scroll;
   text-align: left;
+  height: 655px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .form-item {
     margin-bottom: 20px;

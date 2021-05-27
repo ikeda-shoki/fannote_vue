@@ -1,44 +1,49 @@
 <template>
-  <div id="notifications-modal">
-    <template v-if="notifications.length">
-      <div class="notifications-all-delete-button">
-        <button class="button" @click="notificationsAllDelete">
-          全ての通知を削除
-        </button>
-      </div>
-      <div class="notifications-main">
-        <transition-group name="fade-list" mode="out-in">
-          <template v-for="(notification, index) in notifications">
-            <Notification
-              :key="notification.id"
-              :notification="notification"
-              @modalClose="modalClose"
-              @notificationDelete="notificationDelete(index)"
-            >
-            </Notification>
-          </template>
-        </transition-group>
-      </div>
-    </template>
-    <template v-else>
-      <p class="notifications-no-notification">現在の通知はありません。</p>
-    </template>
-  </div>
+  <transition-group name="fade-list">
+    <LoadingCompornent v-if="isLoading === true" key="loader"></LoadingCompornent>
+    <div id="notifications-modal" v-if="isLoading === false" key="noloader">
+      <template v-if="notifications.length">
+        <div class="notifications-all-delete-button">
+          <button class="button" @click="notificationsAllDelete">
+            全ての通知を削除
+          </button>
+        </div>
+        <div class="notifications-main">
+          <transition-group name="fade-list" mode="out-in">
+            <template v-for="(notification, index) in notifications">
+              <Notification
+                :key="notification.id"
+                :notification="notification"
+                @modalClose="modalClose"
+                @notificationDelete="notificationDelete(index)"
+              >
+              </Notification>
+            </template>
+          </transition-group>
+        </div>
+      </template>
+      <template v-else>
+        <p class="notifications-no-notification">現在の通知はありません。</p>
+      </template>
+    </div>
+  </transition-group>
 </template>
 
 <script>
 import axios from "axios";
+import LoadingCompornent from "../parts/LoadingCompornent.vue";
 import Notification from "../parts/Notification.vue";
 
 export default {
   data() {
     return {
       notifications: [],
+      isLoading: true,
     };
   },
   methods: {
-    getInfo() {
-      axios.get("/api/v1/notifications").then(
+    async getInfo() {
+      await axios.get("/api/v1/notifications").then(
         (response) => {
           this.notifications = response.data.notifications;
         },
@@ -46,6 +51,7 @@ export default {
           console.log(error, response);
         }
       );
+      this.isLoading = false;
     },
     notificationsAllDelete() {
       axios({
@@ -72,6 +78,7 @@ export default {
   },
   components: {
     Notification,
+    LoadingCompornent,
   },
 };
 </script>
@@ -87,7 +94,13 @@ $danger-color: #e15253;
   margin: 0 auto;
   padding: 10px 40px 30px;
   overflow: scroll;
-  height: 94%;
+  height: 655px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .notifications-all-delete-button {
     text-align: right;

@@ -5,14 +5,16 @@
         <ModalHeader header="新規投稿"></ModalHeader>
         <PostImageModal @success="successPostImage"></PostImageModal>
       </div>
+
       <div class="modal-main" v-if="modalType === '編集する'">
         <ModalHeader header="投稿 編集画面"></ModalHeader>
         <PostImageEditModal
           :editData="editData"
-          @success="successPostImage"
+          @success="successEditPostImage"
           @postImageDeleteSuccess="postImageDeleteSuccess"
         ></PostImageEditModal>
       </div>
+
       <div class="modal-main" v-if="modalType === 'ユーザーを編集する'">
         <ModalHeader header="ユーザー 編集画面"></ModalHeader>
         <UserEditModal
@@ -106,6 +108,7 @@ import RequestModal from "./modal/RequestModal.vue";
 import RequestDetailModal from "./modal/RequestDetailModal.vue";
 import RequestEditModal from "./modal/RequestEditModal.vue";
 import NotificationsModal from "./modal/NotificationsModal.vue";
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 export default {
   props: {
@@ -124,35 +127,50 @@ export default {
   methods: {
     modalClose() {
       this.$emit("modalClose", false);
+      clearAllBodyScrollLocks();
     },
     successPostImage(value) {
       this.$emit("modalClose", false);
       this.$emit("screenTransition", value);
+      clearAllBodyScrollLocks();
+    },
+    successEditPostImage() {
+      this.$emit("modalClose", false);
+      this.$emit("postImageUpdate", false);
+      clearAllBodyScrollLocks();
+    },
+    postImageDeleteSuccess(value) {
+      this.$router.push({ path: "/users/" + value, query: { id: value, method: "delete" } });
+      clearAllBodyScrollLocks();
     },
     successUser() {
       this.$emit("modalClose", false);
       this.$emit("successUser");
-    },
-    postImageDeleteSuccess(value) {
-      this.$router.push("/users/" + value);
+      clearAllBodyScrollLocks();
     },
     successRequest() {
       this.$emit("screenTransition");
+      clearAllBodyScrollLocks();
     },
     requestModalChenge() {
       this.$emit("requestModalChenge");
+      clearAllBodyScrollLocks();
     },
     successRequestUpdate(value) {
       this.$emit("successRequestUpdate", value);
+      clearAllBodyScrollLocks();
     },
     requestDelete() {
       this.$emit("requestDelete", this.index);
+      clearAllBodyScrollLocks();
     },
-    requestStatusUpdate() {
-      this.$emit("requestStatusUpdate");
+    requestStatusUpdate(status) {
+      this.$emit("requestStatusUpdate", status);
+      clearAllBodyScrollLocks();
     },
     requestImageUpdate() {
       this.$emit("requestImageUpdate");
+      clearAllBodyScrollLocks();
     }
   },
   components: {
@@ -166,6 +184,13 @@ export default {
     RequestEditModal,
     NotificationsModal,
   },
+  mounted() {
+    var modal = document.querySelector('#modal');
+    disableBodyScroll(modal);
+  },
+  beforeDestroy() {
+    clearAllBodyScrollLocks();
+  }
 };
 </script>
 
@@ -187,7 +212,7 @@ $font-white: #fffffe;
   .modal-content {
     background-color: $back-ground-color;
     width: 60%;
-    height: 87%;
+    height: 700px;
     margin: 0 auto;
     border-radius: 20px;
     margin-top: 50px;

@@ -13,7 +13,7 @@
     </div>
     <div class="post-image-detail-introduction">
       <p>{{ postImage.image_introduction }}</p>
-      <div class="post-image-detail-hahstags">
+      <div class="post-image-detail-hashtags">
         <template v-for="hashTag in postImage.hash_tags">
           <router-link :to="'/post_images/hashtag/' + hashTag.hashname" :key="hashTag.hashname" class="post-image-detail-hashtag">
             #{{ hashTag.hashname }}
@@ -53,6 +53,7 @@
         :editData="postImage"
         modalType="編集する"
         @modalClose="modalClose"
+        @postImageUpdate="postImageUpdate"
       ></Modal>
     </transition>
   </div>
@@ -87,10 +88,13 @@ export default {
     modalOpen() {
       this.isModal = true;
     },
-    modalClose(value) {
-      this.isModal = value;
-      this.$emit("update");
+    modalClose() {
+      this.isModal = false;
     },
+    postImageUpdate() {
+      this.isModal = false;
+      this.$emit("postImageUpdate");
+    }
   },
 };
 </script>
@@ -114,7 +118,7 @@ $danger-color: #e15253;
   .post-image-detail-title {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin: 10px 0;
 
     h1 {
       font-size: 25px;
@@ -135,6 +139,10 @@ $danger-color: #e15253;
 
   .post-image-detail-introduction {
     margin-bottom: 10px;
+
+    .post-image-detail-hashtags {
+      margin-top: 50px;
+    }
 
     .post-image-detail-hashtag {
       font-weight: bold;

@@ -50,10 +50,38 @@ ol, ul {
   box-sizing: border-box;
 }
 
-
-
 .container {
   width: 90%;
   max-width: 1080px;
   margin: 0 auto;
+}
+
+.alert {
+  background-color: #e15253;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 50%;
+  padding: 20px 0;
+  margin: 0 auto 30px;
+  color: white;
+}
+
+.notice {
+  background-color: #88C4C4;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 50%;
+  padding: 20px 0;
+  margin: 0 auto 30px;
+  color: white;
+}
+
+#error_explanation {
+  background-color: #ffd9e1;
+  margin: 0px 0px 20px;
+  padding: 20px 20px 10px;
+  border-radius: 20px;
+  text-align: center;
 }

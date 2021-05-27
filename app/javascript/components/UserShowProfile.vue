@@ -1,5 +1,6 @@
 <template>
   <div id="user-show-profile">
+    <UserReception :isReception="user.is_reception"></UserReception>
     <CircleImage :image="user.profile_image"></CircleImage>
 
     <Title v-if="user.account_name" :title="user.account_name"></Title>
@@ -34,10 +35,10 @@
 
     <div class="user-show-profile-request-buttons" v-if="user.current_user_same_as">
       <router-link :to="{ name: 'requested', params: { id: user.id }}" v-if="user.is_reception">
-        <button class="button">依頼された内容</button>
+        <button class="button requested-button">依頼された内容</button>
       </router-link>
       <router-link :to="{ name: 'requesting', params: { id: user.id }}">
-        <button class="button">依頼した内容</button>
+        <button class="button requesting-button">依頼した内容</button>
       </router-link>
     </div>
 
@@ -61,7 +62,7 @@ import UserItems from "./parts/UserItems.vue";
 import Button from "./parts/Button.vue";
 import Modal from "./Modal.vue";
 import CircleImage from "./parts/CircleImage.vue";
-
+import UserReception from "./parts/UserReception.vue";
 
 export default {
   components: {
@@ -70,6 +71,7 @@ export default {
     Button,
     Modal,
     CircleImage,
+    UserReception,
   },
   props: {
     user: { type: Object, required: true },
@@ -98,7 +100,7 @@ export default {
     },
     async screenTransition() {
       await this.modalClose();
-      this.$router.push("/users/" + this.currenUserId + "/requesting");
+      this.$router.push({ path: "/users/" + this.currenUserId + "/requesting", query: { method: "create" } });
     },
   },
 };
@@ -124,6 +126,12 @@ $danger-color: #e15253;
     top: -75px;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .user-reception {
+    position: absolute;
+    top: 150px;
+    right: 10px;
   }
 
   #title {
@@ -166,6 +174,17 @@ $danger-color: #e15253;
 
   .user-show-profile-request-buttons {
     margin-top: 30px;
+
+    .requested-button {
+      margin-bottom: 10px;
+      background-color: $accent-color;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .requesting-button {
+      background-color: $accent-color;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
   }
 }
 </style>

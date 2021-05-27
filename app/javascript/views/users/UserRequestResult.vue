@@ -2,22 +2,27 @@
   <transition-group name="fade">
     <Loading v-if="isLoading === true" key="loader"></Loading>
     <div id="user-request-result" v-if="isLoading === false" key="noloader">
+      <transition name="alert">
+        <Alert :type="alertType.type" v-if="isAlert === true">
+          {{ alertType.message }}
+        </Alert>
+      </transition>
       <div class="container">
         <template v-if="$route.name === 'request_done'">
           <template v-if="requestingUser.account_name">
-            <h3>{{ requestingUser.account_name }}への依頼が完成しました！</h3>
+            <h3>{{ requestingUser.account_name }}さんへの依頼が完成しました！</h3>
           </template>
           <template v-else>
-            <h3>{{ requestingUser.user_name }}への依頼が完成しました！</h3>
+            <h3>{{ requestingUser.user_name }}さんへの依頼が完成しました！</h3>
           </template>
         </template>
 
         <template v-if="$route.name === 'request_complete'">
           <template v-if="requestedUser.account_name">
-            <h3>{{ requestedUser.account_name }}からの作品が到着しました！</h3>
+            <h3>{{ requestedUser.account_name }}さんからの作品が到着しました！</h3>
           </template>
           <template v-else>
-            <h3>{{ requestedUser.user_name }}からの作品が到着しました！</h3>
+            <h3>{{ requestedUser.user_name }}さんからの作品が到着しました！</h3>
           </template>
         </template>
 
@@ -46,6 +51,7 @@
 <script>
 import axios from "axios";
 import Loading from "../../components/parts/Loading.vue";
+import Alert from "../../components/parts/Alert.vue";
 
 export default {
   data() {
@@ -54,10 +60,16 @@ export default {
       requestingUser: {},
       requestedUser: {},
       isLoading: true,
+      isAlert: false,
+      alertType: {
+        type: "",
+        message: "",
+      },
     };
   },
   components: {
     Loading,
+    Alert,
   },
   methods: {
     async getInfoRequestDone() {
@@ -80,6 +92,21 @@ export default {
           }
         );
       this.isLoading = false;
+    },
+    completeAlert() {
+      this.alertType.type = "success";
+      this.alertType.message = "依頼が完成しました！";
+      this.isAlert = true;
+    },
+    async successcompleteAlert() {
+      await this.completeAlert();
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
+    async completeRequestImageGetInfoRequestDone() {
+      await this.getInfoRequestDone();
+      this.successcompleteAlert();
     },
     async getInfoRequestComplete() {
       await axios
@@ -123,8 +150,12 @@ export default {
   },
   mounted() {
     if (this.$route.name === "request_done") {
-      this.isLoading = true;
-      this.getInfoRequestDone();
+      if(this.$route.query.method === "complete") {
+        this.completeRequestImageGetInfoRequestDone();
+      } else {
+        this.isLoading = true;
+        this.getInfoRequestDone();
+      }
     } else if (this.$route.name === "request_complete") {
       this.isLoading = true;
       this.getInfoRequestComplete();
@@ -141,7 +172,7 @@ $font-white: #fffffe;
 $danger-color: #e15253;
 
 #user-request-result {
-  margin-top: 80px;
+  margin-top: 150px;
   text-align: center;
 
   h3 {

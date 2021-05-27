@@ -2,24 +2,24 @@ class Api::V1::PostImagesController < ApplicationController
   before_action :authenticate_user!, only: [:show, :main, :create, :update]
 
   def show
-    @post_image = PostImage.find(params[:id])
+    @post_image = PostImage.with_attached_post_image.eager_load(:user).eager_load(:post_comments).preload(:hash_tags).find(params[:id])
     @user = @post_image.user
     @post_comments = @post_image.post_comments.order(id: "DESC")
     @hash_tags = @post_image.hash_tags
   end
 
   def index
-    @post_images = PostImage.preload(:user).all.order(id: "DESC")
+    @post_images = PostImage.with_attached_post_image.eager_load(:user).all.order(id: "DESC")
     @post_images_illust = (@post_images.select { |n| n.post_image_genre === "イラスト"})
     @post_images_photo = (@post_images.select { |n| n.post_image_genre === "写真"})
     @post_images_logo = (@post_images.select { |n| n.post_image_genre === "ロゴ"})
   end
 
   def main
-    @post_images = PostImage.preload(:user).sort_new(15)
-    @following_users_post_images = PostImage.preload(:user).my_follower_img(current_user).sort_new(15) if user_signed_in?
+    @post_images = PostImage.with_attached_post_image.eager_load(:user).sort_new(15)
+    @following_users_post_images = PostImage.with_attached_post_image.eager_load(:user).my_follower_img(current_user).sort_new(15) if user_signed_in?
     @hash_tags = HashTag.find(PostImageHashtagRelation.group(:hash_tag_id).sort_favorite(:hash_tag_id, 20).pluck(:hash_tag_id))
-    ranking_post_images = PostImage.preload(:user).find(Favorite.group(:post_image_id).sort_favorite(:post_image_id))
+    ranking_post_images = PostImage.with_attached_post_image.eager_load(:user).find(Favorite.group(:post_image_id).sort_favorite(:post_image_id))
     @ranking_post_images = ranking_post_images.first(15)
     @post_images_illust = (ranking_post_images.select { |n| n.post_image_genre === "イラスト" }).first(15)
     @post_images_photo = (ranking_post_images.select { |n| n.post_image_genre === "写真" }).first(15)
