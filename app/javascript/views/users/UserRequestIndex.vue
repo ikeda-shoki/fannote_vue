@@ -24,19 +24,6 @@
             @click.native="modalOpen(request, index)"
           ></RequestItem>
         </div>
-        <!-- <transition name="fade">
-          <Modal
-            v-if="isModal ? true : false"
-            :isShow="isModal"
-            :editData="request"
-            :modalType="modalType"
-            :index="index"
-            @modalClose="modalClose"
-            @requestModalChenge="modalType = 'リクエストを編集'"
-            @successRequestUpdate="successRequestUpdate"
-            @requestDelete="requestDelete"
-          ></Modal>
-        </transition> -->
       </template>
 
       <template v-if="$route.name === 'requested'">
@@ -56,18 +43,6 @@
             @click.native="modalOpen(request, index)"
           ></RequestItem>
         </div>
-        <!-- <transition name="fade" mode>
-          <Modal
-            v-if="isModal ? true : false"
-            :isShow="isModal"
-            :editData="request"
-            :modalType="modalType"
-            :index="index"
-            @modalClose="modalClose"
-            @requestStatusUpdate="requestStatusUpdate"
-            @requestImageUpdate="requestImageUpdate"
-          ></Modal>
-        </transition> -->
       </template>
     </div>
     <Modal
@@ -78,11 +53,11 @@
       :modalType="modalType"
       :index="index"
       @modalClose="modalClose"
-      @requestStatusUpdate="requestStatusUpdate"
+      @requestStatusUpdate="successRequestStatusUpdate"
       @requestImageUpdate="requestImageUpdate"
       @requestModalChenge="modalType = 'リクエストを編集'"
       @successRequestUpdate="successRequestUpdate"
-      @requestDelete="requestDelete"
+      @requestDelete="successRequestDelete"
     ></Modal>
   </transition-group>
 </template>
@@ -181,14 +156,51 @@ export default {
       await this.chengeModal(value);
       this.successUpdateAlert();
     },
+    deleteAlert() {
+      this.alertType.type = "danger";
+      this.alertType.message = "依頼を削除しました。";
+      this.isAlert = true;
+    },
+    async successDeleteAlert() {
+      await this.deleteAlert()
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
     requestDelete(index) {
       this.modalClose();
       this.requests.splice(index, 1);
       this.index = 0;
     },
+    async successRequestDelete(index) {
+      await this.requestDelete(index);
+      this.successDeleteAlert();
+    },
+    updateStatusAlert(status) {
+      if(status === "製作中"){
+        this.alertType.type = "success";
+        this.alertType.message = "依頼を承諾しました！";
+        this.isAlert = true;
+      }
+      else if(status === "受付不可"){
+        this.alertType.type = "danger";
+        this.alertType.message = "依頼の製作を中止しました。";
+        this.isAlert = true;
+      }
+    },
+    async successUpdateStatusAlert(status) {
+      await this.updateStatusAlert(status)
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
     requestStatusUpdate() {
       this.modalClose();
       this.getInfoRequested();
+    },
+    async successRequestStatusUpdate(status) {
+      await this.requestStatusUpdate();
+      this.successUpdateStatusAlert(status);
     },
     requestImageUpdate() {
       this.modalClose();

@@ -164,8 +164,8 @@ export default {
       this.$emit("requestDelete", this.index);
       clearAllBodyScrollLocks();
     },
-    requestStatusUpdate() {
-      this.$emit("requestStatusUpdate");
+    requestStatusUpdate(status) {
+      this.$emit("requestStatusUpdate", status);
       clearAllBodyScrollLocks();
     },
     requestImageUpdate() {

@@ -34,15 +34,14 @@
             <button class="button" @click="openConfirm">依頼を削除する</button>
           </div>
         </template>
+        <template v-if="request.request_status === '受付不可'">
+          <div class="request-detail-modal-buttons">
+            <button class="button" @click="requestDelete">依頼を削除する</button>
+          </div>
+        </template>
         <template v-if="request.request_status === '製作完了'">
           <router-link
-            :to="
-              '/users/' +
-                request.requesting_user.id +
-                '/requests/' +
-                request.id +
-                '/request_complete'
-            "
+            :to="'/users/' + request.requesting_user.id + '/requests/' + request.id + '/request_complete'"
           >
             <div class="request-detail-modal-button">
               <button class="button">完成した作品を確認する</button>
@@ -80,10 +79,21 @@
           <div class="request-detail-modal-submitbutton">
             <FormButton
               buttonName="登録する"
-              @click.native="requestStatusUpdate"
+              @click.native="openConfirm"
             ></FormButton>
           </div>
+          <transition name="fade" tag="div" class="requested-confirm">
+            <Confirm
+              v-if="isConfirm === true"
+              @falseAction="closeConfirm"
+              @successAction="requestStatusUpdate"
+            >
+              製作するを選択した場合、今後製作を中止することはできません。<br>
+              また、製作しないを選択した場合も今後変更することはできません。それでもよろしいですか？
+            </Confirm>
+          </transition>
         </template>
+
         <template v-if="request.request_status === '製作中'">
           <p v-if="errors" class="error" key="error">
             入力内容を確認してください
@@ -111,11 +121,20 @@
               @click.native="openConfirm"
             ></FormButton>
           </div>
+          <transition name="fade" tag="div" class="requested-confirm">
+            <Confirm
+              v-if="isConfirm === true"
+              @falseAction="closeConfirm"
+              @successAction="requestCompleteImagesUpdate"
+            >
+              作成枚数まで送信してしまうと送信する画像を変更することはできませんが完成した画像を送信していいですか？
+            </Confirm>
+          </transition>
         </template>
+
         <template v-if="request.request_status === '製作完了'">
           <router-link
-            :to="
-              '/users/' + request.requested_user.id + '/requests/' + request.id + '/request_done'">
+            :to="'/users/' + request.requested_user.id + '/requests/' + request.id + '/request_done'">
             <div class="request-detail-modal-button">
               <button class="button">送信した作品を確認する</button>
             </div>
@@ -123,19 +142,11 @@
         </template>
       </template>
     </div>
+
     <ChatButton
       :userId="Number($route.params.id)"
       :requestId="request.id"
     ></ChatButton>
-    <transition name="fade" tag="div" class="requested-confirm">
-      <Confirm
-        v-if="isConfirm === true"
-        @falseAction="closeConfirm"
-        @successAction="requestCompleteImagesUpdate"
-      >
-        作成枚数まで送信してしまうと送信する画像を変更することはできませんが完成した画像を送信していいですか？
-      </Confirm>
-    </transition>
   </div>
 </template>
 
@@ -225,7 +236,7 @@ export default {
         method: "PATCH",
       })
         .then((response) => {
-          this.$emit("successRequestStatusUpdate");
+          this.$emit("successRequestStatusUpdate", this.requestStatus);
         })
         .catch((error) => {
           this.errorMessage = error.response.data;
@@ -263,7 +274,13 @@ export default {
         method: "PATCH",
       })
         .then((response) => {
-          this.$emit("successRequestImageUpdate");
+          if(this.request.amount === this.requestImages.length){
+            this.$router.push({ path: '/users/' + this.request.requested_user.id + '/requests/' + this.request.id + '/request_done',
+                                query: { method: "complete" } });
+          }
+          else {
+            this.$emit("successRequestImageUpdate");
+          }
         })
         .catch((error) => {
           console.log(error.response.data)
