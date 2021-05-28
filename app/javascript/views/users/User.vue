@@ -21,6 +21,7 @@
           <router-view :user="user"></router-view>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -30,6 +31,7 @@ import axios from "axios";
 import UserShowProfile from "../../components/UserShowProfile.vue";
 import Loading from "../../components/parts/Loading.vue";
 import Alert from "../../components/parts/Alert.vue";
+import Footer from "../../components/Footer.vue"
 
 export default {
   props: {
@@ -117,6 +119,7 @@ export default {
     UserShowProfile,
     Loading,
     Alert,
+    Footer,
   },
   watch: {
     $route: "getInfo",

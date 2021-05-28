@@ -47,6 +47,7 @@
           </div>
         </template>
       </div>
+      <Footer></Footer>
       <transition name="fade">
         <Confirm
           v-if="isConfirm === true"
@@ -66,7 +67,7 @@ import Loading from "../../components/parts/Loading.vue";
 import Alert from "../../components/parts/Alert.vue";
 import BackButton from "../../components/parts/BackButton.vue";
 import Confirm from "../../components/parts/Confirm.vue";
-
+import Footer from "../../components/Footer.vue";
 
 export default {
   data() {
@@ -87,6 +88,7 @@ export default {
     Loading,
     Alert,
     BackButton,
+    Footer,
     Confirm,
   },
   methods: {

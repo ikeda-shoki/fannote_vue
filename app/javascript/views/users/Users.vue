@@ -32,6 +32,7 @@
           </template>
         </transition-group>
       </div>
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -41,6 +42,7 @@ import Title from "../../components/parts/Title.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
 import UserItem from "../../components/parts/UserItem.vue";
 import CommentForm from "../../components/form/CommetForm.vue";
+import Footer from "../../components/Footer.vue";
 import Loading from "../../components/parts/Loading.vue";
 import axios from "axios";
 
@@ -66,6 +68,7 @@ export default {
     UserItem,
     CommentForm,
     Loading,
+    Footer,
   },
   methods: {
     async getInfo() {

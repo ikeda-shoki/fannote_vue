@@ -10,16 +10,19 @@
       </div>
       <TopButtons></TopButtons>
     </div>
+    <Footer></Footer>>
   </div>
 </template>
 
 <script>
 import 'top.jpg';
 import TopButtons from '../../components/TopButtons'
+import Footer from "../../components/Footer.vue";
 
 export default {
   components: {
     TopButtons,
+    Footer,
   }
 }
 </script>

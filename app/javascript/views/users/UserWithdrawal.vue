@@ -8,12 +8,17 @@
         <a href="/" class="button">トップページへ</a>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
-export default {
+import Footer from "../../components/Footer.vue";
 
+export default {
+  components: {
+    Footer,
+  }
 }
 </script>
 

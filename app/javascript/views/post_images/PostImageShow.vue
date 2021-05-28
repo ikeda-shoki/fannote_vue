@@ -39,7 +39,6 @@
           </form>
           <PostImageComments
             :postComments="post_comments"
-            :userLogIn="userLogIn"
             @postCommentDelete="postCommentDelete"
           ></PostImageComments>
         </div>
@@ -52,6 +51,7 @@
           ></PostImageShowUser>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -66,6 +66,7 @@ import PostImageShowUser from "../../components/PostImageShowUser.vue";
 import Loading from "../../components/parts/Loading.vue";
 import Alert from "../../components/parts/Alert.vue";
 import ErrorMessage from "../../components/form/ErrorMessage.vue";
+import Footer from "../../components/Footer.vue";
 
 export default {
   data() {
@@ -100,6 +101,7 @@ export default {
     Loading,
     Alert,
     ErrorMessage,
+    Footer,
   },
   methods: {
     upFavorite() {

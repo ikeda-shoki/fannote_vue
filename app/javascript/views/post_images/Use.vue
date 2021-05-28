@@ -18,12 +18,14 @@
       </div>
       <TopButtons></TopButtons>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Title from "../../components/parts/Title.vue";
 import TopButtons from "../../components/TopButtons.vue";
+import Footer from "../../components/Footer.vue";
 import "top-message-1.png";
 import "top-message-2.png";
 import "top-message-3.png";
@@ -32,6 +34,7 @@ export default {
   components: {
     Title,
     TopButtons,
+    Footer,
   },
   mounted() {
     window.addEventListener('scroll', this.checkScroll)

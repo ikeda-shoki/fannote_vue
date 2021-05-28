@@ -85,6 +85,7 @@
           </paginate>
         </template>
       </template>
+      <Footer></Footer>
     </div>
     <Modal
       key="modal"
@@ -110,6 +111,7 @@ import Title from "../../components/parts/Title.vue";
 import RequestItem from "../../components/parts/RequestItem.vue";
 import Modal from "../../components/Modal.vue";
 import Alert from "../../components/parts/Alert.vue";
+import Footer from "../../components/Footer.vue";
 
 export default {
   data() {
@@ -135,6 +137,7 @@ export default {
     Modal,
     LoadingCompornent,
     Alert,
+    Footer,
   },
   props: {
     user: { type: Object, required: true },

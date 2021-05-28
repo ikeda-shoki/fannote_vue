@@ -64,6 +64,7 @@
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -76,6 +77,7 @@ import FormButton from "../../components/form/FormButton.vue";
 import ErrorMessage from "../../components/form/ErrorMessage.vue";
 import Loading from "../../components/parts/Loading.vue";
 import BackButton from "../../components/parts/BackButton.vue";
+import Footer from "../../components/Footer.vue";
 import axios from "axios";
 
 export default {
@@ -162,6 +164,7 @@ export default {
     FormButton,
     ErrorMessage,
     Loading,
+    Footer,
     BackButton,
   },
 };

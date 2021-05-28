@@ -17,13 +17,13 @@
                   <img :src="postImage.post_image" />
                   <div class="favorite-image-info">
                     <div class="favorite-image-info-user">
-                      <span v-if="postImage.user.account_name"
+                      <p v-if="postImage.user.account_name"
                         ><i class="fas fa-user"></i
-                        >{{ postImage.user.account_name }}</span
+                        >{{ postImage.user.account_name }}</p
                       >
-                      <span v-else
+                      <p v-else
                         >{{ postImage.user.user_name }}<i class="fas fa-user"></i
-                      ></span>
+                      ></p>
                     </div>
                     <p>{{ postImage.title }}</p>
                   </div>
@@ -89,7 +89,7 @@
         </div>
 
       </div>
-      
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -100,6 +100,7 @@ import PostImage from "../../components/parts/PostImage.vue";
 import SliderImages from "../../components/parts/SliderImages.vue";
 import SliderHashTags from "../../components/parts/SliderHashTags.vue";
 import Loading from "../../components/parts/Loading.vue";
+import Footer from "../../components/Footer.vue";
 
 import {
   Hooper,
@@ -154,6 +155,7 @@ export default {
   components: {
     PostImage,
     Loading,
+    Footer,
     Hooper,
     Slide,
     SliderImages,
@@ -237,12 +239,15 @@ $danger-color: #e15253;
         opacity: 0;
 
         i,
-        span,
         p {
           color: $back-ground-color;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+        }
+
+        i {
+          margin-right: 5px;
         }
       }
     }

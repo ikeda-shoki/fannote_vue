@@ -77,6 +77,7 @@
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -87,6 +88,7 @@ import PostImages from "../../components/PostImages.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
 import CommentForm from "../../components/form/CommetForm.vue";
 import Loading from "../../components/parts/Loading.vue";
+import Footer from "../../components/Footer.vue";
 import axios from "axios";
 
 export default {
@@ -95,6 +97,7 @@ export default {
     PostImages,
     SelectForm,
     CommentForm,
+    Footer,
     Loading,
   },
   data() {
