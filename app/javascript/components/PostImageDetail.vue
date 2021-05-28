@@ -39,12 +39,13 @@
         ><i class="far fa-heart"></i>{{ postImage.favorite_count }}</span
       >
     </div>
-    <div class="post_image_edit_button" v-if="user.current_user_same_as">
-      <Button>
+    <div class="post-image-detail-edit-button" v-if="user.current_user_same_as">
+      <p class="button post-image-edit-button" @click="modalOpen">編集する</p>
+      <!-- <Button>
         <a href="/" class="top-button" @click.prevent="modalOpen">
           <span>編集する</span>
         </a>
-      </Button>
+      </Button> -->
     </div>
     <transition name="fade">
       <Modal
@@ -62,7 +63,6 @@
 <script>
 import PostImageTag from "../components/parts/PostImageTag.vue";
 import Favorite from "../components/parts/Favorite.vue";
-import Button from "../components/parts/Button.vue";
 import Modal from "./Modal.vue";
 
 export default {
@@ -73,7 +73,6 @@ export default {
   components: {
     PostImageTag,
     Favorite,
-    Button,
     Modal,
   },
   data() {
@@ -165,9 +164,13 @@ $danger-color: #e15253;
     }
   }
 
-  .post_image_edit_button {
+  .post-image-detail-edit-button {
     margin-top: 40px;
     text-align: center;
+    .post-image-edit-button {
+      border-radius: 30px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
   }
 }
 </style>

@@ -13,6 +13,8 @@
             :user="user"
             :currenUserId="currentUser.id"
             @userUpdate="successUserUpdate"
+            @follow="followUp"
+            @unfollow="followDown"
           ></UserShowProfile>
         </div>
         <div class="user-right">
@@ -70,6 +72,42 @@ export default {
     async successUserUpdate() {
       await this.getInfo()
       this.successUpdateAlert();
+    },
+    follow(value) {
+      this.user.followed_count = value;
+      this.user.follower = true;
+      this.alertType.type = "success";
+      if(this.user.account_name){
+        this.alertType.message = this.user.account_name + "さんをフォローしました！";
+      }
+      else {
+        this.alertType.message = this.user.user_name + "さんをフォローしました！";
+      }
+      this.isAlert = true;
+    },
+    async followUp(value) {
+      await this.follow(value);
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
+    unfollow (value) {
+      this.user.followed_count = value;
+      this.user.follower = false;
+      this.alertType.type = "danger";
+      if(this.user.account_name){
+        this.alertType.message = this.user.account_name + "さんのフォローを外しました。";
+      }
+      else {
+        this.alertType.message = this.user.user_name + "さんのフォローを外しました。";
+      }
+      this.isAlert = true;
+    },
+    async followDown(value) {
+      await this.unfollow(value);
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
     },
   },
   created() {
