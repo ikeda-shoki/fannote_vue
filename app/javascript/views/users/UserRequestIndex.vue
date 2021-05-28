@@ -270,12 +270,31 @@ export default {
     clickCallback(pageNum) {
       this.currentPage = Number(pageNum);
     },
+    completeAlert() {
+      this.alertType.type = "success";
+      this.alertType.message = "依頼を完了して履歴を削除しました！";
+      this.isAlert = true;
+    },
+    async successCompleteAlert() {
+      await this.completeAlert();
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
+    async completeRequestGetInfoRequesting() {
+      await this.getInfoRequesting();
+      this.successCompleteAlert();
+    },
   },
   mounted() {
     if (this.$route.name === "requesting") {
       if (this.$route.query.method === "create") {
         this.createRequestGetInfoRequesting();
-      } else {
+      }
+      else if(this.$route.query.method === "complete") {
+        this.completeRequestGetInfoRequesting();
+      }
+      else {
         this.isLoading = true;
         this.getInfoRequesting();
       }

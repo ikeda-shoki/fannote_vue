@@ -2,6 +2,9 @@
   <transition-group name="fade">
     <Loading v-if="isLoading === true" key="loader"></Loading>
     <div id="user-request-chat" v-if="isLoading === false" key="noloader">
+      <BackButton>
+        投稿一覧に戻る
+      </BackButton>
       <div class="container">
         <div class="chats">
           <div class="chats-title">
@@ -72,6 +75,7 @@ import CommentForm from "../../components/form/CommetForm.vue";
 import FormButton from "../../components/form/FormButton.vue";
 import ErrorMessage from "../../components/form/ErrorMessage.vue";
 import Loading from "../../components/parts/Loading.vue";
+import BackButton from "../../components/parts/BackButton.vue";
 import axios from "axios";
 
 export default {
@@ -158,6 +162,7 @@ export default {
     FormButton,
     ErrorMessage,
     Loading,
+    BackButton,
   },
 };
 </script>
