@@ -1,16 +1,24 @@
 <template>
-  <div id="top">
-    <div class="container">
-      <div class="top-text">
-        <h3 class="top-title">
-          Bringing Your Art<br />
-          to More People....
-        </h3>
-        <p class="top-subtitle">あなたのイラストや写真をもっと身近にお手軽に</p>
+  <div>
+    <mq-layout mq="lg">
+      <div id="top">
+        <div class="container">
+          <div class="top-text">
+            <h3 class="top-title">
+              Bringing Your Art<br />
+              to More People....
+            </h3>
+            <p class="top-subtitle">あなたのイラストや写真をもっと身近にお手軽に</p>
+          </div>
+          <TopButtons></TopButtons>
+        </div>
       </div>
-      <TopButtons></TopButtons>
-    </div>
-    <Footer></Footer>>
+    </mq-layout>
+
+    <mq-layout mq="sp">
+      <SpTop></SpTop>
+    </mq-layout>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -18,16 +26,26 @@
 import 'top.jpg';
 import TopButtons from '../../components/TopButtons'
 import Footer from "../../components/Footer.vue";
+import SpTop from "./SpTop.vue";
 
 export default {
   components: {
     TopButtons,
     Footer,
+    SpTop,
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  $sp: 480px;
+
+  @mixin sp {
+    @media screen and (max-width: 767px) {
+      @content;
+    }
+  }
+
   #top {
     width: 100%;
     height: 100vh;

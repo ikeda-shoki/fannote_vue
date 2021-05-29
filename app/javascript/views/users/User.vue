@@ -129,10 +129,11 @@ export default {
 
 <style lang="scss" scoped>
 #user {
-  margin: 80px 0 50px;
+  margin-top: 80px;
 
   .container {
     display: flex;
+    padding-bottom: 50px;
   }
 
   .user-left {

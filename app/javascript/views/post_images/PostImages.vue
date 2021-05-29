@@ -246,6 +246,10 @@ $danger-color: #e15253;
   margin-top: 80px;
   text-align: center;
 
+  .container {
+    min-height: 100vh;
+  }
+
   #title {
     font-weight: bold;
     font-size: 28px;
@@ -284,6 +288,7 @@ $danger-color: #e15253;
 
     .post-images-main {
       width: 100%;
+      margin-bottom: 50px;
 
       /deep/ .post-image {
         width: calc(19% - 20px * 4 / 5);

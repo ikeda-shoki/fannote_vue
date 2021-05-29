@@ -5,9 +5,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style lang="scss" scoped>
@@ -21,8 +19,6 @@ $danger-color: #e15253;
   background-color: $accent-color;
   width: 100%;
   height: 60px;
-  position: fixed;
-  bottom: 0;
 
   p {
     text-align: center;
