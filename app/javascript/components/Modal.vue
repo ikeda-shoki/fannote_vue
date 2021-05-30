@@ -199,6 +199,13 @@ $accent-color: #e65b20;
 $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #modal {
   z-index: 10;
@@ -218,6 +225,10 @@ $font-white: #fffffe;
     margin-top: 50px;
     min-height: 200px;
     position: relative;
+
+    @include sp {
+      width: 95%;
+    }
 
     .modal-main {
       height: 100%;

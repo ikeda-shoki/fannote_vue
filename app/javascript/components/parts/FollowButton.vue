@@ -19,7 +19,6 @@ import axios from "axios";
 export default {
   props: {
     user: {},
-    currentUser: {},
   },
   methods: {
     follow() {

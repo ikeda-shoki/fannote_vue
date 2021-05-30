@@ -41,6 +41,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #confirm {
   z-index: 500;
@@ -58,6 +65,11 @@ $danger-color: #e15253;
     margin: 200px auto 0;
     border-radius: 20px;
 
+    @include sp {
+      width: 80%;
+      height: auto;
+    }
+
     .confirm-top {
       margin: 0 20px;
       border-bottom: 1px solid $font-color;
@@ -65,9 +77,17 @@ $danger-color: #e15253;
       text-align: center;
       padding-top: 50px;
 
+      @include sp {
+        height: auto;
+      }
+
       p {
         font-weight: bold;
         font-size: 20px;
+
+        @include sp {
+          font-size: 15px;
+        }
       }
     }
 
@@ -80,6 +100,11 @@ $danger-color: #e15253;
     .button {
       min-width: auto;
       padding: 10px 25px;
+
+      @include sp {
+        font-size: 13px;
+        padding: 5px 15px;
+      }
     }
   }
 

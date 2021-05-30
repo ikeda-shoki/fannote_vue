@@ -111,6 +111,7 @@ import RequestItem from "../../components/parts/RequestItem.vue";
 import Modal from "../../components/Modal.vue";
 import Alert from "../../components/parts/Alert.vue";
 
+
 export default {
   data() {
     return {
@@ -270,12 +271,31 @@ export default {
     clickCallback(pageNum) {
       this.currentPage = Number(pageNum);
     },
+    completeAlert() {
+      this.alertType.type = "success";
+      this.alertType.message = "依頼を完了して履歴を削除しました！";
+      this.isAlert = true;
+    },
+    async successCompleteAlert() {
+      await this.completeAlert();
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 3000);
+    },
+    async completeRequestGetInfoRequesting() {
+      await this.getInfoRequesting();
+      this.successCompleteAlert();
+    },
   },
   mounted() {
     if (this.$route.name === "requesting") {
       if (this.$route.query.method === "create") {
         this.createRequestGetInfoRequesting();
-      } else {
+      }
+      else if(this.$route.query.method === "complete") {
+        this.completeRequestGetInfoRequesting();
+      }
+      else {
         this.isLoading = true;
         this.getInfoRequesting();
       }
@@ -316,6 +336,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #user-requesting {
   .user-requesting-title {
@@ -333,6 +360,11 @@ $danger-color: #e15253;
       position: absolute;
       top: 28px;
       right: 20%;
+
+      @include sp {
+        top: 40px;
+        right: 5%;
+      }
     }
   }
 

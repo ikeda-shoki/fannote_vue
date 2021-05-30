@@ -29,6 +29,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 .sort-list-move {
   transition: all .8s;
 }

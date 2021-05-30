@@ -11,6 +11,14 @@ import axios from "axios";
 import router from "../routes/router.js";
 import App from '../app.vue'
 import Paginate from 'vuejs-paginate'
+import VueMq from 'vue-mq'
+
+Vue.use(VueMq, {
+  breakpoints: {
+    sp: 480,
+    lg: Infinity,
+  },
+});
 
 Vue.component('paginate', Paginate)
 Vue.use(VueRouter);

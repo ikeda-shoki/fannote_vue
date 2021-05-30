@@ -115,6 +115,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 #user-show {
   .user-show-post-images {
     #post-images {
@@ -124,18 +132,32 @@ export default {
     /deep/ h2 {
       font-size: 30px;
       font-weight: bold;
+
+      @include sp {
+        font-size: 25px;
+      }
     }
 
     &-index {
       margin-top: 30px;
+
+      @include sp {
+        margin-bottom: 30px;
+      }
     }
 
     &-favorite {
       margin-top: 30px;
+      @include sp {
+        margin-bottom: 30px;
+      }
     }
 
     &-follower {
       margin-top: 30px;
+      @include sp {
+        margin-bottom: 30px;
+      }
     }
   }
 

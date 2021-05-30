@@ -7,6 +7,9 @@
           {{ alertType.message }}
         </Alert>
       </transition>
+      <BackButton :link="backLink">
+        一覧画面に戻る
+      </BackButton>
       <div class="container">
         <template v-if="$route.name === 'request_done'">
           <template v-if="requestingUser.account_name">
@@ -38,12 +41,22 @@
 
         <template v-if="$route.name === 'request_complete'">
           <div class="request-result-delete-button">
-            <button class="button" @click="requestComplete()">
+            <button class="button" @click="openConfirm()">
               依頼を完了して削除する
             </button>
           </div>
         </template>
       </div>
+      <Footer></Footer>
+      <transition name="fade">
+        <Confirm
+          v-if="isConfirm === true"
+          @falseAction="closeConfirm()"
+          @successAction="requestComplete()"
+        >
+          <template>依頼を完了すると、完成した画像は削除されます。本当に依頼を完了してもいいですか？</template>
+        </Confirm>
+      </transition>
     </div>
   </transition-group>
 </template>
@@ -52,6 +65,9 @@
 import axios from "axios";
 import Loading from "../../components/parts/Loading.vue";
 import Alert from "../../components/parts/Alert.vue";
+import BackButton from "../../components/parts/BackButton.vue";
+import Confirm from "../../components/parts/Confirm.vue";
+import Footer from "../../components/Footer.vue";
 
 export default {
   data() {
@@ -61,6 +77,7 @@ export default {
       requestedUser: {},
       isLoading: true,
       isAlert: false,
+      isConfirm: false,
       alertType: {
         type: "",
         message: "",
@@ -70,6 +87,9 @@ export default {
   components: {
     Loading,
     Alert,
+    BackButton,
+    Footer,
+    Confirm,
   },
   methods: {
     async getInfoRequestDone() {
@@ -139,13 +159,20 @@ export default {
         method: "DELETE",
       })
         .then((response) => {
-          this.$router.push(
-            "/users/" + this.$route.params.user_id + "/requesting"
-          );
+          this.$router.push({
+            path: "/users/" + this.$route.params.user_id + "/requesting",
+            query: { method: "complete" },
+          });
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    openConfirm() {
+      this.isConfirm = true;
+    },
+    closeConfirm() {
+      this.isConfirm = false;
     },
   },
   mounted() {
@@ -161,6 +188,16 @@ export default {
       this.getInfoRequestComplete();
     }
   },
+  computed: {
+    backLink() {
+      if(this.$route.name === "request_done") {
+        return '/users/' + this.$route.params.user_id + '/requested'
+      }
+      else if(this.$route.name === "request_complete") {
+        return '/users/' + this.$route.params.user_id + '/requesting'
+      }
+    }
+  }
 };
 </script>
 
@@ -170,15 +207,37 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #user-request-result {
   margin-top: 150px;
   text-align: center;
 
+  @include sp {
+    margin-top: 180px;
+  }
+
+  .container {
+    @include sp {
+      min-height: 100vh;
+    }
+  }
+
   h3 {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 50px;
+
+    @include sp {
+      font-size: 25px;
+      margin-bottom: 30px;
+    }
   }
 
   .request-result-image {
@@ -193,6 +252,10 @@ $danger-color: #e15253;
     img {
       width: 500px;
       height: auto;
+
+      @include sp {
+        width: 80%;
+      }
     }
   }
 

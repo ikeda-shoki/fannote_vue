@@ -32,6 +32,13 @@ $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
 $success-color: #88C4C4;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #alert {
   width: 380px;
@@ -40,11 +47,20 @@ $success-color: #88C4C4;
   top: 130px;
   right: 0;
 
+  @include sp {
+    width: 200px;
+  }
+
   p {
     color: $font-white;
     font-weight: bold;
     font-size: 23px;
     padding: 20px 35px;
+
+    @include sp {
+      font-size: 13px;
+      padding: 10px 20px;
+    }
   }
 
   .alert-success {

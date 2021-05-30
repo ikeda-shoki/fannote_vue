@@ -17,23 +17,25 @@
       v-if="user.current_user_same_as"
       @click="modalOpenUserEdit"
     >
-      <p class="button">編集する</p>
+      <p class="button profile-edit-button">編集する</p>
     </div>
 
-    <div class="user-show-request_button" v-if="!user.current_user_same_as">
+    <div class="user-show-profile-otheruser-buttons" v-if="!user.current_user_same_as">
+      <FollowButton
+        v-if="!user.current_user_same_as"
+        :user="user"
+        @follow="follow"
+        @unfollow="unfollow">
+      </FollowButton>
       <template v-if="user.is_reception">
-        <Button>
-          <a href="" class="top-button" @click.prevent="modalOpenRequest">
-            <span>作品を依頼する</span>
-          </a>
-        </Button>
+        <p class="button request-button" @click="modalOpenRequest">作品を依頼する</p>
       </template>
       <template v-else>
-        <p>依頼不可</p>
+        <p class="requet-not">依頼不可</p>
       </template>
     </div>
 
-    <div class="user-show-profile-request-buttons" v-if="user.current_user_same_as">
+    <div class="user-show-profile-currentuser-buttons" v-if="user.current_user_same_as">
       <router-link :to="{ name: 'requested', params: { id: user.id }}" v-if="user.is_reception">
         <button class="button requested-button">依頼された内容</button>
       </router-link>
@@ -59,19 +61,19 @@
 <script>
 import Title from "./parts/Title.vue";
 import UserItems from "./parts/UserItems.vue";
-import Button from "./parts/Button.vue";
 import Modal from "./Modal.vue";
 import CircleImage from "./parts/CircleImage.vue";
 import UserReception from "./parts/UserReception.vue";
+import FollowButton from "./parts/FollowButton.vue";
 
 export default {
   components: {
     Title,
     UserItems,
-    Button,
     Modal,
     CircleImage,
     UserReception,
+    FollowButton,
   },
   props: {
     user: { type: Object, required: true },
@@ -102,6 +104,12 @@ export default {
       await this.modalClose();
       this.$router.push({ path: "/users/" + this.currenUserId + "/requesting", query: { method: "create" } });
     },
+    follow(value) {
+      this.$emit("follow", value);
+    },
+    unfollow(value) {
+      this.$emit("unfollow", value);
+    }
   },
 };
 </script>
@@ -154,25 +162,47 @@ $danger-color: #e15253;
   }
 
   #user-items {
+    margin-bottom: 40px;
+
     /deep/ span {
       font-size: 20px;
     }
   }
 
-  .user-show-profile-edit-button {
-    margin: 30px 0;
-  }
+  #follow-button {
+    margin-bottom: 30px;
 
-  .vue-button {
-    min-width: auto;
-    padding: 0px 20px;
-
-    /deep/ span {
+    /deep/ .button {
+      min-width: 230px;
       font-size: 16px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
     }
   }
 
-  .user-show-profile-request-buttons {
+  .user-show-profile-edit-button {
+    margin: 30px 0 60px;
+
+    .profile-edit-button {
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 30px;
+    }
+  }
+
+  .user-show-profile-otheruser-buttons {
+    .request-button {
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
+    .requet-not {
+      width: 50%;
+      background-color: $danger-color;
+      margin: 0 auto;
+      color: $font-white;
+      padding: 15px 0;
+      border-radius: 30px;
+    }
+  }
+
+  .user-show-profile-currentuser-buttons {
     margin-top: 30px;
 
     .requested-button {

@@ -1,5 +1,6 @@
 json.set! :user do
   json.partial! "api/v1/users/user", user: @user
+  json.follower(current_user.following?(@user))
 end
 
 json.set! :post_images do

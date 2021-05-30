@@ -13,17 +13,20 @@
       </div>
       <TopButtons></TopButtons>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Title from '../../components/parts/Title.vue'
 import TopButtons from '../../components/TopButtons.vue'
+import Footer from '../../components/Footer.vue';
 
 export default {
   components: {
     Title,
     TopButtons,
+    Footer
   }
 }
 </script>

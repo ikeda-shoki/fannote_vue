@@ -72,6 +72,13 @@ $accent-color: #e65b20;
 $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #file-form {
   display: flex;

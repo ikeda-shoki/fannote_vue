@@ -15,7 +15,6 @@
       <FollowButton
         v-if="!user.current_user_same_as"
         :user="user"
-        :currentUser="currentUser"
         @follow="follow"
         @unfollow="unfollow"
       ></FollowButton>

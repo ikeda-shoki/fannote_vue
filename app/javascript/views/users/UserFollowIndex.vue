@@ -1,6 +1,7 @@
 <template>
   <transition-group name="fade-list">
     <LoadingCompornent v-if="isLoading === true" key="loader"></LoadingCompornent>
+    <BackButton :link="'/users/' + $route.params.id " key="backbutton">ユーザー詳細へ</BackButton>
     <div id="user-follow-index" v-if="isLoading === false" key="noloader">
       <template v-if="$route.name === 'following'">
         <Title title="フォローリスト"></Title>
@@ -27,6 +28,7 @@ import axios from 'axios'
 import LoadingCompornent from "../../components/parts/LoadingCompornent.vue";
 import Title from "../../components/parts/Title.vue";
 import UserItem from "../../components/parts/UserItem.vue";
+import BackButton from "../../components/parts/BackButton.vue";
 
 export default {
   data() {
@@ -40,6 +42,7 @@ export default {
     Title,
     UserItem,
     LoadingCompornent,
+    BackButton,
   },
   methods: {
     async getInfoFollowing() {
@@ -94,6 +97,10 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+
+/deep/ .back-button {
+  top: 90px;
+}
 
 #user-follow-index {
   /deep/ #title {

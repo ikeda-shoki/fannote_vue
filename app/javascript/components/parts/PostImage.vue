@@ -42,6 +42,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #post-image {
   width: 160px;
@@ -53,6 +60,12 @@ $danger-color: #e15253;
   text-align: center;
   position: relative;
 
+  @include sp {
+    width: 95px;
+    height: 95px;
+    margin-bottom: 20px;
+  }
+
   img {
     width: 130px;
     height: 130px;
@@ -60,6 +73,12 @@ $danger-color: #e15253;
     object-fit: cover;
     object-position: center center;
     margin-top: 15px;
+
+    @include sp {
+      width: 85px;
+      height: 85px;
+      margin-top: 5px;
+    }
   }
 
   .post-image-hover {
@@ -73,6 +92,10 @@ $danger-color: #e15253;
     opacity: 0;
     transition: all .8s;
     transform-origin: all .8s;
+
+    @include sp {
+      display: none;
+    }
 
     &:hover {
       cursor: pointer;

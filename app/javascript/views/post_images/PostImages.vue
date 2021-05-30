@@ -77,6 +77,7 @@
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -87,6 +88,7 @@ import PostImages from "../../components/PostImages.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
 import CommentForm from "../../components/form/CommetForm.vue";
 import Loading from "../../components/parts/Loading.vue";
+import Footer from "../../components/Footer.vue";
 import axios from "axios";
 
 export default {
@@ -95,6 +97,7 @@ export default {
     PostImages,
     SelectForm,
     CommentForm,
+    Footer,
     Loading,
   },
   data() {
@@ -238,10 +241,21 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #post-image-index {
   margin-top: 80px;
   text-align: center;
+
+  .container {
+    min-height: 100vh;
+  }
 
   #title {
     font-weight: bold;
@@ -281,10 +295,15 @@ $danger-color: #e15253;
 
     .post-images-main {
       width: 100%;
+      margin-bottom: 50px;
 
       /deep/ .post-image {
         width: calc(19% - 20px * 4 / 5);
         margin: 0 10px;
+
+        @include sp {
+          width: calc(31% - 20px * 2 / 3);
+        }
       }
     }
   }
@@ -298,10 +317,23 @@ $danger-color: #e15253;
       right: 0;
       display: flex;
 
+      @include sp {
+        position: static;
+        margin: 20px 0;
+
+        /deep/ label {
+          margin-left: 0;
+        }
+      }
+
       .button {
         min-width: auto;
         margin-left: 10px;
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+
+        @include sp {
+          padding: 5px 10px;
+        }
       }
     }
 
@@ -316,6 +348,10 @@ $danger-color: #e15253;
       border-radius: 20px;
       box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
       width: 380px;
+
+      @include sp {
+        position: static;
+      }
 
       /deep/ input {
         border-bottom: 1px solid $font-color;

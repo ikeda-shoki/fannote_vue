@@ -6,6 +6,13 @@ $accent-color: #e65b20;
 $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 // log-in sign-up
 #log-in,
@@ -18,6 +25,11 @@ $font-white: #fffffe;
     font-size: 90px;
     font-family: 'Akaya Telivigala', cursive, 'Nunito', sans-serif;
     font-weight: bold;
+
+    @include sp {
+      margin-top: 170px;
+      font-size: 60px;
+    }
   }
 
   h3 {
@@ -26,6 +38,10 @@ $font-white: #fffffe;
     margin-bottom: 1em;
     font-weight: bold;
     font-size: 25px;
+
+    @include sp {
+      font-size: 20px;
+    }
 
     &:before {
       content: '';
@@ -54,6 +70,10 @@ $font-white: #fffffe;
           padding: 15px 20px;
           border: none;
           margin-bottom: 30px;
+
+          @include sp {
+            width: 100%;
+          }
         }
 
   .devise-buttons {
@@ -61,6 +81,10 @@ $font-white: #fffffe;
     width: 400px;
     text-align: left;
     display: flex;
+
+    @include sp {
+      width: 100%;
+    }
 
     .devise-link {
       color: $accent-color;
@@ -78,12 +102,23 @@ $font-white: #fffffe;
         font-size: 23px;
         color: $accent-color;
         margin: 0 20px;
+
+        @include sp {
+          margin: 0 10px;
+        }
       }
 
       &:hover {
         font-weight: bold;
         font-size: 20px;
       }
+    }
+  }
+
+  .button {
+    @include sp {
+      width: 100%;
+      margin: 0 auto;
     }
   }
 }
@@ -104,6 +139,10 @@ $font-white: #fffffe;
       .devise-link {
         i {
           margin-right: 20px;
+
+          @include sp {
+            margin-right: 10px;
+          }
         }
       }
     }
@@ -118,6 +157,10 @@ $font-white: #fffffe;
     position: absolute;
     top: -100px;
     right: 5%;
+
+    @include sp {
+      display: none;
+    }
 
     p {
       margin: 0;

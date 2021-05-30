@@ -13,6 +13,7 @@
           <PostImages :postImages="hashTagPostImages"></PostImages>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   </transition-group>
 </template>
@@ -21,6 +22,7 @@
 import axios from 'axios'
 import Loading from "../../components/parts/Loading.vue"
 import PostImages from "../../components/PostImages.vue"
+import Footer from "../../components/Footer.vue";
 
 export default {
   data() {
@@ -52,6 +54,7 @@ export default {
   components: {
     PostImages,
     Loading,
+    Footer,
   }
 }
 </script>
