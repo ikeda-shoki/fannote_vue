@@ -241,12 +241,20 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #post-image-show {
-  margin: 80px 0;
+  margin: 80px 0 0;
 
   .container {
     display: flex;
+    padding-bottom: 50px;
   }
 
   .post-image-comment {
@@ -260,6 +268,19 @@ $danger-color: #e15253;
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      @include sp {
+        flex-direction: column;
+
+        /deep/ #form-button {
+          width: auto;
+
+          .button {
+            width: 100%;
+            margin-top: 10px;
+          }
+        }
+      }
     }
 
     #error-message {
@@ -269,6 +290,10 @@ $danger-color: #e15253;
 
     #comment-form {
       width: 80%;
+
+      @include sp {
+        width: 100%;
+      }
     }
 
     #form-button {
@@ -284,11 +309,19 @@ $danger-color: #e15253;
 
   .post-image-show-left {
     width: 65%;
+
+    @include sp {
+      width: 100%;
+    }
   }
 
   .post-image-show-right {
     width: 30%;
     margin-left: auto;
+
+    @include sp {
+      display: none;
+    }
   }
 }
 </style>

@@ -336,6 +336,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #user-requesting {
   .user-requesting-title {
@@ -353,6 +360,11 @@ $danger-color: #e15253;
       position: absolute;
       top: 28px;
       right: 20%;
+
+      @include sp {
+        top: 40px;
+        right: 5%;
+      }
     }
   }
 

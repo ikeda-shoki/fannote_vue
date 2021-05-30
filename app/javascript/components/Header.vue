@@ -142,7 +142,15 @@
     </mq-layout>
 
     <mq-layout mq="sp">
-      <SpHeader :userLogIn="userLogIn"></SpHeader>
+      <SpHeader
+        :userLogIn="userLogIn"
+        :currentUser="currentUser"
+        :isModal="isModal"
+        @modalOpen="modalOpen"
+        @openConfirm="openConfirm"
+        @isUnchecked="isUnchecked"
+      ></SpHeader>
+      <SpFooter :currentUserId="currentUser.id" @modalOpen="modalOpen"></SpFooter>
     </mq-layout>
 
     <transition name="fade">
@@ -164,7 +172,7 @@
         <template>本当にログアウトしていいですか？</template>
         <template v-slot:okButton>
           <a href="/users/sign_out" class="button" data-method="delete">
-          ログアウト
+            ログアウト
           </a>
         </template>
       </Confirm>
@@ -178,7 +186,8 @@ import Modal from "./Modal.vue";
 import Confirm from "./parts/Confirm.vue";
 import Alert from "./parts/Alert.vue";
 import SpHeader from "./SpHeader.vue";
-import axios from "axios"
+import SpFooter from "./parts/SpFooter.vue";
+import axios from "axios";
 
 export default {
   props: {
@@ -295,15 +304,14 @@ export default {
       }, 4000);
     },
     pullDownMenu() {
-      if(this.isHeaderMenu === true){
-        this.$emit('pullDownMenu', false);
-      }
-      else if(this.isHeaderMenu === false){
-        this.$emit('pullDownMenu', true);
+      if (this.isHeaderMenu === true) {
+        this.$emit("pullDownMenu", false);
+      } else if (this.isHeaderMenu === false) {
+        this.$emit("pullDownMenu", true);
       }
     },
     closeMenu() {
-      this.$emit('closeMenu', false);
+      this.$emit("closeMenu", false);
     },
     isUnchecked() {
       this.$emit("isUnchecked", false);
@@ -315,19 +323,18 @@ export default {
       this.isConfirm = false;
     },
     successAction() {
-      axios.delete("/users/sign_out")
-        .then(() => {
-        })
-        .catch(() => {
-
-        })
-    }
+      axios
+        .delete("/users/sign_out")
+        .then(() => {})
+        .catch(() => {});
+    },
   },
   components: {
     Modal,
     Confirm,
     Alert,
     SpHeader,
+    SpFooter,
   },
   watch: {
     $route() {

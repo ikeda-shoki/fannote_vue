@@ -22,11 +22,23 @@ export default {
 
 <style lang="scss" scoped>
 $back-ground-color: #f7f4f2;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
   #post-image-tag {
     padding: 5px 10px;
     border-radius: 5px;
     display: inline-block;
+
+    @include sp {
+      font-size: 10px;
+      padding: 5px;
+    }
 
     span {
       color: $back-ground-color;

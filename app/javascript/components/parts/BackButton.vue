@@ -34,6 +34,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 .back-button {
   position: absolute;
@@ -42,6 +49,19 @@ $danger-color: #e15253;
   border-radius: 20px;
   transition: all 1s;
   -moz-transition: all 1s;
+
+  @include sp {
+    background-color: $accent-color;
+
+    .back-button-link {
+      color: $font-white;
+      font-weight: bold;
+    }
+
+    i {
+      color: $font-white;
+    }
+  }
 
   .back-button-link {
     padding: 10px 20px;

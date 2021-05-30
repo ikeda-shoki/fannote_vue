@@ -128,23 +128,44 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 #user {
   margin-top: 80px;
 
   .container {
     display: flex;
     padding-bottom: 50px;
+
+    @include sp {
+      flex-direction: column;
+    }
   }
 
   .user-left {
     width: 35%;
     height: 100%;
+
+    @include sp {
+      width: 100%;
+      margin-bottom: 100px;
+    }
   }
 
   .user-right {
     width: 60%;
     margin-left: auto;
     text-align: center;
+
+    @include sp {
+      width: 100%;
+    }
   }
 }
 </style>

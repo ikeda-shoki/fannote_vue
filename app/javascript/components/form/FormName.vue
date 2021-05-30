@@ -16,15 +16,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #form-name {
-    width: 30%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
+$sp: 480px;
 
-    label {
-      font-weight: bold;
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
+#form-name {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+
+  label {
+    font-weight: bold;
+
+    @include sp {
+      font-size: 13px;
     }
   }
+}
 </style>

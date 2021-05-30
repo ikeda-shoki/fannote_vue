@@ -176,6 +176,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 .fade-list-chat-move {
   transition: all 0.5s;
@@ -201,6 +208,10 @@ $danger-color: #e15253;
   padding: 115px;
   height: 100vh;
 
+  @include sp {
+    padding: 0;
+  }
+
   .chats {
     max-width: 500px;
     padding: 0px 10px;
@@ -216,6 +227,10 @@ $danger-color: #e15253;
       font-weight: bold;
       font-size: 25px;
       margin-bottom: 30px;
+
+      @include sp {
+        font-size: 20px;
+      }
     }
   }
 
@@ -224,6 +239,10 @@ $danger-color: #e15253;
     overflow: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+    @include sp {
+      height: 536px;
+    }
 
     &::-webkit-scrollbar {
       display: none;
@@ -254,13 +273,28 @@ $danger-color: #e15253;
       /deep/ #comment-form {
         width: 75%;
         margin-right: 20px;
+
+        @include sp {
+          width: 70%;
+        }
       }
 
       /deep/ .button {
         min-width: auto;
         padding: 5px 25px;
+
+        @include sp {
+          padding: 5px 15px;
+        }
       }
     }
+  }
+
+  /deep/ .back-button {
+    top: 60px;
+    position: static;
+    margin: 70px 0 10px 10px;
+    width: 40%;
   }
 }
 </style>

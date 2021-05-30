@@ -15,19 +15,25 @@
       <p>{{ postImage.image_introduction }}</p>
       <div class="post-image-detail-hashtags">
         <template v-for="hashTag in postImage.hash_tags">
-          <router-link :to="'/post_images/hashtag/' + hashTag.hashname" :key="hashTag.hashname" class="post-image-detail-hashtag">
+          <router-link
+            :to="'/post_images/hashtag/' + hashTag.hashname"
+            :key="hashTag.hashname"
+            class="post-image-detail-hashtag"
+          >
             #{{ hashTag.hashname }}
           </router-link>
         </template>
       </div>
     </div>
     <div class="post-image-detail-etc">
-      <span class="post-image-detail-username" v-if="user.account_name">
-        <i class="far fa-user"></i>{{ user.account_name }}
-      </span>
-      <span class="post-image-detail-username" v-else>
-        <i class="far fa-user"></i>{{ user.user_name }}
-      </span>
+      <router-link :to="'/users/' + user.id" class="post-image-detail-username">
+        <span class="post-image-detail-username" v-if="user.account_name">
+          <i class="far fa-user"></i>{{ user.account_name }}
+        </span>
+        <span class="post-image-detail-username" v-else>
+          <i class="far fa-user"></i>{{ user.user_name }}
+        </span>
+      </router-link>
       <span class="post-image-detail-create-at"
         ><i class="fas fa-pen"></i>{{ postImage.vue_created_at }}</span
       >
@@ -41,11 +47,6 @@
     </div>
     <div class="post-image-detail-edit-button" v-if="user.current_user_same_as">
       <p class="button post-image-edit-button" @click="modalOpen">編集する</p>
-      <!-- <Button>
-        <a href="/" class="top-button" @click.prevent="modalOpen">
-          <span>編集する</span>
-        </a>
-      </Button> -->
     </div>
     <transition name="fade">
       <Modal
@@ -93,7 +94,7 @@ export default {
     postImageUpdate() {
       this.isModal = false;
       this.$emit("postImageUpdate");
-    }
+    },
   },
 };
 </script>
@@ -104,6 +105,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #post-image-detail {
   background-color: $font-white;
@@ -123,6 +131,14 @@ $danger-color: #e15253;
       font-size: 25px;
       font-weight: bold;
       width: 70%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      @include sp {
+        font-size: 20px;
+        width: 60%;
+      }
     }
 
     .post-image-detail-icons {
@@ -139,14 +155,26 @@ $danger-color: #e15253;
   .post-image-detail-introduction {
     margin-bottom: 10px;
 
+    @include sp {
+      font-size: 13px;
+    }
+
     .post-image-detail-hashtags {
       margin-top: 50px;
+
+      @include sp {
+        margin-top: 30px;
+
+        a {
+          color: $accent-color;
+        }
+      }
     }
 
     .post-image-detail-hashtag {
       font-weight: bold;
-      transition: all .3s;
-      -moz-transition: all .3s;
+      transition: all 0.3s;
+      -moz-transition: all 0.3s;
 
       &:hover {
         color: $accent-color;
@@ -155,6 +183,17 @@ $danger-color: #e15253;
   }
 
   .post-image-detail-etc {
+    @include sp {
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+
+      .post-image-detail-username {
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
+
     span {
       margin-right: 10px;
     }

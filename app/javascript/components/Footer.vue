@@ -18,11 +18,11 @@ $danger-color: #e15253;
 #footer {
   background-color: $accent-color;
   width: 100%;
-  height: 60px;
+  height: 50px;
 
   p {
     text-align: center;
-    line-height: 60px;
+    line-height: 50px;
     color: $font-white;
     font-size: 13px;
     font-weight: bold;

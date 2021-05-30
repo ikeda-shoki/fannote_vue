@@ -75,6 +75,14 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 
 .post-images-paginate {
   .post-images {
@@ -82,6 +90,10 @@ $danger-color: #e15253;
     flex-wrap: wrap;
     width: 100%;
     height: 380px;
+    
+    @include sp {
+      height: 230px;
+    }
 
     &::after {
       display: block;

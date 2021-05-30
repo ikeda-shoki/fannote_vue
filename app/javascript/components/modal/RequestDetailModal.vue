@@ -31,7 +31,7 @@
         <template v-if="request.request_status === '未受付'">
           <div class="request-detail-modal-buttons">
             <button class="button" @click="modalChenge">依頼を変更する</button>
-            <button class="button" @click="openConfirm">依頼を削除する</button>
+            <button class="button delete-button" @click="openConfirm">依頼を削除する</button>
           </div>
         </template>
         <template v-if="request.request_status === '受付不可'">
@@ -305,6 +305,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #request-detail-modal {
   height: 94%;
@@ -333,6 +340,10 @@ $danger-color: #e15253;
     .request-detail-modal-buttons {
       margin-top: 70px;
       text-align: center;
+
+      .delete-button {
+        background-color: $danger-color;
+      }
     }
   }
 
@@ -383,13 +394,22 @@ $danger-color: #e15253;
     position: fixed;
     top: 600px;
     right: 170px;
+
+    @include sp {
+      top: 200px;
+      right: 10px;
+    }
   }
 
-  
+
   #confirm {
     /deep/ p {
       font-size: 14px;
     }
   }
+}
+
+/deep/ .button {
+  min-width: auto;
 }
 </style>

@@ -2,6 +2,7 @@
   <div class="sp-header">
     <div class="sp-header-main">
       <div class="container">
+
         <template v-if="userLogIn === true">
           <router-link :to="'/post_images/main'">
             <div class="sp-header-left">
@@ -9,20 +10,31 @@
               <h1>FanNotes</h1>
             </div>
           </router-link>
+          <div class="sp-header-right">
+            <div class="sp-header-notification" @click="modalOpen">
+              <i class="far fa-bell"></i>
+              <div
+                  v-if="currentUser.unchecked_notifications"
+                  class="is-unchecked"
+                ></div>
+            </div>
+            <HumburgerMenu :isModal="isSpModal" :isHamburgerMenu="isHumburgerMenu" @click.native="openSpModal"></HumburgerMenu>
+          </div>
         </template>
+
         <template v-else>
           <div class="sp-header-left">
             <img src="~logo.png" />
             <h1>FanNotes</h1>
           </div>
+          <div class="sp-header-right">
+            <HumburgerMenu :isModal="isModal" :isHamburgerMenu="isHumburgerMenu" @click.native="openSpModal"></HumburgerMenu>
+          </div>
         </template>
-        <div class="sp-header-right">
-          <HumburgerMenu :isModal="isModal" :isHamburgerMenu="isHumburgerMenu" @click.native="openModal"></HumburgerMenu>
-        </div>
       </div>
     </div>
     <transition name="right-slide">
-      <SpHeaderModal :isModal="isModal" :userLogIn="userLogIn" @modalClose="closeModal" v-if="isModal"></SpHeaderModal>
+      <SpHeaderModal :isModal="isSpModal" :userLogIn="userLogIn" @modalClose="closeSpModal" v-if="isSpModal" @openConfirm="openConfirm"></SpHeaderModal>
     </transition>
   </div>
 </template>
@@ -37,11 +49,19 @@ export default {
     userLogIn: {
       type: Boolean,
       required: true,
+    },
+    currentUser: {
+      type: Object,
+      required: true,
+    },
+    isModal: {
+      type: Boolean,
+      required: true,
     }
   },
   data() {
     return {
-      isModal: false,
+      isSpModal: false,
       isHumburgerMenu: false,
     }
   },
@@ -50,13 +70,20 @@ export default {
     SpHeaderModal,
   },
   methods: {
-    openModal() {
-      this.isModal = true;
+    openSpModal() {
+      this.isSpModal = true;
       this.isHumburgerMenu = true;
     },
-    closeModal() {
-      this.isModal = false;
+    closeSpModal() {
+      this.isSpModal = false;
       this.isHumburgerMenu = false;
+    },
+    modalOpen() {
+      this.$emit("modalOpen", "通知")
+      this.$emit("isUnchecked");
+    },
+    openConfirm() {
+      this.$emit("openConfirm")
     }
   }
 }
@@ -109,6 +136,31 @@ $danger-color: #e15253;
       font-family: "Akaya Telivigala", cursive, "Nunito", sans-serif;
       font-weight: bold;
       font-size: 28px;
+    }
+  }
+
+  .sp-header-right {
+    display: flex;
+    align-items: center;
+
+    .sp-header-notification {
+      margin: 5px 15px 0px;
+      position: relative;
+
+      i {
+        font-size: 25px;
+      }
+
+      .is-unchecked {
+        position: absolute;
+        background-color: #efa04c;
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        top: -1px;
+        right: -5px;
+      }
     }
   }
 }

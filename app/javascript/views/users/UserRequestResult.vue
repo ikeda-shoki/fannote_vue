@@ -207,15 +207,37 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #user-request-result {
   margin-top: 150px;
   text-align: center;
 
+  @include sp {
+    margin-top: 180px;
+  }
+
+  .container {
+    @include sp {
+      min-height: 100vh;
+    }
+  }
+
   h3 {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 50px;
+
+    @include sp {
+      font-size: 25px;
+      margin-bottom: 30px;
+    }
   }
 
   .request-result-image {
@@ -230,6 +252,10 @@ $danger-color: #e15253;
     img {
       width: 500px;
       height: auto;
+
+      @include sp {
+        width: 80%;
+      }
     }
   }
 

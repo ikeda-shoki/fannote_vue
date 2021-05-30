@@ -60,6 +60,19 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
+p {
+  @include sp {
+    font-size: 13px;
+  }
+}
 
 .hover {
   background-color: $accent-color;

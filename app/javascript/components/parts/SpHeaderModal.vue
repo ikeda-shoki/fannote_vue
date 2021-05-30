@@ -5,7 +5,35 @@
         <h2 class="animate__animated animate__bounce sp-header-modal-title">Menu</h2>
         <ul class="sp-header-lists">
           <template v-if="userLogIn">
-
+            <div :class="['sp-header-list-' + index]" v-for="(list, index) in logInLists" :key="list.title"
+                @mouseover="mouseOverAction({ type: 'logIn', index: index })"
+                @mouseout="mouseLeaveAction({ type: 'logIn', index: index })"
+                @click="modalClose">
+              <template v-if="list.router">
+                <router-link :to="list.path" class="sp-header-list-link" active-class="sp-link--active" exact>
+                  <div class="sp-header-list">
+                    <li>
+                      {{ list.title }}
+                    </li>
+                    <span class="sp-header-list-line" :class="{ 'sp-line-hover': list.hover }"></span>
+                    <span class="sp-header-list-circle" :class="{ 'sp-circle-hover': list.hover }"></span>
+                  </div>
+                </router-link>
+              </template>
+              <template v-else>
+                <span @click="openConfirm">
+                  <div class="sp-header-list-link">
+                    <div class="sp-header-list">
+                      <li>
+                        {{ list.title }}
+                      </li>
+                      <span class="sp-header-list-line" :class="{ 'sp-line-hover': list.hover }"></span>
+                      <span class="sp-header-list-circle" :class="{ 'sp-circle-hover': list.hover }"></span>
+                    </div>
+                  </div>
+                </span>
+              </template>
+            </div>
           </template>
           <template v-else>
             <div :class="['sp-header-list-' + index]" v-for="(list, index) in logOutLists" :key="list.title"
@@ -70,7 +98,32 @@ export default {
         path: "/users/new_guest",
         method: "post"
       }],
-    }
+      logInLists: [{
+        title: "Main",
+        hover: false,
+        path: "/post_images/main",
+        router: true,
+      },
+      {
+        title: "Illust",
+        hover: false,
+        path: "/post_images",
+        router: true,
+      },
+      {
+        title: "User",
+        hover: false,
+        path: "/users",
+        router: true,
+      },
+      {
+        title: "Log Out",
+        hover: false,
+        path: "/",
+        router: false,
+        method: "delete",
+      }]
+    };
   },
   props: {
     isModal: {
@@ -89,7 +142,7 @@ export default {
         this.logOutLists[index].hover = !this.logOutLists[index].hover
       }
       else {
-
+        this.logInLists[index].hover = !this.logInLists[index].hover
       }
     },
     mouseLeaveAction({ type: type, index: index }){
@@ -97,8 +150,11 @@ export default {
         this.logOutLists[index].hover = !this.logOutLists[index].hover
       }
       else {
-
+        this.logInLists[index].hover = !this.logInLists[index].hover
       }
+    },
+    openConfirm() {
+      this.$emit("openConfirm");
     }
   }
 }
@@ -127,6 +183,8 @@ $danger-color: #e15253;
   width: 300px;
   position: absolute;
   top: 200px;
+  left: 50%;
+  transform: translateX(-50%);
 
   h2 {
     color: $font-white;
@@ -175,9 +233,9 @@ $danger-color: #e15253;
     }
   }
 }
-.link--active {
+.sp-link--active {
   .sp-header-list-circle {
-    background-color: $font-white;
+    background-color: $accent-color;
   }
 }
 </style>

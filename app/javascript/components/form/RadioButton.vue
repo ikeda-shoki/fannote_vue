@@ -46,6 +46,13 @@ $accent-color: #e65b20;
 $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #radio-button {
   display: flex;
@@ -98,6 +105,10 @@ $danger-color: #e15253;
         background: #d4d0cc;
         border-radius: 5px;
         width: 50%;
+
+        @include sp {
+          width: 80%;
+        }
 
         &::before {
           content: "";
