@@ -404,12 +404,16 @@ $sp: 480px;
 
   #confirm {
     /deep/ p {
-      font-size: 14px;
+      @include sp {
+        font-size: 14px;
+      }
     }
   }
 }
 
 /deep/ .button {
-  min-width: auto;
+  @include sp {
+    min-width: auto;
+  }
 }
 </style>

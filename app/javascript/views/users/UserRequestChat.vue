@@ -3,7 +3,7 @@
     <Loading v-if="isLoading === true" key="loader"></Loading>
     <div id="user-request-chat" v-if="isLoading === false" key="noloader">
       <BackButton>
-        投稿一覧に戻る
+        前の画面に戻る
       </BackButton>
       <div class="container">
         <div class="chats">
@@ -205,7 +205,7 @@ $sp: 480px;
 }
 
 #user-request-chat {
-  padding: 115px;
+  padding: 115px 0;
   height: 100vh;
 
   @include sp {
@@ -291,10 +291,12 @@ $sp: 480px;
   }
 
   /deep/ .back-button {
-    top: 60px;
-    position: static;
-    margin: 70px 0 10px 10px;
-    width: 40%;
+    @include sp {
+      top: 60px;
+      position: static;
+      margin: 70px 0 10px 10px;
+      width: 40%;
+    }
   }
 }
 </style>

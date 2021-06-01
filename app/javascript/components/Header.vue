@@ -150,7 +150,9 @@
         @openConfirm="openConfirm"
         @isUnchecked="isUnchecked"
       ></SpHeader>
-      <SpFooter :currentUserId="currentUser.id" @modalOpen="modalOpen"></SpFooter>
+      <template v-if="userLogIn === true">
+        <SpFooter :currentUserId="currentUser.id" @modalOpen="modalOpen"></SpFooter>
+      </template>
     </mq-layout>
 
     <transition name="fade">
