@@ -36,7 +36,7 @@ describe 'PostImageAPI', type: :request do
     expect(response).to have_http_status 200
     expect(json['title']).to eq('鬼滅の刃')
   end
-
+  
   it 'PostImageの削除に成功する(destroy)' do
     delete "/api/v1/post_images/#{post_image.id}"
     expect(response).to have_http_status 204
