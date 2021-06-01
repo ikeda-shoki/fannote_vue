@@ -47,8 +47,6 @@ https://fannote.work/
 <img src="app/assets/images/ER.png" alt="ER図" width="100%">
 
 ## 機能一覧
-[機能要素一覧](https://docs.google.com/spreadsheets/d/1xGH92fN1MlcEEDbYz5IXmz-6vFFc0-o3LSYVyaYTkGo/edit#gid=0)
-<br >
 - ユーザー登録、ログイン機能(devise)
 - 投稿機能(refile)
   - いいね機能（非同期通信）
