@@ -17,7 +17,7 @@ User.create!(
   complete_request_count: 3,
   password: "000000"
  )
- 
+
 User.create!(
   email: 'test2@test.com',
   user_name: Faker::Name.unique.name,
@@ -27,7 +27,7 @@ User.create!(
   complete_request_count: 1,
   password: "000000"
  )
- 
+
 User.create!(
   email: 'test3@test.com',
   user_name: Faker::Name.unique.name,
@@ -37,7 +37,7 @@ User.create!(
   complete_request_count: 0,
   password: "000000"
  )
- 
+
 User.create!(
   email: 'test4@test.com',
   user_name: Faker::Name.unique.name,
@@ -47,7 +47,7 @@ User.create!(
   complete_request_count: 4,
   password: "000000"
  )
- 
+
 User.create!(
   email: 'test5@test.com',
   user_name: Faker::Name.unique.name,

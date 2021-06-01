@@ -78,7 +78,7 @@ class Api::V1::RequestsController < ApplicationController
     end
   end
 
-  # request_show画面でのrequest_statusのみの更新
+  # request_statusのみの更新
   def update_request_status
     if @request.update(request_update_params)
       @request.create_notification_request_status(current_user)

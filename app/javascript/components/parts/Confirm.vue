@@ -61,7 +61,7 @@ $sp: 480px;
   .confirm-main {
     background-color: $back-ground-color;
     width: 60%;
-    height: 200px;
+    height: auto;
     margin: 200px auto 0;
     border-radius: 20px;
 
@@ -73,7 +73,7 @@ $sp: 480px;
     .confirm-top {
       margin: 0 20px;
       border-bottom: 1px solid $font-color;
-      height: 120px;
+      height: auto;
       text-align: center;
       padding-top: 50px;
 
@@ -84,6 +84,7 @@ $sp: 480px;
       p {
         font-weight: bold;
         font-size: 20px;
+        margin-bottom: 20px;
 
         @include sp {
           font-size: 15px;
