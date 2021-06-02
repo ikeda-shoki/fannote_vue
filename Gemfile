@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry-byebug'
 end
 
 group :development do
@@ -61,7 +62,6 @@ gem "omniauth-rails_csrf_protection"
 
 gem 'dotenv-rails'
 
-gem 'pry-byebug'
 gem 'faker'
 gem "bullet"
 gem 'rails-i18n'
