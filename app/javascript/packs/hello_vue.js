@@ -13,15 +13,17 @@ import App from '../app.vue'
 import Paginate from 'vuejs-paginate'
 import VueMq from 'vue-mq'
 
+Vue.component('paginate', Paginate)
+Vue.use(VueRouter);
+
 Vue.use(VueMq, {
   breakpoints: {
     sp: 480,
+    pc: 1250,
     lg: Infinity,
   },
+  defaultBreakpoint: 'sp'
 });
-
-Vue.component('paginate', Paginate)
-Vue.use(VueRouter);
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
