@@ -6,7 +6,7 @@
           <div class="top-text">
             <h3 class="top-title">
               Bringing Your Art<br />
-              to More People....
+              to More People...
             </h3>
             <p class="top-subtitle">あなたのイラストや写真をもっと身近にお手軽に</p>
           </div>
