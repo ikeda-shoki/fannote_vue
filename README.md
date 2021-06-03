@@ -36,7 +36,7 @@
 
 ## URL
 
-https://fannote.work/
+fannotevue.com
 
 ゲストログインからメールアドレス、アカウントネームなしでのログインが可能です。
 
