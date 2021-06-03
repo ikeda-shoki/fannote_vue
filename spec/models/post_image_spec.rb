@@ -30,11 +30,11 @@ RSpec.describe PostImage, "モデルに関するテスト", type: :model do
     end
   end
 
-  # describe "PostImageのpost_imageについて" do
-  #   it '画像が空' do
-  #     expect(post_image).to be_invalid
-  #     expect(post_image.errors[:post_image]).to include("画像を選択してください。")
-  #   end
-  # end
+  describe "PostImageのpost_imageについて" do
+    it '画像が空' do
+      expect(post_image).to be_invalid
+      expect(post_image.errors[:post_image]).to include("画像を選択してください。")
+    end
+  end
 
 end

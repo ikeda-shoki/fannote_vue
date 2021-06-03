@@ -19,10 +19,8 @@ Vue.use(VueRouter);
 Vue.use(VueMq, {
   breakpoints: {
     sp: 480,
-    pc: 1250,
     lg: Infinity,
-  },
-  defaultBreakpoint: 'sp'
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

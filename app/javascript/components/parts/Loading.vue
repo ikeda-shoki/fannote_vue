@@ -28,6 +28,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #loading {
   position: absolute;
@@ -93,6 +100,10 @@ $danger-color: #e15253;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+
+    @include sp {
+      top: 55%;
+    }
   }
 }
 

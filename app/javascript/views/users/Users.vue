@@ -78,7 +78,7 @@ export default {
           this.usersSearch = response.data.users;
         },
         (error) => {
-          this.$router.push("/post_images/main");
+          this.$router.push("/errors");
         }
       );
       this.isLoading = false;

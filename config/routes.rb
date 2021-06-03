@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: 'post_images#top'
   get '/about', to: 'post_images#about'
   get '/use', to: 'post_images#use'
+  get '/errors', to: 'users#errors'
 
   resources :post_images, only: [:show, :index] do
     collection do

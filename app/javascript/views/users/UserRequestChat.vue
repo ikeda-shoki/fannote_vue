@@ -110,7 +110,7 @@ export default {
             this.requestOtherUser = response.data.request_other_user;
           },
           (error) => {
-            this.$router.push("/post_images/main");
+            this.$router.push("/errors");
           }
         );
       this.isLoading = false;

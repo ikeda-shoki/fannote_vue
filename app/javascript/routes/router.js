@@ -15,6 +15,7 @@ import HashTag from "../views/post_images/HashTag.vue";
 import UserRequestChat from "../views/users/UserRequestChat.vue";
 import UserFollowIndex from "../views/users/UserFollowIndex.vue";
 import UserWithdrawal from "../views/users/UserWithdrawal.vue";
+import Errors from "../components/parts/Errors.vue"
 
 Vue.use(Router);
 
@@ -114,6 +115,10 @@ const router = new Router({
       path: "/users/:user_id/requests/:request_id/chats",
       component: UserRequestChat,
     },
+    {
+      path: "/errors",
+      component: Errors,
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     return new Promise((resolve, reject) => {

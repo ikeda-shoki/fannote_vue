@@ -51,7 +51,7 @@ export default {
           this.followingUser = response.data.following_users;
         },
         (error) => {
-          this.$router.push("/post_images/main");
+          this.$router.push("/errors");
         }
       );
       this.isLoading = false;
@@ -62,7 +62,7 @@ export default {
           this.followedUser = response.data.followed_users;
         },
         (error) => {
-          this.$router.push("/post_images/main");
+          this.$router.push("/errors");
         }
       );
       this.isLoading = false;

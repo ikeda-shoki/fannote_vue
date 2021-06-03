@@ -52,6 +52,8 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def errors
+  end
 
   private
 

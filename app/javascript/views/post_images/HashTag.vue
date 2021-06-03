@@ -69,6 +69,10 @@ $danger-color: #e15253;
 #hash-tag {
   margin-top: 100px;
 
+  .container {
+    min-height: 100vh;
+  }
+
   .hash-tag-title {
     margin-bottom: 40px;
     display: flex;
