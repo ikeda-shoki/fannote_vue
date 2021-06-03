@@ -3,7 +3,7 @@
     <Loading v-if="isLoading === true" key="loader"></Loading>
     <div id="main" v-if="isLoading === false" key="noloader">
       <div class="container">
-        <template v-if="screenWidth === true">
+        <mq-layout mq="lg">
           <div class="favorite-images">
             <h2>人気の作品</h2>
             <hooper :settings="hooperSettings">
@@ -88,9 +88,9 @@
               :postImages="followingUserImages"
             ></SliderImages>
           </div>
-        </template>
+        </mq-layout>
 
-        <template v-else-if="screenWidth === false">
+        <mq-layout mq="sp">
           <SpFavoriteImages :rankingImages="rankingImages"></SpFavoriteImages>
 
           <SpSliderImages
@@ -134,7 +134,7 @@
             :postImages="followingUserImages"
           >
           </SpSliderImages>
-        </template>
+        </mq-layout>
 
       </div>
       <Footer></Footer>
@@ -179,7 +179,6 @@ export default {
         centerMode: true,
       },
       isLoading: true,
-      screenWidth: false,
     };
   },
   mounted() {
@@ -199,16 +198,10 @@ export default {
         },
         (error) => {
           console.log(error, response);
+          this.$router.push("/errors");
         }
       );
       this.isLoading = false;
-    },
-    handleResize: function() {
-      if (window.innerWidth <= 500) {
-        this.screenWidth = false
-      } else {
-        this.screenWidth = true
-      }
     },
   },
   components: {
@@ -228,13 +221,6 @@ export default {
   props: {
     userLogIn: { type: Boolean },
   },
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  }
 };
 </script>
 

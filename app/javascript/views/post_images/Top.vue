@@ -1,23 +1,23 @@
 <template>
   <div>
-    <template v-if="screenWidth === true">
+    <mq-layout mq="lg">
       <div id="top">
         <div class="container">
           <div class="top-text">
             <h3 class="top-title">
               Bringing Your Art<br />
-              to More People...
+              to More People....
             </h3>
             <p class="top-subtitle">あなたのイラストや写真をもっと身近にお手軽に</p>
           </div>
           <TopButtons></TopButtons>
         </div>
       </div>
-    </template>
+    </mq-layout>
 
-    <template v-else-if="screenWidth === false">
+    <mq-layout mq="sp">
       <SpTop></SpTop>
-    </template>
+    </mq-layout>
     <Footer></Footer>
   </div>
 </template>
@@ -34,32 +34,11 @@ export default {
     Footer,
     SpTop,
   },
-  data() {
-    return {
-      screenWidth: false,
-    }
-  },
-  methods: {
-    handleResize: function() {
-      if (window.innerWidth <= 500) {
-        this.screenWidth = false
-      } else {
-        this.screenWidth = true
-      }
-    }
-  },
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  }
 }
 </script>
 
 <style lang="scss" scoped>
-  $sp: 500px;
+  $sp: 480px;
 
   @mixin sp {
     @media screen and (max-width: 767px) {

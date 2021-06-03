@@ -11,7 +11,7 @@ class PostImage < ApplicationRecord
 
   validates :title, presence: { message: "タイトルを入力してください。" }
   validates :post_image_genre, presence: { message: "ジャンルを選択してください。" }
-  # validates :post_image, presence: { message: "画像を選択してください。" }
+  validates :post_image, presence: { message: "画像を選択してください。" }
 
   enum post_image_genre: { イラスト: 0, 写真: 1, ロゴ: 2 }
 

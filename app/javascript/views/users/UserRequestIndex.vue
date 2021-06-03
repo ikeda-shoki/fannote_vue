@@ -150,6 +150,7 @@ export default {
           },
           (error) => {
             console.log(error, response);
+            this.$router.push("/errors");
           }
         );
       this.isLoading = false;
@@ -163,6 +164,7 @@ export default {
           },
           (error) => {
             console.log(error, response);
+            this.$router.push("/errors");
           }
         );
       this.isLoading = false;

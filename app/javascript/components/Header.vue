@@ -5,7 +5,7 @@
         {{ alertType.message }}
       </Alert>
     </transition>
-    <template v-if="screenWidth === true">
+    <mq-layout mq="lg">
       <div class="header">
         <div class="container">
           <template v-if="userLogIn === true">
@@ -139,9 +139,9 @@
           </div>
         </div>
       </div>
-    </template>
+    </mq-layout>
 
-    <template v-else-if="screenWidth === false">
+    <mq-layout mq="sp">
       <SpHeader
         :userLogIn="userLogIn"
         :currentUser="currentUser"
@@ -153,7 +153,7 @@
       <template v-if="userLogIn === true">
         <SpFooter :currentUserId="currentUser.id" @modalOpen="modalOpen"></SpFooter>
       </template>
-    </template>
+    </mq-layout>
 
     <transition name="fade">
       <Modal
@@ -276,7 +276,6 @@ export default {
         { name: "投稿一覧", class: "fas fa-copy", link: "/post_images" },
         { name: "ユーザー一覧", class: "fas fa-users", link: "/users" },
       ],
-      screenWidth: false,
     };
   },
   methods: {
@@ -331,13 +330,6 @@ export default {
         .then(() => {})
         .catch(() => {});
     },
-    handleResize: function() {
-      if (window.innerWidth <= 500) {
-        this.screenWidth = false
-      } else {
-        this.screenWidth = true
-      }
-    }
   },
   components: {
     Modal,
@@ -351,13 +343,6 @@ export default {
       this.closeMenu();
     },
   },
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  }
 };
 </script>
 
