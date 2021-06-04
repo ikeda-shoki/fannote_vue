@@ -42,6 +42,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 #textarea-form {
   display: flex;
   flex-direction: row;
@@ -66,6 +74,10 @@ export default {
     opacity: 0.7;
     width: 63%;
     margin-left: auto;
+
+    @include sp {
+      font-size: 11px;
+    }
   }
 }
 </style>

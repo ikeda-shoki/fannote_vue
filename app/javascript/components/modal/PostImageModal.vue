@@ -168,7 +168,6 @@ $sp: 480px;
 }
 
 #post-image-modal {
-  height: 94%;
   margin: 0 auto;
   padding: 30px 40px;
   overflow: scroll;
@@ -178,6 +177,7 @@ $sp: 480px;
 
   @include sp {
     padding: 20px 20px;
+    height: 560px;
   }
 
   &::-webkit-scrollbar {

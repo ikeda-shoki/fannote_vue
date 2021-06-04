@@ -1,7 +1,8 @@
 <template>
   <div id="chat-button">
     <router-link :to="'/users/' + userId + '/requests/' + requestId + '/chats'">
-      チャットをはじめる
+      <span v-if="$mq === 'lg'">チャットをはじめる</span>
+      <span v-if="$mq === 'sp'"><i class="fas fa-comment-dots"></i></span>
     </router-link>
   </div>
 </template>
@@ -21,6 +22,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #chat-button {
   background-color: $accent-color;
@@ -33,11 +41,27 @@ $danger-color: #e15253;
   -moz-transition: all .5s;
   text-align: center;
 
+  @include sp {
+    width: 50px;
+    height: 50px;
+  }
+
   a {
     display: block;
-    color: $font-white;
-    font-weight: bold;
-    line-height: 150px;
+
+    span {
+      color: $font-white;
+      font-weight: bold;
+      line-height: 150px;
+
+      @include sp {
+        line-height: 50px;
+
+        i {
+          color: $font-white;
+        }
+      }
+    }
   }
 }
 

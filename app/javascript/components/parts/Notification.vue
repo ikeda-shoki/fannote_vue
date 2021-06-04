@@ -253,6 +253,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 .notification {
   margin-bottom: 10px;
@@ -276,9 +283,17 @@ $danger-color: #e15253;
     }
 
     .notification-content {
+      margin-right: 10px;
       a {
         color: $accent-color;
       }
+
+      @include sp {
+        p {
+          font-size: 10px;
+        }
+      }
+
     }
 
     .notification-delete-botton {

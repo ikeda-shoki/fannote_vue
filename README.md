@@ -46,25 +46,30 @@ fannotevue.com
 <br >
 <img src="app/assets/images/ER.png" alt="ER図" width="100%">
 
+## 開発環境/使用技術
+- OS：macOS, Docker/Docker-compose
+- 言語：HTML,CSS,SCSS,JavaScript(Vue.js),Ruby(Ruby on Rails),SQL
+- バックエンドフレームワーク：Ruby on Rails ver.6.0.3
+- フロントエンドフレームワーク：Vue.js ver.2.6.12
+- デプロイ：AWS/Nginx/Puma
+- テスト:RSpec/ CircleCi CI/CD
+- IDE：VScode/ Cloud9
+
 ## 機能一覧
 - ユーザー登録、ログイン機能(devise)
-- 投稿機能(refile)
-  - いいね機能（非同期通信）
-  - コメント機能（非同期通信）
+- 投稿機能
+  - いいね機能
+  - コメント機能
   - タグ機能
   - ハッシュタグ機能
-- フォロー機能（非同期通信）
+- フォロー機能
 - 検索機能
   - ランキング機能
   - 並び替え機能
 - イラスト依頼機能
   - チャット機能
-  - プレビュー機能(jquery)
-- 通知機能（非同期通信）
-- 日本語機能(rails-i18n)
-- 環境変数(dotenv-rails)
-- N+1問題
-- リファクタリング
+  - プレビュー機能
+- 通知機能
 
 ## 使用追加gem
 - repec(テスト)
@@ -84,14 +89,6 @@ fannotevue.com
 - axios(API開発の為)
 - hooper(スライド画面の作成の為)
 - body-scroll-lock(モーダル表示時のスクロール防止の為)
-
-## 開発環境
-- OS：Linux(CentOS)
-- 言語：HTML,CSS,SCSS,JavaScript(Vue.js),Ruby(Ruby on Rails),SQL
-- フレームワーク：Ruby on Rails ver.5.2.4
-- JSライブラリ：Vue.js ver.2.6.12
-- デプロイ：AWS
-- IDE：VScode
 
 ## 今後の開発予定
 - 全体のテストの充実（現在は単体テスト、APIテストのみの為）

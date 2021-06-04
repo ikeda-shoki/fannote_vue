@@ -334,6 +334,7 @@ $sp: 480px;
 
         @include sp {
           padding: 5px 10px;
+          font-size: 10px;
         }
       }
     }
@@ -352,6 +353,7 @@ $sp: 480px;
 
       @include sp {
         position: static;
+        width: 100%;
       }
 
       /deep/ input {

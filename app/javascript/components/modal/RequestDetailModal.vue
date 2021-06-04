@@ -314,7 +314,6 @@ $sp: 480px;
 }
 
 #request-detail-modal {
-  height: 94%;
   margin: 0 auto;
   padding: 30px 40px;
   text-align: left;
@@ -322,6 +321,11 @@ $sp: 480px;
   height: 655px;
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  @include sp {
+    padding: 20px;
+    height: 560px;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -341,14 +345,33 @@ $sp: 480px;
       margin-top: 70px;
       text-align: center;
 
+      @include sp {
+        margin-top: 40px;
+      }
+
       .delete-button {
         background-color: $danger-color;
+        margin-left: 20px;
+
+        @include sp {
+          margin-left: 0;
+
+          &:last-child {
+            margin-top: 20px;
+          }
+        }
       }
     }
   }
 
   .request-detail-modal-left {
     width: 30%;
+
+    @include sp {
+      h6 {
+        font-size: 15px;
+      }
+    }
   }
 
   .request-detail-modal-right {
@@ -362,6 +385,10 @@ $sp: 480px;
     h5 {
       font-size: 25px;
       font-weight: bold;
+
+      @include sp {
+        font-size: 20px;
+      }
     }
   }
 
@@ -396,8 +423,8 @@ $sp: 480px;
     right: 170px;
 
     @include sp {
-      top: 200px;
-      right: 10px;
+      top: 120px;
+      right: 40px;
     }
   }
 
@@ -414,6 +441,7 @@ $sp: 480px;
 /deep/ .button {
   @include sp {
     min-width: auto;
+    font-size: 14px;
   }
 }
 </style>

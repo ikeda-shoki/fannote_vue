@@ -102,7 +102,7 @@ $danger-color: #e15253;
   position: relative;
 
   h2 {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
   }
