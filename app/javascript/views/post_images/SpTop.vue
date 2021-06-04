@@ -112,7 +112,7 @@ $danger-color: #e15253;
   .sp-top-buttons {
     position: absolute;
     width: 100%;
-    top: 380px;
+    top: 330px;
     text-align: center;
 
     .top-button {

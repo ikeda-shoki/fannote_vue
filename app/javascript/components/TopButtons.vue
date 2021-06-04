@@ -23,6 +23,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  $sp: 480px;
+
+  @mixin sp {
+    @media screen and (max-width: 767px) {
+      @content;
+    }
+  }
+
   .top-buttons {
       position: absolute;
       top: 400px;

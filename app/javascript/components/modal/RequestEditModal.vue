@@ -189,9 +189,15 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #request-edit-modal {
-  height: 94%;
   margin: 0 auto;
   padding: 30px 40px;
   overflow: scroll;
@@ -199,6 +205,10 @@ $danger-color: #e15253;
   height: 655px;
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  @include sp {
+    height: 560px;
+  }
 
   &::-webkit-scrollbar {
     display: none;

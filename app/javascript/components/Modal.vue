@@ -227,7 +227,8 @@ $sp: 480px;
     position: relative;
 
     @include sp {
-      width: 95%;
+      width: 90%;
+      height: 600px;
     }
 
     .modal-main {

@@ -41,6 +41,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 label {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
@@ -50,6 +57,10 @@ label {
   display: inline-block;
   position: relative;
   margin-left: 50px;
+
+  @include sp {
+    width: 250px;
+  }
 
   &:after {
     content: "\25bc";

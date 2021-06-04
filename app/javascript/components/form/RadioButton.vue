@@ -108,6 +108,7 @@ $sp: 480px;
 
         @include sp {
           width: 80%;
+          font-size: 11px;
         }
 
         &::before {

@@ -89,6 +89,13 @@ $back-ground-color: #f7f4f2;
 $font-color: #3e1300;
 $font-white: #fffffe;
 $danger-color: #e15253;
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
 
 #notifications-modal {
   margin: 0 auto;
@@ -97,6 +104,10 @@ $danger-color: #e15253;
   height: 655px;
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  @include sp {
+    height: 560px;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -108,10 +119,19 @@ $danger-color: #e15253;
     padding-bottom: 10px;
     border-bottom: 1px solid $font-color;
 
+    @include sp {
+      margin-bottom: 15px;
+    }
+
     .button {
       background-color: $danger-color;
       min-width: auto;
       padding: 10px 25px;
+
+      @include sp {
+        font-size: 13px;
+        padding: 10px 15px;
+      }
     }
   }
 
