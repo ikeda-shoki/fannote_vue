@@ -200,9 +200,10 @@ $sp: 480px;
 #request-edit-modal {
   margin: 0 auto;
   padding: 30px 40px;
-  overflow: scroll;
   text-align: left;
   height: 655px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   scrollbar-width: none;
 

@@ -317,8 +317,9 @@ $sp: 480px;
   margin: 0 auto;
   padding: 30px 40px;
   text-align: left;
-  overflow: scroll;
   height: 655px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   scrollbar-width: none;
 
