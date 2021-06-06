@@ -100,8 +100,9 @@ $sp: 480px;
 #notifications-modal {
   margin: 0 auto;
   padding: 10px 40px 30px;
-  overflow: scroll;
   height: 655px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   scrollbar-width: none;
 
