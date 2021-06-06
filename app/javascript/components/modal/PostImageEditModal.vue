@@ -199,8 +199,9 @@ $sp: 480px;
 #post-image-edit-modal {
   margin: 0 auto;
   padding: 30px 40px;
-  overflow: scroll;
   height: 655px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   scrollbar-width: none;
 
