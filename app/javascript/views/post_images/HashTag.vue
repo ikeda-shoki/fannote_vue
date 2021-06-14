@@ -35,16 +35,15 @@ export default {
   },
   methods: {
     async getInfo() {
-      await axios.get("/api/v1/post_images/hashtag/" + this.$route.params.name).then(
-        (response) => {
+      await axios.get("/api/v1/post_images/hashtag/" + this.$route.params.name)
+        .then((response) => {
           this.hashTagName = response.data.hash_tag.hashname;
           this.hashTagPostImages = response.data.hash_tag.post_images
           this.hashTagPostImagesCount = response.data.hash_tag.hash_tag_post_images_count
-        },
-        (error) => {
-          this.$router.push("/post_images/main");
-        }
-      );
+        })
+        .catch((error) => {
+          this.$router.push("/errors");
+        });
       this.isLoading = false;
     },
   },

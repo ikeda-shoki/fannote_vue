@@ -5,6 +5,7 @@
         {{ alertType.message }}
       </Alert>
     </transition>
+
     <mq-layout mq="lg">
       <div class="header">
         <div class="container">
@@ -151,7 +152,10 @@
         @isUnchecked="isUnchecked"
       ></SpHeader>
       <template v-if="userLogIn === true">
-        <SpFooter :currentUserId="currentUser.id" @modalOpen="modalOpen"></SpFooter>
+        <SpFooter
+          :currentUserId="currentUser.id"
+          @modalOpen="modalOpen"
+        ></SpFooter>
       </template>
     </mq-layout>
 
@@ -421,6 +425,10 @@ header {
           background-color: $accent-color;
           color: $back-ground-color;
           font-weight: bold;
+
+          i {
+            color: $back-ground-color;
+          }
         }
       }
 
@@ -435,7 +443,6 @@ header {
 
         .header-menu-list {
           font-size: 13px;
-          padding: 10px 15px;
           transition: all 0.5s;
           -moz-transition: all 0.5s;
 
@@ -452,7 +459,7 @@ header {
           }
 
           a {
-            padding: 0;
+            padding: 10px 15px;
             display: block;
           }
 

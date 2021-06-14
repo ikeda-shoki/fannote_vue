@@ -30,16 +30,23 @@ $font-white: #fffffe;
 $danger-color: #e15253;
 
 #user-withdrawal {
-  margin-top: 300px;
   text-align: center;
 
-  h1 {
-    font-size: 40px;
-    font-weight: bold;
+  .container {
+    min-height: 100vh;
   }
 
-  p {
-    margin: 10px 0 50px;
+  .withdrawal-main {
+    padding-top: 300px;
+
+    h1 {
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 10px 0 50px;
+    }
   }
 }
 

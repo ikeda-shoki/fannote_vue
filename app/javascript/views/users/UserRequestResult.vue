@@ -143,11 +143,11 @@ export default {
             this.request = response.data.request;
             this.requestingUser = response.data.request.requesting_user;
             this.requestedUser = response.data.request.requested_user;
-          },
+          })
+        .catch(
           (error) => {
-            console.log(error, response);
-          }
-        );
+            this.$router.push("/errors");
+          });
       this.isLoading = false;
     },
     requestComplete() {
@@ -166,7 +166,7 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
+          this.$router.push("/errors");
         });
     },
     openConfirm() {

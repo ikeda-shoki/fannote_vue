@@ -123,8 +123,8 @@ export default {
   },
   methods: {
     async getInfo() {
-      await axios.get("/api/v1/post_images").then(
-        (response) => {
+      await axios.get("/api/v1/post_images")
+        .then((response) => {
           this.postImages = response.data.post_images;
           this.postImagesSearch = response.data.post_images;
           this.postImagesIllust = response.data.post_images_illust;
@@ -133,12 +133,10 @@ export default {
           this.postImagesPhotoSearch = response.data.post_images_photo;
           this.postImagesLogo = response.data.post_images_logo;
           this.postImagesLogoSearch = response.data.post_images_logo;
-        },
-        (error) => {
-          console.log(error, response);
+        })
+        .catch((error) => {
           this.$router.push("/errors");
-        }
-      );
+        });
       this.isLoading = false;
     },
     sortPostImages(postImages) {
