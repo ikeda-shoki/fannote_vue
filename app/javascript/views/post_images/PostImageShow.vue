@@ -131,16 +131,14 @@ export default {
       }
     },
     async getInfo() {
-      await axios.get("/api/v1/post_images/" + this.$route.params.id).then(
-        (response) => {
+      await axios.get("/api/v1/post_images/" + this.$route.params.id)
+        .then((response) => {
           this.postImage = response.data.post_image;
           this.post_comments = response.data.post_comments;
-        },
-        (error) => {
-          console.log(error, response);
+        })
+        .catch((error) => {
           this.$router.push("/errors");
-        }
-      );
+        });
       this.isLoading = false;
     },
     createComment(response) {

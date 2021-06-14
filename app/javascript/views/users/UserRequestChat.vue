@@ -108,11 +108,11 @@ export default {
           (response) => {
             this.chats = response.data.chats;
             this.requestOtherUser = response.data.request_other_user;
-          },
+          })
+        .catch(
           (error) => {
             this.$router.push("/errors");
-          }
-        );
+          });
       this.isLoading = false;
     },
     createChat() {
