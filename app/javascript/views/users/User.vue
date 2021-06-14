@@ -50,15 +50,13 @@ export default {
   },
   methods: {
     async getInfo() {
-      await axios.get("/api/v1/users/" + this.$route.params.id).then(
-        (response) => {
+      await axios.get("/api/v1/users/" + this.$route.params.id)
+        .then((response) => {
           this.user = response.data.user;
-        },
-        (error) => {
-          console.log(error, response);
+        })
+        .catch((error) => {
           this.$router.push("/errors");
-        }
-      );
+        });
       this.isLoading = false;
     },
     updateAlert() {

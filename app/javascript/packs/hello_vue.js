@@ -16,6 +16,7 @@ import VueMq from 'vue-mq'
 Vue.component('paginate', Paginate)
 Vue.use(VueRouter);
 
+// vue-mqのプラグイン、レスポンシブデザインのブレイクポイントの記載
 Vue.use(VueMq, {
   breakpoints: {
     sp: 480,
@@ -29,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render: h => h(App)
   }).$mount()
   document.body.appendChild(app.$el)
+
+  // axiosのapi送信時にヘッダーにトークンを埋め込む
   const token = document.getElementsByName("csrf-token")[0].getAttribute("content");
   axios.defaults.headers.common["X-CSRF-Token"] = token;
 })

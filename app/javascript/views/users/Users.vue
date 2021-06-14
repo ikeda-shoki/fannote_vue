@@ -72,15 +72,14 @@ export default {
   },
   methods: {
     async getInfo() {
-      await axios.get("/api/v1/users").then(
-        (response) => {
+      await axios.get("/api/v1/users")
+        .then((response) => {
           this.users = response.data.users;
           this.usersSearch = response.data.users;
-        },
-        (error) => {
+        })
+        .catch((error) => {
           this.$router.push("/errors");
-        }
-      );
+        })
       this.isLoading = false;
     },
     sortUsers() {

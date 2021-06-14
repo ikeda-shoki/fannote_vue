@@ -154,26 +154,26 @@ class Api::V1::RequestsController < ApplicationController
   def ensure_request_user
     @request = Request.find(params[:id])
     if current_user != @request.requester && current_user != @request.requested
-      redirect_to main_post_images_path, alert: '注文に関するページへは関係者以外接続することはできません'
+      render json: { message: "注文に関するページへは関係者以外接続することはできません" }, status: :unprocessable_entity
     end
   end
 
   def ensure_request_current_user
     @user = User.find(params[:id])
     unless @user === current_user
-      redirect_to main_post_images_path, alert: '注文一覧ページへは本人以外接続することはできません'
+      render json: { message: "注文一覧ページへは本人以外接続することはできません" }, status: :unprocessable_entity
     end
   end
 
   def ensure_request_requester
     unless @request.requester === current_user
-      redirect_to main_post_images_path, alert: '完成したイラストは発注関係者以外は閲覧できません'
+      render json: { message: "完成したイラストは発注関係者以外は閲覧できません" }, status: :unprocessable_entity
     end
   end
 
   def ensure_request_requested
     unless @request.requested === current_user
-      redirect_to main_post_images_path, alert: '完成したイラストは発注関係者以外は閲覧できません'
+      render json: { message: "完成したイラストは発注関係者以外は閲覧できません" }, status: :unprocessable_entity
     end
   end
 end

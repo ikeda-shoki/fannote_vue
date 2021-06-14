@@ -92,6 +92,8 @@ $danger-color: #e15253;
 
     h3 {
       margin: 10px 0 30px;
+      font-weight: bold;
+      font-size: 20px;
     }
   }
 

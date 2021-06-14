@@ -68,17 +68,15 @@ export default {
   },
   methods: {
     async getInfo() {
-      await axios.get("/api/v1/users/" + this.$route.params.id).then(
-        (response) => {
+      await axios.get("/api/v1/users/" + this.$route.params.id)
+        .then((response) => {
           this.postImages = response.data.post_images;
           this.favoriteImages = response.data.favorite_images;
           this.followerImages = response.data.follower_images;
-        },
-        (error) => {
-          console.log(error, response);
+        })
+        .catch((error) => {
           this.$router.push("/errors");
-        }
-      );
+        });
       this.isLoading = false;
     },
     deletePostImage() {

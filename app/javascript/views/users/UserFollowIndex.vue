@@ -46,25 +46,23 @@ export default {
   },
   methods: {
     async getInfoFollowing() {
-      await axios.get("/api/v1/users/" + this.$route.params.id + "/following").then(
-        (response) => {
+      await axios.get("/api/v1/users/" + this.$route.params.id + "/following")
+        .then((response) => {
           this.followingUser = response.data.following_users;
-        },
-        (error) => {
+        })
+        .catch((error) => {
           this.$router.push("/errors");
-        }
-      );
+        });
       this.isLoading = false;
     },
     async getInfoFollowed() {
-      await axios.get("/api/v1/users/" + this.$route.params.id + "/followed").then(
-        (response) => {
+      await axios.get("/api/v1/users/" + this.$route.params.id + "/followed")
+        .then((response) => {
           this.followedUser = response.data.followed_users;
-        },
-        (error) => {
+        })
+        .catch((error) => {
           this.$router.push("/errors");
-        }
-      );
+        });
       this.isLoading = false;
     }
   },

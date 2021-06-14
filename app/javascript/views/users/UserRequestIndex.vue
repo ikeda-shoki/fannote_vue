@@ -147,12 +147,12 @@ export default {
         .then(
           (response) => {
             this.requests = response.data.requests;
-          },
+          })
+        .catch(
           (error) => {
-            console.log(error, response);
+            console.log(error)
             this.$router.push("/errors");
-          }
-        );
+          });
       this.isLoading = false;
     },
     async getInfoRequested() {
@@ -161,12 +161,11 @@ export default {
         .then(
           (response) => {
             this.requests = response.data.requests;
-          },
+          })
+        .catch(
           (error) => {
-            console.log(error, response);
             this.$router.push("/errors");
-          }
-        );
+          });
       this.isLoading = false;
     },
     modalOpen(value, index) {
